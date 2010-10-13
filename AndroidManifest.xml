@@ -19,6 +19,7 @@
 		<activity android:name="com.springsource.greenhouse.activities.EventsActivityGroup"></activity>
 		<activity android:name="com.springsource.greenhouse.activities.EventsActivity"></activity>
 		<activity android:name="com.springsource.greenhouse.activities.EventDetailsActivity"></activity>
+		<activity android:name="com.springsource.greenhouse.activities.EventDescriptionActivity"></activity>
 		<activity android:name="com.springsource.greenhouse.activities.ProfileActivity"></activity>
 		<activity android:name="com.springsource.greenhouse.activities.InfoActivity"></activity>
 	

@@ -1,8 +1,11 @@
 package com.springsource.greenhouse.activities;
 
 import android.app.Activity;
+import android.app.LocalActivityManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,7 +37,14 @@ public class EventDetailsActivity extends Activity {
 		
 		buttonDescription.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		        Toast.makeText(EventDetailsActivity.this, "Description", Toast.LENGTH_SHORT).show();
+		    	
+		    	Intent intent = new Intent(v.getContext(), EventDescriptionActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
+				Window window = activityManager.startActivity("event_description", intent);
+				View view = window.getDecorView();
+				
+				EventsActivityGroup.group.replaceView(view);
 		    }
 		});
 		
