@@ -1,17 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/DefaultLayout">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/MainTabLayout">
 	
-	<TextView style="@style/Text"
-	android:id="@+id/event_details_name"/>
+	<ScrollView
+		style="@style/ScrollView">
 
-    <TextView style="@style/Text"
-    android:id="@+id/event_details_date"
-    android:layout_below="@id/event_details_name"/>
-        
-    <TextView style="@style/Text"
-    android:id="@+id/event_details_location"
-    android:layout_below="@id/event_details_date"/>
-    
-</RelativeLayout>
+		<RelativeLayout
+			style="@style/ScrollableContainerLayout">
+
+			<TextView 
+				style="@style/Text" 
+				android:id="@+id/event_details_textview_name" />
+		
+		    <TextView 
+		    	style="@style/Text"
+		    	android:id="@+id/event_details_textview_date"
+		    	android:layout_below="@id/event_details_textview_name" />
+		        
+		    <TextView 
+		    	style="@style/Text"
+		    	android:id="@+id/event_details_textview_location"
+		    	android:layout_below="@id/event_details_textview_date" />
+    	    
+			<Button
+				style="@style/WideButton"
+		        android:id="@+id/event_details_button_description"
+		        android:layout_below="@id/event_details_textview_location"
+		        android:text="Description" />
+		
+			<Button
+				style="@style/WideButton"
+		        android:id="@+id/event_details_button_sessions"
+		        android:layout_below="@id/event_details_button_description"
+		        android:text="Sessions" />
+		
+			<Button
+				style="@style/WideButton"
+		        android:id="@+id/event_details_button_tweets"
+		        android:layout_below="@id/event_details_button_sessions"
+		        android:text="Tweets" />
+		
+			<Button
+				style="@style/WideButton"
+		        android:id="@+id/event_details_button_map"
+		        android:layout_below="@id/event_details_button_tweets"
+		        android:text="Map" />
+
+		</RelativeLayout>
+
+	</ScrollView>
+	
+</FrameLayout>

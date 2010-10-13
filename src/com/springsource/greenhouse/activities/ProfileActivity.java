@@ -22,9 +22,9 @@ public class ProfileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
 		
-		final TextView textViewMemberName = (TextView) findViewById(R.id.member_name);
-		final ImageView imageViewPicture = (ImageView) findViewById(R.id.picture);
-		final Button buttonSignOut = (Button) findViewById(R.id.signout);
+		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
+		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
+		final Button buttonSignOut = (Button) findViewById(R.id.profile_button_signout);
 		
 		textViewMemberName.setText("John Smith");
 		
