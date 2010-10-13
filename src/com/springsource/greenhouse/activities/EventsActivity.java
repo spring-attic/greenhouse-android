@@ -5,19 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.app.LocalActivityManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.springsource.greenhouse.R;
 
 public class EventsActivity extends ListActivity {
 	
+	//***************************************
+    // Activity methods
+    //***************************************
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,18 +33,28 @@ public class EventsActivity extends ListActivity {
 				new String[] { "title", "groupName" },
 				new int[] { R.id.title, R.id.subtitle } );
 		
-		this.setListAdapter(adapter);
-		
-		ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
-
-		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Toast.makeText(getApplicationContext(), ((TextView) findViewById(R.id.title)).getText(), Toast.LENGTH_SHORT).show();
-			}
-		});
+		this.setListAdapter(adapter);		
 	}
 	
+	//***************************************
+    // ListActivity methods
+    //***************************************
+	
+	protected void  onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
+		Intent intent = new Intent(this, EventDetailsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
+		Window window = activityManager.startActivity("event_details", intent);
+		View view = window.getDecorView();
+		
+		EventsActivityGroup.group.replaceView(view);
+	}
+	
+	//***************************************
+    // Private methods
+    //***************************************
 	private List<HashMap<String,String>> fetchEvents() {
 //		List<Event> events = new ArrayList<Event>();
 		
@@ -55,8 +67,8 @@ public class EventsActivity extends ListActivity {
 		List<HashMap<String,String>> events = new ArrayList<HashMap<String,String>>();
 		HashMap<String, String> map = new HashMap<String, String>();
 		
-		map.put("title", "SpringOne/2GX");
-		map.put("groupName", "S2GX");
+		map.put("title", "SpringOne2GX");
+		map.put("groupName", "SpringOne2GX");
 		events.add(map);
 		
 		return events;

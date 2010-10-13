@@ -3,6 +3,12 @@ package com.springsource.greenhouse.models;
 import java.util.Date;
 import java.util.List;
 
+/*
+ * @author Roy Clarkson
+ * Copyright 2010 VMware, Inc. All rights reserved.
+ * 
+ */
+
 public class Event {
 	
 	private String id;

@@ -14,6 +14,10 @@ import com.springsource.greenhouse.R.drawable;
 
 public class ProfileActivity extends Activity {
 	
+	//***************************************
+    // Activity methods
+    //***************************************
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);

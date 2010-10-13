@@ -6,6 +6,10 @@ import android.widget.TextView;
 
 public class InfoActivity extends Activity {
 	
+	//***************************************
+    // Activity methods
+    //***************************************
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		

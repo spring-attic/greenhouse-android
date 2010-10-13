@@ -6,17 +6,10 @@
      android:orientation="vertical"
      android:padding="5dp">
 
-     <TextView android:id="@+id/title"
-         android:textSize="16sp"
-         android:textStyle="bold"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:textColor="#000000"/>
+     <TextView style="@style/BoldText" 
+         android:id="@+id/title"/>
 
-     <TextView android:id="@+id/subtitle"
-         android:textSize="16sp"
-         android:layout_width="fill_parent"
-         android:layout_height="wrap_content"
-         android:textColor="#000000"/>
+     <TextView style="@style/Text"  
+         android:id="@+id/subtitle"/>
          
  </LinearLayout>

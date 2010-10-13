@@ -1,14 +1,19 @@
 package com.springsource.greenhouse.activities;
 
-import com.springsource.greenhouse.R;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.springsource.greenhouse.R;
+
 public class MainTabWidget extends TabActivity {
 	
+	//***************************************
+    // Activity methods
+    //***************************************
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -18,9 +23,16 @@ public class MainTabWidget extends TabActivity {
 		TabHost.TabSpec tabSpec;
 		Intent intent;
 		
+//		tabHost.setOnTabChangedListener(new OnTabChangeListener(){
+//			public void onTabChanged (String tabid) {
+//				// do something cool!
+//				
+//			}
+//		});
+		
 		// add events tab
 		intent = new Intent();
-		intent.setClass(this, EventsActivity.class);
+		intent.setClass(this, EventsActivityGroup.class);
 		
 		tabSpec = tabHost.newTabSpec("events");
 		tabSpec.setIndicator("Events", res.getDrawable(R.drawable.ic_tab_events));
