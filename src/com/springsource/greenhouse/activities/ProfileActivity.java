@@ -26,7 +26,7 @@ public class ProfileActivity extends Activity {
 		final ImageView imageViewPicture = (ImageView) findViewById(R.id.picture);
 		final Button buttonSignOut = (Button) findViewById(R.id.signout);
 		
-		textViewMemberName.setText("John Smith");
+		textViewMemberName.setText("John Smithy");
 		
 		imageViewPicture.setImageResource(drawable.profile);
 		
