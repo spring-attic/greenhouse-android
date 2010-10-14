@@ -6,7 +6,7 @@
 	android:background='#ffffff'>
 
 	<ImageView android:id='@+id/logo'
-		android:src='@drawable/spring09_logo'
+		android:src='@drawable/gh_header_logo'
 		android:layout_width='wrap_content'
 		android:layout_height='wrap_content'
 		android:layout_gravity='center_horizontal'
