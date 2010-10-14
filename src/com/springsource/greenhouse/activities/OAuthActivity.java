@@ -4,10 +4,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import oauth.signpost.OAuthConsumer;
-import oauth.signpost.OAuthProvider;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.model.Token;
+import org.scribe.oauth.OAuthService;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,29 +16,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.springsource.greenhouse.util.GreenhouseApi;
 import com.springsource.greenhouse.util.Prefs;
 
 public class OAuthActivity extends Activity {
-	private OAuthConsumer _consumer;
-	private OAuthProvider _provider;
 	private SharedPreferences _settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		_consumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
-		_provider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(),
-				Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
-		_provider.setOAuth10a(true);
-
-		_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-
 		if (getIntent().getData() == null) {
 			try {
-				String authUrl = _provider.retrieveRequestToken(_consumer, "http://www.habuma.com/gh");
-				Prefs.saveRequestInformation(_settings, _consumer.getToken(), _consumer.getTokenSecret());
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)));
+				_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
+				ServiceBuilder serviceBuilder = new ServiceBuilder();
+				OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
+				Token requestToken = oAuthService.getRequestToken();
+
+				Prefs.saveRequestInformation(_settings, requestToken.getToken(), requestToken.getSecret());
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://10.0.2.2:8080/greenhouse/oauth/confirm_access?oauth_token=" + requestToken.getToken())));
 				finish();
 			} catch (Exception e) {
 				Log.e("ErrorHandler", e.getMessage(), e);
