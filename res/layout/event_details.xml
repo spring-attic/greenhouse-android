@@ -6,49 +6,62 @@
 	<ScrollView
 		style="@style/ScrollView">
 
-		<RelativeLayout
-			style="@style/ScrollableContainerLayout">
+		<LinearLayout
+			style="@style/ScrollableContainerLayout"
+		    android:orientation="vertical"
+    		android:layout_weight="1">
 
-			<TextView 
-				style="@style/Text" 
-				android:id="@+id/event_details_textview_name" />
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			    android:orientation="vertical"
+	    		android:layout_weight="1"
+	    		android:paddingBottom="20dp">
+	
+				<TextView 
+					style="@style/Text" 
+					android:id="@+id/event_details_textview_name" />
+			
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_details_textview_date"/>
+			        
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_details_textview_location"/>
+			    	
+			</LinearLayout>
 		
-		    <TextView 
-		    	style="@style/Text"
-		    	android:id="@+id/event_details_textview_date"
-		    	android:layout_below="@id/event_details_textview_name" />
-		        
-		    <TextView 
-		    	style="@style/Text"
-		    	android:id="@+id/event_details_textview_location"
-		    	android:layout_below="@id/event_details_textview_date" />
-    	    
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_details_button_description"
-		        android:layout_below="@id/event_details_textview_location"
-		        android:text="Description" />
-		
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_details_button_sessions"
-		        android:layout_below="@id/event_details_button_description"
-		        android:text="Sessions" />
-		
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_details_button_tweets"
-		        android:layout_below="@id/event_details_button_sessions"
-		        android:text="Tweets" />
-		
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_details_button_map"
-		        android:layout_below="@id/event_details_button_tweets"
-		        android:text="Map" />
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			    android:orientation="vertical"
+	    		android:layout_weight="1">
+			    	    
+				<Button
+					style="@style/WideButton"
+			        android:id="@+id/event_details_button_description"
+			        android:text="Description" />
+			
+				<Button
+					style="@style/WideButton"
+			        android:id="@+id/event_details_button_sessions"
+			        android:text="Sessions" />
+			
+				<Button
+					style="@style/WideButton"
+			        android:id="@+id/event_details_button_tweets"
+			        android:text="Tweets" />
+			
+				<Button
+					style="@style/WideButton"
+			        android:id="@+id/event_details_button_map"
+			        android:text="Map" />
+	
+			</LinearLayout>
 
-		</RelativeLayout>
-
+		</LinearLayout>
+		
 	</ScrollView>
 	
 </FrameLayout>

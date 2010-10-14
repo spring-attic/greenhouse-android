@@ -50,7 +50,14 @@ public class EventDetailsActivity extends Activity {
 		
 		buttonSessions.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		        Toast.makeText(EventDetailsActivity.this, "Sessions", Toast.LENGTH_SHORT).show();
+		    	
+		    	Intent intent = new Intent(v.getContext(), EventSessionsMenuActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
+				Window window = activityManager.startActivity("event_sessions_menu", intent);
+				View view = window.getDecorView();
+				
+				EventsActivityGroup.group.replaceView(view);
 		    }
 		});
 
