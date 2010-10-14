@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="5dp"
+    style="@style/MainTabLayout"
     android:gravity="center">
     
 	<ImageView
-		android:id="@+id/picture"
+		android:id="@+id/profile_imageview_picture"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
@@ -14,21 +12,16 @@
 		android:src="@drawable/profile"/>
     
     <TextView
-        android:id="@+id/member_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/picture"
+    	style="@style/Text"
+        android:id="@+id/profile_textview_member_name"
+        android:layout_below="@id/profile_imageview_picture"
         android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:textColor="#000000"/>
+        android:padding="10dp" />
     
     <Button
-        android:id="@+id/signout"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+    	style="@style/WideButton"
+        android:id="@+id/profile_button_signout"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
         android:text="Sign Out" />
 
 </RelativeLayout>
