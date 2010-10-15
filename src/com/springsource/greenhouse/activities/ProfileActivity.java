@@ -25,7 +25,7 @@ public class ProfileActivity extends Activity {
 		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
 		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
 		
-		textViewMemberName.setText("John Smith");
+		textViewMemberName.setText("John Smithy");
 		
 		imageViewPicture.setImageResource(drawable.profile);		
 	}

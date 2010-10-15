@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Greenhouse</string>
+	<string name="login">Sign In</string>
     <string name="title_event_details">Event Details</string>
     <string name="title_event_description">Event Description</string>
     <string name="title_event_sessions">Event Sessions</string>
