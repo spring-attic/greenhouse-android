@@ -1,17 +1,16 @@
 package com.springsource.greenhouse.activities;
 
 import android.app.Activity;
-import android.app.LocalActivityManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.NavigationManager;
 
 public class EventDetailsActivity extends Activity {
 
@@ -26,50 +25,28 @@ public class EventDetailsActivity extends Activity {
 		final TextView textViewEventName = (TextView) findViewById(R.id.event_details_textview_name);
 		final TextView textViewEventDate = (TextView) findViewById(R.id.event_details_textview_date);
 		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
-		final Button buttonDescription = (Button) findViewById(R.id.event_details_button_description);
-		final Button buttonSessions = (Button) findViewById(R.id.event_details_button_sessions);
-		final Button buttonTweets = (Button) findViewById(R.id.event_details_button_tweets);
-		final Button buttonMap = (Button) findViewById(R.id.event_details_button_map);
-
+		final ListView listView = (ListView) findViewById(R.id.event_details_menu);
+		
 		textViewEventName.setText("SpringOne2GX");
 		textViewEventDate.setText("Tue. Oct 19 - Fri, Oct 22, 2010");
 		textViewEventLocation.setText("Westin Lombard Yorktown Center");
 		
-		buttonDescription.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	
-		    	Intent intent = new Intent(v.getContext(), EventDescriptionActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
-				Window window = activityManager.startActivity("event_description", intent);
-				View view = window.getDecorView();
-				
-				EventsActivityGroup.group.replaceView(view);
-		    }
-		});
+		String[] menu_items = getResources().getStringArray(R.array.event_details_menu_array);
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items));
 		
-		buttonSessions.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
+		listView.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	
-		    	Intent intent = new Intent(v.getContext(), EventSessionsMenuActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
-				Window window = activityManager.startActivity("event_sessions_menu", intent);
-				View view = window.getDecorView();
-				
-				EventsActivityGroup.group.replaceView(view);
-		    }
-		});
-
-		buttonTweets.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		        Toast.makeText(EventDetailsActivity.this, "Tweets", Toast.LENGTH_SHORT).show();
-		    }
-		});
-
-		buttonMap.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		        Toast.makeText(EventDetailsActivity.this, "Map", Toast.LENGTH_SHORT).show();
+		    	switch(position) {
+			      	case 0:
+			      		NavigationManager.startActivity(view.getContext(), EventDescriptionActivity.class);
+			      		break;
+			      	case 1:
+			      		NavigationManager.startActivity(view.getContext(), EventSessionsMenuActivity.class);
+			      		break;
+			      	default:
+			      		break;
+		    	}
 		    }
 		});
 	}

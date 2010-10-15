@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Greenhouse</string>
+    <string name="title_event_details">Event Details</string>
+    <string name="title_event_description">Event Description</string>
+    <string name="title_event_sessions">Event Sessions</string>
+    
+    <string-array name="event_details_menu_array">
+        <item>Description</item>
+        <item>Sessions</item>
+        <item>Tweets</item>
+        <item>Map</item>
+    </string-array>
+    
+    <string-array name="event_sessions_menu_array">
+    	<item>Current</item>
+    	<item>Upcoming</item>
+    	<item>My Favorites</item>
+    	<item>Conference Favorites</item>
+    </string-array>
+    
 </resources>

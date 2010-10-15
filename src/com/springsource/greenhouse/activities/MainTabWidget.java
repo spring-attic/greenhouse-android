@@ -22,17 +22,10 @@ public class MainTabWidget extends TabActivity {
 		TabHost tabHost = getTabHost();
 		TabHost.TabSpec tabSpec;
 		Intent intent;
-		
-//		tabHost.setOnTabChangedListener(new OnTabChangeListener(){
-//			public void onTabChanged (String tabid) {
-//				// do something cool!
-//				
-//			}
-//		});
-		
+				
 		// add events tab
 		intent = new Intent();
-		intent.setClass(this, EventsActivityGroup.class);
+		intent.setClass(this, EventsActivity.class);
 		
 		tabSpec = tabHost.newTabSpec("events");
 		tabSpec.setIndicator("Events", res.getDrawable(R.drawable.ic_tab_events));

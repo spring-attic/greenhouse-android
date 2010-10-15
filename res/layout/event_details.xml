@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/MainTabLayout">
+	style="@style/MainTabLayout" >
 	
 	<ScrollView
-		style="@style/ScrollView">
+		style="@style/ScrollView"
+		android:fillViewport="true" >
 
 		<LinearLayout
-			style="@style/ScrollableContainerLayout"
-		    android:orientation="vertical"
-    		android:layout_weight="1">
+			style="@style/ScrollableContainerLayout" 
+			android:orientation="vertical"
+	    	android:layout_weight="1" >
 
 			<LinearLayout
 				android:layout_width="fill_parent"
@@ -24,41 +25,18 @@
 			
 			    <TextView 
 			    	style="@style/Text"
-			    	android:id="@+id/event_details_textview_date"/>
+			    	android:id="@+id/event_details_textview_date" />
 			        
 			    <TextView 
 			    	style="@style/Text"
-			    	android:id="@+id/event_details_textview_location"/>
+			    	android:id="@+id/event_details_textview_location" />
 			    	
 			</LinearLayout>
-		
-			<LinearLayout
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-			    android:orientation="vertical"
-	    		android:layout_weight="1">
-			    	    
-				<Button
-					style="@style/WideButton"
-			        android:id="@+id/event_details_button_description"
-			        android:text="Description" />
-			
-				<Button
-					style="@style/WideButton"
-			        android:id="@+id/event_details_button_sessions"
-			        android:text="Sessions" />
-			
-				<Button
-					style="@style/WideButton"
-			        android:id="@+id/event_details_button_tweets"
-			        android:text="Tweets" />
-			
-				<Button
-					style="@style/WideButton"
-			        android:id="@+id/event_details_button_map"
-			        android:text="Map" />
-	
-			</LinearLayout>
+			    		
+    		<ListView
+    			style="@style/MenuListView"
+    			android:id="@+id/event_details_menu"
+    			android:entries="@array/event_details_menu_array" />
 
 		</LinearLayout>
 		

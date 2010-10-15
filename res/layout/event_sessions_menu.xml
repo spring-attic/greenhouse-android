@@ -4,7 +4,8 @@
 	style="@style/MainTabLayout">
 	
 	<ScrollView
-		style="@style/ScrollView">
+		style="@style/ScrollView"
+		android:fillViewport="true" >
 
 		<LinearLayout
 			style="@style/ScrollableContainerLayout"
@@ -14,51 +15,20 @@
 			<TextView 
 				style="@style/HeadingText" 
 				android:text="Filtered" />
-
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_sessions_menu_button_current"		        
-		        android:text="Current" />
-
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_sessions_menu_button_current"		        
-		        android:text="Upcoming" />
-		
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_sessions_menu_button_my_favorites"
-		        android:text="My Favorites" />
-		
-			<Button
-				style="@style/WideButton"
-		        android:id="@+id/event_sessions_menu_button_conference_favorites"
-		        android:text="Conference Favorites" />
-				        
+				
+			<ListView
+				style="@style/MenuListView"
+				android:id="@+id/event_sessions_filtered_menu"
+				android:entries="@array/event_sessions_menu_array" />
+		        
 			<TextView 
 				style="@style/HeadingText" 
 				android:text="Schedule by Day" />
+				
+			<ListView
+				style="@style/MenuListView"
+				android:id="@+id/event_sessions_schedule_menu" />
 		
-			<Button
-				style="@style/WideButton"
-		        android:text="Monday" />
-
-			<Button
-				style="@style/WideButton"
-		        android:text="Tuesday" />
-
-			<Button
-				style="@style/WideButton"
-		        android:text="Wednesday" />
-
-			<Button
-				style="@style/WideButton"
-		        android:text="Thursday" />
-
-			<Button
-				style="@style/WideButton"
-		        android:text="Friday" />
-
 		</LinearLayout>
 
 	</ScrollView>

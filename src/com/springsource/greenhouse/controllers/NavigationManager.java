@@ -7,13 +7,13 @@ import android.content.Intent;
 
 public class NavigationManager {
 		
-	public static boolean redirect(Context context, Class<?> to) {
+	public static boolean startActivity(Context context, Class<?> activity) {
 		try {				
 			Intent intent = new Intent();
-		    intent.setClass(context, to);
+		    intent.setClass(context, activity);
 		    context.startActivity(intent);
-		} catch (RejectedExecutionException ex){ }
+		} catch (RejectedExecutionException ex) { }
 		
 	    return true;
-	}
+	}	
 }

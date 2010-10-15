@@ -5,15 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.app.LocalActivityManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.NavigationManager;
 
 public class EventsActivity extends ListActivity {
 	
@@ -43,13 +41,15 @@ public class EventsActivity extends ListActivity {
 	protected void  onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		Intent intent = new Intent(this, EventDetailsActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
-		Window window = activityManager.startActivity("event_details", intent);
-		View view = window.getDecorView();
+//		Intent intent = new Intent(this, EventDetailsActivity.class);
+//		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//		LocalActivityManager activityManager = EventsActivityGroup.group.getLocalActivityManager();
+//		Window window = activityManager.startActivity("event_details", intent);
+//		View view = window.getDecorView();
+//		
+//		EventsActivityGroup.group.replaceView(view);
 		
-		EventsActivityGroup.group.replaceView(view);
+		NavigationManager.startActivity(v.getContext(), EventDetailsActivity.class);
 	}
 	
 	//***************************************
