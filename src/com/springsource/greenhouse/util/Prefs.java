@@ -69,6 +69,13 @@ public class Prefs {
 		editor.commit();
 	}
 	
+	public static void disconnect(final SharedPreferences settings) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.remove(ACCESS_TOKEN);
+		editor.remove(ACCESS_TOKEN_SECRET);
+		editor.commit();		
+	}
+	
 	public static boolean isLoggedIn(final SharedPreferences settings) {
 		String[] tokenAndSecret = getAccessTokenAndSecret(settings);
 		return tokenAndSecret[0] != null && tokenAndSecret[1] != null;

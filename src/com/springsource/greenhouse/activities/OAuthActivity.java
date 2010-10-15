@@ -73,12 +73,9 @@ public class OAuthActivity extends Activity {
 			Prefs.saveAuthInformation(_settings, accessToken.getToken(), accessToken.getSecret());
 			// Clear the request stuff, now that we have the real thing
 			Prefs.resetRequestInformation(_settings);
-//			intent.putExtra(Prefs.USER_TOKEN, token); // TODO needed?
-//			intent.putExtra(Prefs.USER_SECRET, secret);
 		}
 		catch (Exception e) {
 			Log.e("ErrorHandler", e.getMessage(), e);
-
 			Writer result = new StringWriter();
 			e.printStackTrace(new PrintWriter(result));
 		}
