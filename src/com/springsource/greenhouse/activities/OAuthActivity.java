@@ -35,7 +35,7 @@ public class OAuthActivity extends Activity {
 				Token requestToken = oAuthService.getRequestToken();
 
 				Prefs.saveRequestInformation(_settings, requestToken.getToken(), requestToken.getSecret());
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://10.0.2.2:8080/greenhouse/oauth/confirm_access?oauth_token=" + requestToken.getToken())));
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Prefs.getUrlBase() + "/oauth/confirm_access?oauth_token=" + requestToken.getToken())));
 				finish();
 			} catch (Exception e) {
 				Log.e("ErrorHandler", e.getMessage(), e);
@@ -71,6 +71,7 @@ public class OAuthActivity extends Activity {
 			Token accessToken = oAuthService.getAccessToken(requestToken, new Verifier(verifier));
 			
 			Prefs.saveAuthInformation(_settings, accessToken.getToken(), accessToken.getSecret());
+
 			// Clear the request stuff, now that we have the real thing
 			Prefs.resetRequestInformation(_settings);
 		}

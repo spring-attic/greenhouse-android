@@ -20,6 +20,7 @@ public class Prefs {
 	private static final String GREENHOUSE_AUTHORIZATION_URL = GREENHOUSE_SERVER_BASE_URL + "/oauth/confirm_access";
 	private static final String GREENHOUSE_API_KEY = "a08318eb478a1ee31f69a55276f3af64";
 	private static final String GREENHOUSE_API_SECRET = "80e7f8f7ba724aae9103f297e5fb9bdf";
+
 	private static GreenhouseOperations greenhouseOperations;
 
 	public static void saveRequestInformation(final SharedPreferences settings, final String token, final String secret) {
@@ -41,7 +42,7 @@ public class Prefs {
 		return getUrlBase() + "/oauth/confirm_access";
 	}
 
-	private static String getUrlBase() {
+	public static String getUrlBase() {
 		return GREENHOUSE_SERVER_BASE_URL;
 	}
 	
@@ -79,7 +80,8 @@ public class Prefs {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.remove(ACCESS_TOKEN);
 		editor.remove(ACCESS_TOKEN_SECRET);
-		editor.commit();		
+		editor.commit();	
+		greenhouseOperations = null;
 	}
 	
 	public static boolean isLoggedIn(final SharedPreferences settings) {
@@ -103,11 +105,10 @@ public class Prefs {
 		return GREENHOUSE_API_SECRET;
 	}
 	
-	public static GreenhouseOperations getGreenhouseTemplate(SharedPreferences settings) {
+	public static GreenhouseOperations getGreenhouseOperations(final SharedPreferences settings) {
 		if(greenhouseOperations == null) {
 			String[] tokenAndSecret = Prefs.getAccessTokenAndSecret(settings);
-			greenhouseOperations = new GreenhouseTemplate(
-					Prefs.getConsumerKey(), Prefs.getConsumerSecret(), tokenAndSecret[0], tokenAndSecret[1], GREENHOUSE_SERVER_BASE_URL);
+			greenhouseOperations = new GreenhouseTemplate(GREENHOUSE_API_KEY, GREENHOUSE_API_SECRET, tokenAndSecret[0], tokenAndSecret[1], getUrlBase());
 		}
 		
 		return greenhouseOperations;

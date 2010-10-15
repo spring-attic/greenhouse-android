@@ -62,7 +62,8 @@ public class EventsActivity extends ListActivity {
     // Private methods
     //***************************************
 	private List<Map<String,String>> fetchEvents() {
-		GreenhouseOperations greenhouse = Prefs.getGreenhouseTemplate(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+
 		List<Event> upcomingEvents = greenhouse.getUpcomingEvents();		
 		List<Map<String,String>> eventList = new ArrayList<Map<String,String>>();		
 		
