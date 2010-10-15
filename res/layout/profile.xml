@@ -18,10 +18,4 @@
         android:layout_centerHorizontal="true"
         android:padding="10dp" />
     
-    <Button
-    	style="@style/WideButton"
-        android:id="@+id/profile_button_signout"
-        android:layout_alignParentBottom="true"
-        android:text="Sign Out" />
-
 </RelativeLayout>

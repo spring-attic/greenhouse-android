@@ -16,9 +16,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,23 +37,42 @@ public class ProfileActivity extends Activity {
 		
 		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
 		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
-		final Button buttonSignOut = (Button) findViewById(R.id.profile_button_signout);
 		
 		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
 		
 		GreenhouseProfile profile = greenhouse.getUserProfile();		
 		textViewMemberName.setText(profile.getDisplayName());		
 		imageViewPicture.setImageBitmap(getImageBitmap(profile.getPictureUrl()));
-		
-		buttonSignOut.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
-		    	Intent intent = new Intent(ProfileActivity.this, FrontDoorActivity.class);
-		    	startActivity(intent);
-		    	finish();
-		    }
-		});
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.profile_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.sign_out:
+	        signOut();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	//***************************************
+    // Private methods
+    //***************************************
+	private void signOut() {
+    	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+    	Intent intent = new Intent(ProfileActivity.this, FrontDoorActivity.class);
+    	startActivity(intent);
+    	finish();
+    }
 	
     private Bitmap getImageBitmap(String url) {
         Bitmap bm = null;

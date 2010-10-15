@@ -8,14 +8,21 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-		<activity android:name="com.springsource.greenhouse.activities.FrontDoorActivity">
+		<activity 
+			android:name="com.springsource.greenhouse.activities.FrontDoorActivity"
+			android:theme="@android:style/Theme.NoTitleBar">
+			
 			<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
 		</activity>
 
-		<activity android:name="com.springsource.greenhouse.activities.SignInActivity" android:label="@string/app_name">
+		<activity 
+			android:name="com.springsource.greenhouse.activities.SignInActivity" 
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.NoTitleBar">
 		<!-- 	<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -23,23 +30,47 @@
 			</intent-filter> -->
 		</activity>
 
-		<activity android:name="com.springsource.greenhouse.activities.OAuthActivity" android:label="@string/app_name">
+		<activity 
+			android:name="com.springsource.greenhouse.activities.OAuthActivity" 
+			android:label="@string/app_name">
+			
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="x-com-springsource-greenhouse" android:host="oauth-response" />
 			</intent-filter>
+			
 		</activity>
 
-		<activity android:name="com.springsource.greenhouse.activities.MainTabWidget" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar" />
-		<activity android:name="com.springsource.greenhouse.activities.EventsActivityGroup"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.EventsActivity"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.EventDetailsActivity"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.EventSessionsMenuActivity"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.EventDescriptionActivity"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.ProfileActivity"></activity>
-		<activity android:name="com.springsource.greenhouse.activities.InfoActivity"></activity>
+		<activity 
+			android:name="com.springsource.greenhouse.activities.MainTabWidget" 
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.NoTitleBar" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventsActivityGroup"  />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventsActivity" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventDetailsActivity" 
+			android:label="@string/title_event_details" />
+		
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventDescriptionActivity"
+			android:label="@string/title_event_description" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsMenuActivity"
+			android:label="@string/title_event_sessions" />
+				
+		<activity 
+			android:name="com.springsource.greenhouse.activities.ProfileActivity" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.InfoActivity" />
 	
 	</application>
     
