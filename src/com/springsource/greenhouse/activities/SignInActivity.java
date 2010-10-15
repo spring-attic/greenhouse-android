@@ -15,7 +15,7 @@ public class SignInActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signin);
 
-		findViewById(R.id.buttonSignin).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.signin_button).setOnClickListener(new OnClickListener() {
 			public void onClick(final View view) {
 				// uncomment the following line (and comment the line after it) to enable the OAuth stuff
 //				startActivity(new Intent(SignInActivity.this, OAuthActivity.class));
