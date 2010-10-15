@@ -1,9 +1,14 @@
 package com.springsource.greenhouse.util;
 
+import org.springframework.social.greenhouse.GreenhouseOperations;
+import org.springframework.social.greenhouse.GreenhouseTemplate;
+
 import android.content.SharedPreferences;
 import android.net.Uri;
 
 public class Prefs {	
+	public static final String GREENHOUSE_SERVER_BASE_URL = "http://10.0.2.2:8080/greenhouse";
+	
 	public static final String REQUEST_TOKEN = "request_token";
 	public static final String REQUEST_SECRET = "request_secret";
 	public static final String ACCESS_TOKEN = "access_token";
@@ -12,9 +17,10 @@ public class Prefs {
 	
 	public static final String CALLBACK_URI_STRING = "x-com-springsource-greenhouse://oauth-response";
 
-	private static final String GREENHOUSE_AUTHORIZATION_URL = "http://10.0.2.2:8080/greenhouse/oauth/confirm_access";
+	private static final String GREENHOUSE_AUTHORIZATION_URL = GREENHOUSE_SERVER_BASE_URL + "/oauth/confirm_access";
 	private static final String GREENHOUSE_API_KEY = "a08318eb478a1ee31f69a55276f3af64";
 	private static final String GREENHOUSE_API_SECRET = "80e7f8f7ba724aae9103f297e5fb9bdf";
+	private static GreenhouseOperations greenhouseOperations;
 
 	public static void saveRequestInformation(final SharedPreferences settings, final String token, final String secret) {
 		SharedPreferences.Editor editor = settings.edit();
@@ -36,7 +42,7 @@ public class Prefs {
 	}
 
 	private static String getUrlBase() {
-		return "http://10.0.2.2:8080/greenhouse";
+		return GREENHOUSE_SERVER_BASE_URL;
 	}
 	
 	public static String[] getRequestTokenAndSecret(final SharedPreferences settings) {
@@ -95,5 +101,15 @@ public class Prefs {
 	
 	public static String getConsumerSecret() {
 		return GREENHOUSE_API_SECRET;
+	}
+	
+	public static GreenhouseOperations getGreenhouseTemplate(SharedPreferences settings) {
+		if(greenhouseOperations == null) {
+			String[] tokenAndSecret = Prefs.getAccessTokenAndSecret(settings);
+			greenhouseOperations = new GreenhouseTemplate(
+					Prefs.getConsumerKey(), Prefs.getConsumerSecret(), tokenAndSecret[0], tokenAndSecret[1], GREENHOUSE_SERVER_BASE_URL);
+		}
+		
+		return greenhouseOperations;
 	}
 }

@@ -1,12 +1,11 @@
 package com.springsource.greenhouse.activities;
 
+import org.springframework.social.greenhouse.GreenhouseOperations;
 import org.springframework.social.greenhouse.GreenhouseProfile;
-import org.springframework.social.greenhouse.GreenhouseTemplate;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -32,21 +31,15 @@ public class ProfileActivity extends Activity {
 		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
 		final Button buttonSignOut = (Button) findViewById(R.id.profile_button_signout);
 		
-		final SharedPreferences settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-		String[] tokenAndSecret = Prefs.getAccessTokenAndSecret(settings);
-		
-		// TODO: should this be created once, at startup/signin, and then stored away for later use?
-		GreenhouseTemplate greenhouse = new GreenhouseTemplate(
-				Prefs.getConsumerKey(), Prefs.getConsumerSecret(), tokenAndSecret[0], tokenAndSecret[1], "http://10.0.2.2:8080/greenhouse");
+		GreenhouseOperations greenhouse = Prefs.getGreenhouseTemplate(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
 		GreenhouseProfile profile = greenhouse.getUserProfile();
 		
-		textViewMemberName.setText(profile.getDisplayName());
-		
+		textViewMemberName.setText(profile.getDisplayName());		
 		imageViewPicture.setImageURI(Uri.parse(profile.getPictureUrl()));
 		
 		buttonSignOut.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		    	Prefs.disconnect(settings);
+		    	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
 		    	Intent intent = new Intent(ProfileActivity.this, FrontDoorActivity.class);
 		    	startActivity(intent);
 		    	finish();
