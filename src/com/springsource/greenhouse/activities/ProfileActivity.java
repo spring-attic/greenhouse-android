@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.springsource.greenhouse.R;
-import com.springsource.greenhouse.R.drawable;
 import com.springsource.greenhouse.util.Prefs;
 
 public class ProfileActivity extends Activity {
@@ -35,14 +35,14 @@ public class ProfileActivity extends Activity {
 		final SharedPreferences settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
 		String[] tokenAndSecret = Prefs.getAccessTokenAndSecret(settings);
 		
-		
+		// TODO: should this be created once, at startup/signin, and then stored away for later use?
 		GreenhouseTemplate greenhouse = new GreenhouseTemplate(
 				Prefs.getConsumerKey(), Prefs.getConsumerSecret(), tokenAndSecret[0], tokenAndSecret[1], "http://10.0.2.2:8080/greenhouse");
 		GreenhouseProfile profile = greenhouse.getUserProfile();
 		
 		textViewMemberName.setText(profile.getDisplayName());
 		
-		imageViewPicture.setImageResource(drawable.profile);
+		imageViewPicture.setImageURI(Uri.parse(profile.getPictureUrl()));
 		
 		buttonSignOut.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
