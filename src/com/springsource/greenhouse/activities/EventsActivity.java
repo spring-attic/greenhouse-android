@@ -3,9 +3,14 @@ package com.springsource.greenhouse.activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.social.greenhouse.Event;
+import org.springframework.social.greenhouse.GreenhouseOperations;
 
 import android.app.ListActivity;
 import android.app.LocalActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.util.Prefs;
 
 public class EventsActivity extends ListActivity {
 	
@@ -24,7 +30,7 @@ public class EventsActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		List<HashMap<String,String>> events = fetchEvents();
+		List<Map<String,String>> events = fetchEvents();
 
 		SimpleAdapter adapter = new SimpleAdapter(
 				this,
@@ -55,23 +61,20 @@ public class EventsActivity extends ListActivity {
 	//***************************************
     // Private methods
     //***************************************
-	private List<HashMap<String,String>> fetchEvents() {
-//		List<Event> events = new ArrayList<Event>();
+	private List<Map<String,String>> fetchEvents() {
+		GreenhouseOperations greenhouse = Prefs.getGreenhouseTemplate(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+		List<Event> upcomingEvents = greenhouse.getUpcomingEvents();		
+		List<Map<String,String>> eventList = new ArrayList<Map<String,String>>();		
 		
-//		Event event = new Event();
-//		event.setId("1");
-//		event.setName("SpringOne/2GX");
-//		event.setGroupName("SpringOne/2GX");
-//		events.add(event);
+		// TODO: Is there w way to populate the table from an Event instead of a Map?
+		for (Event event : upcomingEvents) {
+			Map<String, String> map = new HashMap<String, String>();			
+			map.put("title", event.getTitle());
+			map.put("groupName", event.getGroupName());
+			eventList.add(map);
+		}		
 		
-		List<HashMap<String,String>> events = new ArrayList<HashMap<String,String>>();
-		HashMap<String, String> map = new HashMap<String, String>();
-		
-		map.put("title", "SpringOne2GX");
-		map.put("groupName", "SpringOne2GX");
-		events.add(map);
-		
-		return events;
+		return eventList;
 	}
 	
 }
