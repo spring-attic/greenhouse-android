@@ -39,7 +39,20 @@ public class Prefs {
 		return "http://10.0.2.2:8080/greenhouse";
 	}
 	
-	public static String[] getUserTokenAndSecret(final SharedPreferences settings) {
+	public static String[] getRequestTokenAndSecret(final SharedPreferences settings) {
+		 String token = settings.getString(Prefs.REQUEST_TOKEN, null);
+		 String secret = settings.getString(Prefs.REQUEST_SECRET, null);
+		 return new String[] { token, secret };
+	}
+	
+	public static void saveAuthInformation(final SharedPreferences settings, final String token, final String secret) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(ACCESS_TOKEN, token);
+		editor.putString(ACCESS_TOKEN_SECRET, secret);
+		editor.commit();
+	}
+	
+	public static String[] getAccessTokenAndSecret(final SharedPreferences settings) {
 		String token = null;
 		String tokenSecret = null;
 		if (settings.contains(ACCESS_TOKEN) && settings.contains(ACCESS_TOKEN_SECRET)) {
@@ -49,8 +62,15 @@ public class Prefs {
 		return new String[] { token, tokenSecret };
 	}
 	
+	public static void resetRequestInformation(final SharedPreferences settings) {
+		SharedPreferences.Editor editor = settings.edit();
+		editor.remove(REQUEST_TOKEN);
+		editor.remove(REQUEST_SECRET);
+		editor.commit();
+	}
+	
 	public static boolean isLoggedIn(final SharedPreferences settings) {
-		String[] tokenAndSecret = getUserTokenAndSecret(settings);
+		String[] tokenAndSecret = getAccessTokenAndSecret(settings);
 		return tokenAndSecret[0] != null && tokenAndSecret[1] != null;
 	}
 	

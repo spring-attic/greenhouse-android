@@ -18,8 +18,8 @@ public class SignInActivity extends Activity {
 		findViewById(R.id.buttonSignin).setOnClickListener(new OnClickListener() {
 			public void onClick(final View view) {
 				// uncomment the following line (and comment the line after it) to enable the OAuth stuff
-//				startActivity(new Intent(SignInActivity.this, OAuthActivity.class));
-				startActivity(new Intent(SignInActivity.this, MainTabWidget.class));
+				startActivity(new Intent(SignInActivity.this, OAuthActivity.class));
+//				startActivity(new Intent(SignInActivity.this, MainTabWidget.class));
 				finish();
 			}
 		});

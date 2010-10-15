@@ -6,6 +6,7 @@ import java.io.Writer;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 import android.app.Activity;
@@ -53,11 +54,37 @@ public class OAuthActivity extends Activity {
 		if (uri == null || !Prefs.getCallbackUri().getScheme().equals(uri.getScheme())) {
 			return;
 		}
-		
-		// TODO: 
-		//   1. Ensure that this is the right URL
-		//   2. Get verifier from parameters
-		//   3. Retrieve access token
-		//   4. Stuff access token away for future use
+
+		_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
+		String[] tokenAndSecret = Prefs.getRequestTokenAndSecret(_settings);
+		String requestTokenValue = tokenAndSecret[0];
+		String requestTokenSecret = tokenAndSecret[1];
+		Intent intent = new Intent(this, MainTabWidget.class);
+
+		try {
+			Token requestToken = new Token(requestTokenValue, requestTokenSecret);
+			String verifier = uri.getQueryParameter("oauth_verifier");
+
+			ServiceBuilder serviceBuilder = new ServiceBuilder();
+			OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
+
+			Token accessToken = oAuthService.getAccessToken(requestToken, new Verifier(verifier));
+			
+			Prefs.saveAuthInformation(_settings, accessToken.getToken(), accessToken.getSecret());
+			// Clear the request stuff, now that we have the real thing
+			Prefs.resetRequestInformation(_settings);
+//			intent.putExtra(Prefs.USER_TOKEN, token); // TODO needed?
+//			intent.putExtra(Prefs.USER_SECRET, secret);
+		}
+		catch (Exception e) {
+			Log.e("ErrorHandler", e.getMessage(), e);
+
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
+		}
+		finally {
+			startActivity(intent);
+			finish();
+		}
 	}
 }
