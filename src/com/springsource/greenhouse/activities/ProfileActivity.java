@@ -1,5 +1,8 @@
 package com.springsource.greenhouse.activities;
 
+import org.springframework.social.greenhouse.GreenhouseProfile;
+import org.springframework.social.greenhouse.GreenhouseTemplate;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +35,12 @@ public class ProfileActivity extends Activity {
 		final SharedPreferences settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
 		String[] tokenAndSecret = Prefs.getAccessTokenAndSecret(settings);
 		
-		textViewMemberName.setText("John Smithy");
+		
+		GreenhouseTemplate greenhouse = new GreenhouseTemplate(
+				Prefs.getConsumerKey(), Prefs.getConsumerSecret(), tokenAndSecret[0], tokenAndSecret[1], "http://10.0.2.2:8080/greenhouse");
+		GreenhouseProfile profile = greenhouse.getUserProfile();
+		
+		textViewMemberName.setText(profile.getDisplayName());
 		
 		imageViewPicture.setImageResource(drawable.profile);
 		

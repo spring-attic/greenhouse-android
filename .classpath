@@ -4,5 +4,9 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="lib/scribe-1.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-asl-1.7.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.7.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-android-1.6.1-RC1.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-1.0.0.BUILD-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
