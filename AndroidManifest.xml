@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.springsource.greenhouse"
       android:versionCode="1"
@@ -63,8 +64,29 @@
 			android:label="@string/title_event_description" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsMenuActivity"
-			android:label="@string/title_event_sessions" />
+			android:name="com.springsource.greenhouse.activities.EventSessionsFilteredActivity"
+			android:label="@string/title_event_sessions_filtered" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsScheduleActivity"
+			android:label="@string/title_event_sessions_schedule" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsCurrentActivity"
+			android:label="@string/title_event_sessions_current" />
+
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsUpcomingActivity"
+			android:label="@string/title_event_sessions_upcoming" />
+
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsMyFavoritesActivity"
+			android:label="@string/title_event_sessions_my_favorites" />
+
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionsConferenceFavoritesActivity"
+			android:label="@string/title_event_sessions_conference_favorites" />
+
 				
 		<activity 
 			android:name="com.springsource.greenhouse.activities.ProfileActivity" />

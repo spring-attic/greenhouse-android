@@ -11,7 +11,7 @@ import org.springframework.social.greenhouse.GreenhouseProfile;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -23,9 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.Prefs;
 
 public class ProfileActivity extends Activity {
+	
+	private static final String TAG = "ProfileActivity";
+	
 	
 	//***************************************
     // Activity methods
@@ -34,15 +38,12 @@ public class ProfileActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
-		
-		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
-		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
-		
-		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
-		
-		GreenhouseProfile profile = greenhouse.getUserProfile();		
-		textViewMemberName.setText(profile.getDisplayName());		
-		imageViewPicture.setImageBitmap(getImageBitmap(profile.getPictureUrl()));
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		refreshProfile();
 	}
 	
 	@Override
@@ -56,7 +57,10 @@ public class ProfileActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
 	    switch (item.getItemId()) {
-	    case R.id.sign_out:
+	    case R.id.profile_menu_refresh:
+	        refreshProfile();
+	        return true;
+	    case R.id.profile_menu_sign_out:
 	        signOut();
 	        return true;
 	    default:
@@ -67,10 +71,23 @@ public class ProfileActivity extends Activity {
 	//***************************************
     // Private methods
     //***************************************
+	private void refreshProfile() {
+		Log.d(TAG, "Refreshing profile");
+		
+		SharedPreferences prefs = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
+		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(prefs);
+		GreenhouseProfile profile = greenhouse.getUserProfile();
+		
+		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
+		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);		
+
+		textViewMemberName.setText(profile.getDisplayName());		
+		imageViewPicture.setImageBitmap(getImageBitmap(profile.getPictureUrl()));
+	}
+	
 	private void signOut() {
     	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
-    	Intent intent = new Intent(ProfileActivity.this, FrontDoorActivity.class);
-    	startActivity(intent);
+    	NavigationManager.startActivity(this, FrontDoorActivity.class);
     	finish();
     }
 	
@@ -86,7 +103,7 @@ public class ProfileActivity extends Activity {
             bis.close();
             is.close();
        } catch (IOException e) {
-           Log.e("profile-activity", "Error getting bitmap", e);
+           Log.e(TAG, "Error getting bitmap", e);
        }
        return bm;
     } 

@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	style="@style/MainTabLayout" >
+	style="@style/MainTabLayout">
 	
 	<ScrollView
-		style="@style/ScrollView"
-		android:fillViewport="true" >
+		style="@style/ScrollView">
 
-		<LinearLayout
-			style="@style/ScrollableContainerLayout" 
-			android:orientation="vertical"
-	    	android:layout_weight="1" >
+		<RelativeLayout
+			style="@style/ScrollableContainerLayout">
 
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 			    android:orientation="vertical"
-	    		android:layout_weight="1"
 	    		android:paddingBottom="20dp">
 	
 				<TextView 
@@ -35,10 +31,11 @@
 			    		
     		<ListView
     			style="@style/MenuListView"
+    			android:layout_alignParentBottom="true"
     			android:id="@+id/event_details_menu"
-    			android:entries="@array/event_details_menu_array" />
+    			android:entries="@array/event_details_options_array" />
 
-		</LinearLayout>
+		</RelativeLayout>
 		
 	</ScrollView>
 	

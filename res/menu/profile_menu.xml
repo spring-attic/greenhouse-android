@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <item
+		android:id="@+id/profile_menu_refresh"
+		android:title="Refresh" />
+	
     <item 
-    	android:id="@+id/sign_out" 
-    	android:icon="@drawable/ic_menu_close_clear_cancel"
-		android:title="Sign Out" />
+    	android:id="@+id/profile_menu_sign_out" 
+		android:title="Sign Out" />	
+		
 </menu>

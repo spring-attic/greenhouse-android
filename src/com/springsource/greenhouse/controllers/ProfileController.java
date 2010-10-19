@@ -1,11 +1,9 @@
 package com.springsource.greenhouse.controllers;
 
-/*
- * @author Roy Clarkson
- * Copyright 2010 VMware, Inc. All rights reserved.
- * 
- */
 
 public class ProfileController {
 
+	public void fetchProfile() {		
+//		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+	}
 }
