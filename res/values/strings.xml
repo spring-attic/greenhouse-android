@@ -10,6 +10,7 @@
     <string name="title_event_sessions_upcoming">Upcoming Sessions</string>
     <string name="title_event_sessions_my_favorites">My Favorite Sessions</string>
     <string name="title_event_sessions_conference_favorites">Conference Favorite Sessions</string>
+    <string name="title_event_session_details">Session Details</string>
     
     <string-array name="event_details_options_array">
         <item>Description</item>

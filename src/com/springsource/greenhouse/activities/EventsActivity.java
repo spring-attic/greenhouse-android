@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.social.greenhouse.Event;
-import org.springframework.social.greenhouse.GreenhouseOperations;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,8 +18,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.EventsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
-import com.springsource.greenhouse.util.Prefs;
 import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventsActivity extends ListActivity {
@@ -36,7 +34,6 @@ public class EventsActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		refreshEvents();
 	}
 	
 	@Override
@@ -85,14 +82,17 @@ public class EventsActivity extends ListActivity {
 	private void refreshEvents() {
 		Log.d(TAG, "Refreshing Events");
 		
-		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
-		upcomingEvents = greenhouse.getUpcomingEvents();
+		upcomingEvents = EventsController.getUpcomingEvents(this);
 
+		if (upcomingEvents == null) {
+			return;
+		}
+		
 		List<Map<String,String>> events = new ArrayList<Map<String,String>>();
 		
 		// TODO: Is there w way to populate the table from an Event instead of a Map?
 		for (Event event : upcomingEvents) {
-			Map<String, String> map = new HashMap<String, String>();			
+			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", event.getTitle());
 			map.put("groupName", event.getGroupName());
 			events.add(map);
@@ -106,6 +106,5 @@ public class EventsActivity extends ListActivity {
 				new int[] { R.id.title, R.id.subtitle } );
 		
 		setListAdapter(adapter);
-	}
-	
+	}	
 }

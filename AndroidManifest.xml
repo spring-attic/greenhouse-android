@@ -87,6 +87,9 @@
 			android:name="com.springsource.greenhouse.activities.EventSessionsConferenceFavoritesActivity"
 			android:label="@string/title_event_sessions_conference_favorites" />
 
+		<activity
+			android:name="com.springsource.greenhouse.activities.EventSessionDetailsActivity"
+			android:label="@string/title_event_session_details" />
 				
 		<activity 
 			android:name="com.springsource.greenhouse.activities.ProfileActivity" />
