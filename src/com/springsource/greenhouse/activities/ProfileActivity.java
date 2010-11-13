@@ -6,12 +6,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.springframework.social.greenhouse.GreenhouseOperations;
 import org.springframework.social.greenhouse.GreenhouseProfile;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 
 import com.springsource.greenhouse.R;
 import com.springsource.greenhouse.controllers.NavigationManager;
+import com.springsource.greenhouse.controllers.ProfileController;
 import com.springsource.greenhouse.util.Prefs;
 
 public class ProfileActivity extends Activity {
@@ -73,14 +72,16 @@ public class ProfileActivity extends Activity {
     //***************************************
 	private void refreshProfile() {
 		Log.d(TAG, "Refreshing profile");
+				
+		GreenhouseProfile profile = ProfileController.getProfile(this);
 		
-		SharedPreferences prefs = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-		GreenhouseOperations greenhouse = Prefs.getGreenhouseOperations(prefs);
-		GreenhouseProfile profile = greenhouse.getUserProfile();
+		if (profile == null) {
+			return;
+		}
 		
 		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
-		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);		
-
+		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
+		
 		textViewMemberName.setText(profile.getDisplayName());		
 		imageViewPicture.setImageBitmap(getImageBitmap(profile.getPictureUrl()));
 	}

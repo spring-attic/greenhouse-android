@@ -7,6 +7,9 @@ import android.content.Intent;
 
 public class NavigationManager {
 		
+	//***************************************
+    // Public methods
+    //***************************************
 	public static boolean startActivity(Context context, Class<?> activity) {
 		try {				
 			Intent intent = new Intent();

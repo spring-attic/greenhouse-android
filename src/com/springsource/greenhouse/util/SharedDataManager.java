@@ -1,13 +1,17 @@
 package com.springsource.greenhouse.util;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.greenhouse.Event;
+import org.springframework.social.greenhouse.EventSession;
 
 public class SharedDataManager {
 	
 	private static List<Event> upcomingEvents;
 	private static Event currentEvent;
+	private static Date conferenceDay;
+	private static EventSession currentSession;
 	
 	public static void setUpcomingEvents(List<Event> upcomingEvents) {
 		SharedDataManager.upcomingEvents = upcomingEvents;
@@ -25,4 +29,19 @@ public class SharedDataManager {
 		return currentEvent;
 	}
 
+	public static void setConferenceDay(Date day) {
+		SharedDataManager.conferenceDay = day;
+	}
+	
+	public static Date getConferenceDay() {
+		return conferenceDay;
+	}
+
+	public static void setCurrentSession(EventSession currentSession) {
+		SharedDataManager.currentSession = currentSession;
+	}
+
+	public static EventSession getCurrentSession() {
+		return currentSession;
+	}
 }

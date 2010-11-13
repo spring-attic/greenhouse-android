@@ -66,7 +66,7 @@ public class EventsActivity extends ListActivity {
     // ListActivity methods
     //***************************************
 	@Override
-	protected void  onListItemClick(ListView l, View v, int position, long id) {
+	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
 		Event event = upcomingEvents.get(position);

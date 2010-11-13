@@ -12,6 +12,11 @@ import android.app.Activity;
 
 public class EventSessionsController extends BaseController {
 	
+	private static final String TAG = "EventSessionsController";
+	
+	//***************************************
+    // Public methods
+    //***************************************
 	public static List<EventSession> getSessionsCurrent(Activity activity, long eventId) {
 		
 		try {
@@ -40,7 +45,7 @@ public class EventSessionsController extends BaseController {
 		try {
 			Date now = new Date();
 			List<EventSession> sessions = getGreenhouseOperations(activity).getSessionsOnDay(eventId, now);
-			List<EventSession> currentSessions = new ArrayList<EventSession>();
+			List<EventSession> upcomingSessions = new ArrayList<EventSession>();
 
 			Date upcomingTime = null;
 			
@@ -50,11 +55,11 @@ public class EventSessionsController extends BaseController {
 				} 
 				
 				if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) {
-					currentSessions.add(session);
+					upcomingSessions.add(session);
 				}
 			}
 			
-			return currentSessions;
+			return upcomingSessions;
 		} catch(HttpClientErrorException e) {
 			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
 				signOut(activity);
@@ -64,4 +69,16 @@ public class EventSessionsController extends BaseController {
 		return null;
 	}
 
+	public static List<EventSession> getSessionsByDay(Activity activity, long eventId, Date day) {
+		
+		try {
+			return getGreenhouseOperations(activity).getSessionsOnDay(eventId, day);
+		} catch(HttpClientErrorException e) {
+			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+				signOut(activity);
+			}
+		}
+		
+		return null;
+	}
 }

@@ -1,5 +1,7 @@
 package com.springsource.greenhouse.activities;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.social.greenhouse.Event;
 
 import android.app.Activity;
@@ -73,7 +75,11 @@ public class EventDetailsActivity extends Activity {
 		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
 		
 		textViewEventName.setText(event.getTitle());
-		textViewEventDate.setText(event.getStartTime() + " " + event.getEndTime()); // ("Tue. Oct 19 - Fri, Oct 22, 2010");
+		
+		String startTime = new SimpleDateFormat("EEE, MMM d").format(event.getStartTime());
+		String endTime = new SimpleDateFormat("EEE, MMM d, yyyy").format(event.getEndTime());
+		
+		textViewEventDate.setText(startTime + " - " + endTime);
 		textViewEventLocation.setText(event.getLocation());
 	}
 }
