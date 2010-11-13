@@ -94,6 +94,10 @@
 		<activity
 			android:name="com.springsource.greenhouse.activities.EventSessionDetailsActivity"
 			android:label="@string/title_event_session_details" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.activities.EventSessionDescriptionActivity"
+			android:label="@string/title_event_session_description" />
 				
 		<activity 
 			android:name="com.springsource.greenhouse.activities.ProfileActivity" />

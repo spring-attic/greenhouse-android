@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MainTabLayout">
+    
+   	<ScrollView
+		style="@style/ScrollView"
+		android:fillViewport="true" >
+    
+	    <TextView
+	    	style="@style/Text"
+	        android:id="@+id/event_session_description_textview"        
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent" />
+	        
+	</ScrollView>
+    
+</FrameLayout>

@@ -12,6 +12,7 @@
     <string name="title_event_sessions_conference_favorites">Conference Favorite Sessions</string>
     <string name="title_event_sessions_by_day">Sessions by Day</string>
     <string name="title_event_session_details">Session Details</string>
+    <string name="title_event_session_description">Session Description</string>
     
     <string-array name="event_details_options_array">
         <item>Description</item>
@@ -25,6 +26,12 @@
     	<item>Upcoming</item>
     	<item>My Favorites</item>
     	<item>Conference Favorites</item>
+    </string-array>
+    
+    <string-array name="event_session_details_options_array">
+        <item>Description</item>
+        <item>Favorite</item>
+        <item>Rate</item>
     </string-array>
     
 </resources>

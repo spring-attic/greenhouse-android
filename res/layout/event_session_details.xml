@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/MainTabLayout">
+	
+	<ScrollView
+		style="@style/ScrollView">
+
+		<RelativeLayout
+			style="@style/ScrollableContainerLayout">
+
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+			    android:orientation="vertical"
+	    		android:paddingBottom="20dp">
+	
+				<TextView 
+					style="@style/Text" 
+					android:id="@+id/event_session_details_textview_name" />
+			
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_session_details_textview_leaders" />
+			        
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_session_details_textview_time" />
+
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_session_details_textview_room" />
+			    	
+			    <TextView 
+			    	style="@style/Text"
+			    	android:id="@+id/event_session_details_textview_rating" />
+			    	
+			</LinearLayout>
+			    		
+    		<ListView
+    			style="@style/MenuListView"
+    			android:layout_alignParentBottom="true"
+    			android:id="@+id/event_session_details_menu"
+    			android:entries="@array/event_session_details_options_array" />
+
+		</RelativeLayout>
+		
+	</ScrollView>
+	
+</FrameLayout>
