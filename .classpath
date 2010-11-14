@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="lib/scribe-1.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/spring-android-commons-logging-1.0.0.BUILD-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/spring-android-rest-template-1.0.0.BUILD-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/spring-social-core-1.0.0.M1.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-core-1.0.0.BUILD-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
