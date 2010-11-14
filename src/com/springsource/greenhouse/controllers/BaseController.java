@@ -3,8 +3,10 @@ package com.springsource.greenhouse.controllers;
 import org.springframework.social.greenhouse.GreenhouseOperations;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -12,6 +14,9 @@ import com.springsource.greenhouse.activities.FrontDoorActivity;
 import com.springsource.greenhouse.util.Prefs;
 
 public class BaseController {
+	
+	private static final String TAG = "BaseController";
+	private static ProgressDialog progressDialog;
 	
 	//***************************************
     // Protected methods
@@ -26,10 +31,22 @@ public class BaseController {
     	activity.finish();
 	}
 	
-	protected static void displayNetworkError(Activity activity) {
-		Toast toast = Toast.makeText(activity, "A problem occurred with the network connection while attempting to communicate with Greenhouse.", Toast.LENGTH_LONG);
+	protected static void displayNetworkError(Context context) {
+		Toast toast = Toast.makeText(context, "A problem occurred with the network connection while attempting to communicate with Greenhouse.", Toast.LENGTH_LONG);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
+	}
+	
+	protected static void showProgressDialog(Context context) {
+		Log.d(TAG, "showing progress dialog");
+		BaseController.progressDialog = ProgressDialog.show(context, "",  "Loading. Please wait...", true);
+	}
+	
+	protected static void dismissProgressDialog() {
+		Log.d(TAG, "dismissing progress dialog");
+		if (BaseController.progressDialog != null) {
+			BaseController.progressDialog.dismiss();
+		}
 	}
 	
 	//***************************************

@@ -8,16 +8,21 @@ import android.util.Log;
 
 
 public class ProfileController extends BaseController {
+	
+	private static final String TAG = "ProfileController";
 
 	//***************************************
     // Public methods
     //***************************************	
 	public static GreenhouseProfile getProfile(Activity activity) {
 
+		showProgressDialog(activity);
 		try {
 			return getGreenhouseOperations(activity).getUserProfile();
 		} catch(ResourceAccessException e) {
-			Log.e("ProfileController", e.getLocalizedMessage());
+			Log.e(TAG, e.getLocalizedMessage());
+		} finally {
+			dismissProgressDialog();
 		}
 		
 		return null;

@@ -2,10 +2,12 @@ package com.springsource.greenhouse.activities;
 
 import java.text.SimpleDateFormat;
 
+import org.springframework.social.greenhouse.Event;
 import org.springframework.social.greenhouse.EventSession;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,10 +16,13 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventSessionDetailsActivity extends Activity {
+	
+	private static final String TAG = "EventSessionDetailsActivity";
 	
 	//***************************************
 	// Activity methods
@@ -38,10 +43,13 @@ public class EventSessionDetailsActivity extends Activity {
 		    	
 		    	switch(position) {
 			      	case 0:
+			      		Log.d(TAG, "show session description");
 			      		NavigationManager.startActivity(view.getContext(), EventSessionDescriptionActivity.class);
 			      		break;
 			      	case 1:
-//			      		NavigationManager.startActivity(view.getContext(), EventSessionsFilteredActivity.class);
+			    		Event event = SharedDataManager.getCurrentEvent();
+			    		EventSession session = SharedDataManager.getCurrentSession();
+			      		EventSessionsController.updateFavoriteSession(view.getContext(), event.getId(), session.getId());
 			      		break;
 			      	case 2:
 //			      		NavigationManager.startActivity(view.getContext(), EventSessionsScheduleActivity.class);

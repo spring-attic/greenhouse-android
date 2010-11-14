@@ -59,7 +59,7 @@ public class EventSessionsByDayActivity extends ListActivity {
 		Event event = SharedDataManager.getCurrentEvent();
 		Date day = SharedDataManager.getConferenceDay();
 		
-		if (day == null) {
+		if (event == null || day == null) {
 			return;
 		}
 		

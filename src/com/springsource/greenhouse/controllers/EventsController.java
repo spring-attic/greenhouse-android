@@ -17,10 +17,13 @@ public class EventsController extends BaseController {
     //***************************************
 	public static List<Event> getUpcomingEvents(Activity activity) {
 
+		showProgressDialog(activity);
 		try {
 			return getGreenhouseOperations(activity).getUpcomingEvents();
 		} catch(ResourceAccessException e) {
 			Log.e(TAG, e.getLocalizedMessage());
+		} finally {
+			dismissProgressDialog();
 		}
 		
 		return null;
