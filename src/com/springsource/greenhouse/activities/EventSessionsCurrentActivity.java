@@ -21,7 +21,7 @@ import com.springsource.greenhouse.util.SharedDataManager;
 public class EventSessionsCurrentActivity extends ListActivity {
 	
 	private static final String TAG = "EventSessionsCurrentActivity";
-	private List<EventSession> currentSessions;
+	private List<EventSession> sessions;
 	
 	
 	//***************************************
@@ -43,43 +43,29 @@ public class EventSessionsCurrentActivity extends ListActivity {
 	// Private methods
 	//***************************************
 	private void refreshSessions() {
-		Log.d(TAG, "Refreshing Sessions");
 		
-		Event event = SharedDataManager.getCurrentEvent();		
-		currentSessions = EventSessionsController.getSessionsCurrent(this, event.getId());
+		Event event = SharedDataManager.getCurrentEvent();
 		
-		if (currentSessions == null) {
+		if (event == null) {
 			return;
 		}
+		
+		sessions = EventSessionsController.getSessionsCurrent(this, event.getId());
 
-		List<Map<String,String>> sessions = new ArrayList<Map<String,String>>();
+		List<Map<String,String>> sessionMaps = new ArrayList<Map<String,String>>();
 		
 		// TODO: Is there w way to populate the table from a Session instead of a Map?
-		for (EventSession session : currentSessions) {
-			Map<String, String> map = new HashMap<String, String>();
-			
-			List<Leader> leaders = session.getLeaders();
-			String leaderDisplay = "";
-			
-			for (int i = 0; i < leaders.size(); i++) {
-				
-				Leader leader = leaders.get(i);
-				leaderDisplay = leader.getName();
-				
-				if (i+1 < leaders.size()) {
-					leaderDisplay += ", ";
-				}
-			}
-			
+		for (EventSession session : sessions) {
+			Map<String, String> map = new HashMap<String, String>();			
 			map.put("title", session.getTitle());
-			map.put("leader", leaderDisplay);
-			sessions.add(map);
+			map.put("leaders", session.getJoinedLeaders(", "));
+			sessionMaps.add(map);
 		}		
 		
 		SimpleAdapter adapter = new SimpleAdapter(
 				this,
-				sessions,
-				R.layout.events_list_item,
+				sessionMaps,
+				R.layout.event_sessions_list_item,
 				new String[] { "title", "leader" },
 				new int[] { R.id.title, R.id.subtitle } );
 		

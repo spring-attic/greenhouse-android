@@ -69,7 +69,7 @@ public class EventSessionsMyFavoritesActivity extends ListActivity {
 		for (EventSession session : sessions) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", session.getTitle());
-			map.put("leaders", formatLeaders(session));
+			map.put("leaders", session.getJoinedLeaders(", "));
 			sessionMaps.add(map);
 		}		
 		
@@ -82,23 +82,4 @@ public class EventSessionsMyFavoritesActivity extends ListActivity {
 		
 		setListAdapter(adapter);
 	}
-	
-	private String formatLeaders(EventSession session) {
-		
-		List<Leader> leaders = session.getLeaders();
-		String s = "";
-		int size = leaders.size();
-		
-		for (int i = 0; i < size; i++) {
-			Leader leader = leaders.get(i);
-			s += leader.getName();
-			
-			if (i < size-1) {
-				s += ", ";
-			}
-		}
-		
-		return s;
-	}
-
 }
