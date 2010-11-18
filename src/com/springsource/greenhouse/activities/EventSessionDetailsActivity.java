@@ -47,10 +47,10 @@ public class EventSessionDetailsActivity extends Activity {
 			      		NavigationManager.startActivity(view.getContext(), EventSessionDescriptionActivity.class);
 			      		break;
 			      	case 1:
-			    		Event event = SharedDataManager.getCurrentEvent();
-			    		EventSession session = SharedDataManager.getCurrentSession();
-			      		EventSessionsController.updateFavoriteSession(view.getContext(), event.getId(), session.getId());
-			      		break;
+//			    		Event event = SharedDataManager.getCurrentEvent();
+//			    		EventSession session = SharedDataManager.getCurrentSession();
+//			      		EventSessionsController.updateFavoriteSession(view.getContext(), event.getId(), session.getId());
+//			      		break;
 			      	case 2:
 //			      		NavigationManager.startActivity(view.getContext(), EventSessionsScheduleActivity.class);
 			      	default:
@@ -82,16 +82,16 @@ public class EventSessionDetailsActivity extends Activity {
 		final TextView textViewSessionLeaders = (TextView) findViewById(R.id.event_session_details_textview_leaders);
 		final TextView textViewSessionTime = (TextView) findViewById(R.id.event_session_details_textview_time);
 		final TextView textViewSessionRoom = (TextView) findViewById(R.id.event_session_details_textview_room);
-		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
+//		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
 		
 		textViewSessionName.setText(session.getTitle());
-		textViewSessionLeaders.setText("leaders");
+		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));
 		
 		String startTime = new SimpleDateFormat("h:mm a").format(session.getStartTime());
 		String endTime = new SimpleDateFormat("h:mm a").format(session.getEndTime());
 		textViewSessionTime.setText(startTime + " - " + endTime);
 		
 		textViewSessionRoom.setText(session.getRoom().getLabel());
-		textViewSessionRating.setText(session.getRating() + " Stars");
+//		textViewSessionRating.setText(session.getRating() + " Stars");
 	}
 }

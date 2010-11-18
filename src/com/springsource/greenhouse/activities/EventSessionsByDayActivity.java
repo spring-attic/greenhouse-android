@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.springframework.social.greenhouse.Event;
 import org.springframework.social.greenhouse.EventSession;
-import org.springframework.social.greenhouse.EventSession.Leader;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -64,6 +63,10 @@ public class EventSessionsByDayActivity extends ListActivity {
 		}
 		
 		sessions = EventSessionsController.getSessionsByDay(this, event.getId(), day);
+		
+		if (sessions == null) {
+			return;
+		}
 		
 		List<Map<String,String>> sessionMaps = new ArrayList<Map<String,String>>();
 		

@@ -1,12 +1,13 @@
 package com.springsource.greenhouse.controllers;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.social.greenhouse.EventSession;
-import org.springframework.web.client.HttpClientErrorException;
 
 import android.content.Context;
 import android.util.Log;
@@ -33,10 +34,10 @@ public class EventSessionsController extends BaseController {
 			}
 			
 			return currentSessions;
-		} catch(HttpClientErrorException e) {
-			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-//				signOut(context);
-			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}
@@ -65,10 +66,10 @@ public class EventSessionsController extends BaseController {
 			}
 			
 			return upcomingSessions;
-		} catch(HttpClientErrorException e) {
-			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-//				signOut(context);
-			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}
@@ -81,10 +82,10 @@ public class EventSessionsController extends BaseController {
 		showProgressDialog(context);
 		try {
 			return getGreenhouseOperations(context).getSessionsOnDay(eventId, day);
-		} catch(HttpClientErrorException e) {
-			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-//				signOut(context);
-			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}
@@ -97,10 +98,10 @@ public class EventSessionsController extends BaseController {
 		showProgressDialog(context);
 		try {
 			return getGreenhouseOperations(context).getFavoriteSessions(eventId);
-		} catch(HttpClientErrorException e) {
-			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-//				signOut(context);
-			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}
@@ -113,10 +114,10 @@ public class EventSessionsController extends BaseController {
 		showProgressDialog(context);
 		try {
 			return getGreenhouseOperations(context).getConferenceFavoriteSessions(eventId);
-		} catch(HttpClientErrorException e) {
-			if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
-//				signOut(context);
-			}
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}
@@ -129,8 +130,10 @@ public class EventSessionsController extends BaseController {
 		showProgressDialog(context);
 		try {
 			return getGreenhouseOperations(context).updateFavoriteSession(eventId, sessionId);
-		} catch(Exception e) {
-			Log.e(TAG, e.getLocalizedMessage());
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			Writer result = new StringWriter();
+			e.printStackTrace(new PrintWriter(result));
 		} finally {
 			dismissProgressDialog();
 		}

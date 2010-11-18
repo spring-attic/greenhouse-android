@@ -48,12 +48,12 @@ public class EventSessionsUpcomingActivity extends ListActivity {
 		Event event = SharedDataManager.getCurrentEvent();
 		upcomingSessions = EventSessionsController.getSessionsUpcoming(this, event.getId());
 		
-		if (upcomingSessions == null) {
+		if (event == null || upcomingSessions == null) {
 			return;
 		}
 
 		List<Map<String,String>> sessions = new ArrayList<Map<String,String>>();
-		
+				
 		// TODO: Is there w way to populate the table from a Session instead of a Map?
 		for (EventSession session : upcomingSessions) {
 			Map<String, String> map = new HashMap<String, String>();

@@ -7,18 +7,17 @@ import java.util.Map;
 
 import org.springframework.social.greenhouse.Event;
 import org.springframework.social.greenhouse.EventSession;
-import org.springframework.social.greenhouse.EventSession.Leader;
-
-import com.springsource.greenhouse.R;
-import com.springsource.greenhouse.controllers.EventSessionsController;
-import com.springsource.greenhouse.controllers.NavigationManager;
-import com.springsource.greenhouse.util.SharedDataManager;
 
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.EventSessionsController;
+import com.springsource.greenhouse.controllers.NavigationManager;
+import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventSessionsConferenceFavoritesActivity extends ListActivity {
 	
@@ -62,6 +61,10 @@ public class EventSessionsConferenceFavoritesActivity extends ListActivity {
 		}
 		
 		sessions = EventSessionsController.getConferenceFavoriteSessions(this, event.getId());
+		
+		if (sessions == null) {
+			return;
+		}
 		
 		List<Map<String,String>> sessionMaps = new ArrayList<Map<String,String>>();
 		
