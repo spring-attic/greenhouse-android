@@ -2,7 +2,6 @@ package com.springsource.greenhouse.activities;
 
 import java.text.SimpleDateFormat;
 
-import org.springframework.social.greenhouse.Event;
 import org.springframework.social.greenhouse.EventSession;
 
 import android.app.Activity;
@@ -10,13 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.springsource.greenhouse.R;
-import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 

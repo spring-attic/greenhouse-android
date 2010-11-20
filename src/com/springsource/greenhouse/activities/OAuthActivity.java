@@ -4,11 +4,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.Token;
-import org.scribe.model.Verifier;
-import org.scribe.oauth.OAuthService;
-
+import oauth.signpost.OAuthConsumer;
+import oauth.signpost.OAuthProvider;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.springsource.greenhouse.util.GreenhouseApi;
 import com.springsource.greenhouse.util.Prefs;
 
 public class OAuthActivity extends Activity {
@@ -34,24 +32,25 @@ public class OAuthActivity extends Activity {
 				_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
 				
 				// scribe
-				ServiceBuilder serviceBuilder = new ServiceBuilder();
-				OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
-				Token requestToken = oAuthService.getRequestToken();
-				String requestTokenValue = requestToken.getToken();
-				String requestTokenSecret = requestToken.getSecret();
-//				Prefs.saveRequestInformation(_settings, requestToken.getToken(), requestToken.getSecret());
-				Uri uri = Uri.parse(Prefs.getUrlBase() + "/oauth/confirm_access?oauth_token=" + requestToken.getToken());
+//				ServiceBuilder serviceBuilder = new ServiceBuilder();
+//				OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
+//				Token requestToken = oAuthService.getRequestToken();
+//				String requestTokenValue = requestToken.getToken();
+//				String requestTokenSecret = requestToken.getSecret();
+//				Uri uri = Uri.parse(Prefs.getUrlBase() + "/oauth/confirm_access?oauth_token=" + requestToken.getToken());
 				
 				// signpost
-//				OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
-//				OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
-//				String authUrl = oauthProvider.retrieveRequestToken(oauthConsumer, Prefs.CALLBACK_URI_STRING);
-//				String requestTokenValue = oauthConsumer.getToken();
-//				String requestTokenSecret = oauthConsumer.getTokenSecret();
-//				Prefs.saveRequestInformation(_settings, oauthConsumer.getToken(), oauthConsumer.getTokenSecret());
-//				Uri uri = Uri.parse(authUrl);
+				OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
+				OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
+				String authUrl = oauthProvider.retrieveRequestToken(oauthConsumer, Prefs.CALLBACK_URI_STRING);
+				String requestTokenValue = oauthConsumer.getToken();
+				String requestTokenSecret = oauthConsumer.getTokenSecret();
+				Uri uri = Uri.parse(authUrl);
 				
+				Log.d(TAG, requestTokenValue);
+				Log.d(TAG, requestTokenSecret);
 				Prefs.saveRequestInformation(_settings, requestTokenValue, requestTokenSecret);
+				
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 				finish();
@@ -85,23 +84,26 @@ public class OAuthActivity extends Activity {
 			String verifierValue = uri.getQueryParameter("oauth_verifier");
 
 			// scribe
-			Token requestToken = new Token(requestTokenValue, requestTokenSecret);
-			ServiceBuilder serviceBuilder = new ServiceBuilder();
-			OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
-			Verifier verifier = new Verifier(verifierValue);
-			Token accessToken = oAuthService.getAccessToken(requestToken, verifier);
-			Prefs.saveAuthInformation(_settings, accessToken.getToken(), accessToken.getSecret());
+//			Token requestToken = new Token(requestTokenValue, requestTokenSecret);
+//			ServiceBuilder serviceBuilder = new ServiceBuilder();
+//			OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
+//			Verifier verifier = new Verifier(verifierValue);
+//			Token accessToken = oAuthService.getAccessToken(requestToken, verifier);
+//			String accessTokenValue = accessToken.getToken();
+//			String accessTokenSecret = accessToken.getSecret();
 			
 			// signpost
-//			String verifier = uri.getQueryParameter("oauth_verifier");
-//			OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
-//			oauthConsumer.setTokenWithSecret(requestTokenValue, requestTokenSecret);
-//			OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
-//			oauthProvider.retrieveAccessToken(oauthConsumer, verifier);
-//			Log.d(TAG, oauthConsumer.getToken());
-//			Log.d(TAG, oauthConsumer.getTokenSecret());
-//			Prefs.saveAuthInformation(_settings, oauthConsumer.getToken(), oauthConsumer.getTokenSecret());
+			OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
+			oauthConsumer.setTokenWithSecret(requestTokenValue, requestTokenSecret);
+			OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
+			oauthProvider.retrieveAccessToken(oauthConsumer, verifierValue);
+			String accessTokenValue = oauthConsumer.getToken();
+			String accessTokenSecret = oauthConsumer.getTokenSecret();
 
+			Log.d(TAG, accessTokenValue);
+			Log.d(TAG, accessTokenSecret);
+			Prefs.saveAuthInformation(_settings, accessTokenValue, accessTokenSecret);
+			
 			// Clear the request stuff, now that we have the real thing
 			Prefs.resetRequestInformation(_settings);
 		}

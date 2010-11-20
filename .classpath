@@ -3,15 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/slf4j-android-1.6.1-RC1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-core-asl-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/spring-android-commons-logging-1.0.0.BUILD-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/spring-android-rest-template-1.0.0.BUILD-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/spring-social-core-1.0.0.BUILD-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-commonshttp4-1.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/signpost-core-1.2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/scribe-1.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/spring-android-rest-template-1.0.0.M1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
