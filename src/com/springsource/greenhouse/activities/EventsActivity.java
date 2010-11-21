@@ -7,9 +7,8 @@ import java.util.Map;
 
 import org.springframework.social.greenhouse.Event;
 
-import android.app.ListActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,10 +21,9 @@ import com.springsource.greenhouse.controllers.EventsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventsActivity extends ListActivity {
-	
-	private static final String TAG = "EventsActivity";
-	private List<Event> upcomingEvents;
+public class EventsActivity extends BaseListActivity {
+//	private static final String TAG = "EventsActivity";
+	private List<Event> mUpcomingEvents;
 	
 	
 	//***************************************
@@ -39,7 +37,7 @@ public class EventsActivity extends ListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		refreshEvents();
+		downloadEvents();
 	}
 	
 	@Override
@@ -54,7 +52,7 @@ public class EventsActivity extends ListActivity {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.events_menu_refresh:
-	    	refreshEvents();
+	    	downloadEvents();
 	    	return true;
 	    default:
 	        return super.onOptionsItemSelected(item);
@@ -69,7 +67,7 @@ public class EventsActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		Event event = upcomingEvents.get(position);
+		Event event = mUpcomingEvents.get(position);
 		SharedDataManager.setCurrentEvent(event);
 		
 		NavigationManager.startActivity(v.getContext(), EventDetailsActivity.class);
@@ -79,12 +77,10 @@ public class EventsActivity extends ListActivity {
 	//***************************************
     // Private methods
     //***************************************
-	private void refreshEvents() {
-		Log.d(TAG, "Refreshing Events");
-		
-		upcomingEvents = EventsController.getUpcomingEvents(this);
+	private void refreshEvents(List<Event> upcomingEvents) {	
+		mUpcomingEvents = upcomingEvents;
 
-		if (upcomingEvents == null) {
+		if (mUpcomingEvents == null) {
 			return;
 		}
 		
@@ -106,5 +102,43 @@ public class EventsActivity extends ListActivity {
 				new int[] { R.id.title, R.id.subtitle } );
 		
 		setListAdapter(adapter);
-	}	
+	}
+		
+	private void downloadEvents() {
+		new DownloadEventsTask().execute();
+	}
+	
+	
+	//***************************************
+    // Private classes
+    //***************************************
+	private class DownloadEventsTask extends AsyncTask<Void, Void, List<Event>> {
+		private Exception mException;
+		private EventsController mEventsController;
+		
+		@Override
+		protected void onPreExecute() {
+			showLoadingProgressDialog(); 
+			mEventsController = new EventsController(getContext());
+		}
+		
+		@Override
+		protected List<Event> doInBackground(Void... params) {
+			try {
+				return mEventsController.getUpcomingEvents();
+			} catch(Exception e) {
+				logException(e);
+				mException = e;
+			} 
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(List<Event> result) {
+			dismissProgressDialog();
+			processException(mException);
+			refreshEvents(result);
+		}
+	}
 }

@@ -56,7 +56,6 @@ public class OAuthActivity extends Activity {
 				finish();
 			} catch (Exception e) {
 				Log.e("ErrorHandler", e.getMessage(), e);
-
 				Writer result = new StringWriter();
 				e.printStackTrace(new PrintWriter(result));
 			}

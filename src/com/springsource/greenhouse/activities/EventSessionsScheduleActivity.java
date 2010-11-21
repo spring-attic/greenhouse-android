@@ -18,8 +18,7 @@ import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventSessionsScheduleActivity extends ListActivity {
-	
-	private static final String TAG = "EventSessionsScheduleActivity";
+//	private static final String TAG = "EventSessionsScheduleActivity";
 	private List<Date> conferenceDates;
 
 	//***************************************

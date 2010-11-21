@@ -1,8 +1,5 @@
 package com.springsource.greenhouse.controllers;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,131 +10,98 @@ import android.content.Context;
 import android.util.Log;
 
 public class EventSessionsController extends BaseController {
-	
 	private static final String TAG = "EventSessionsController";
+	
+	
+	//***************************************
+    // Constructors
+    //***************************************
+	public EventSessionsController(Context context) {
+		super(context);
+	}
+	
 	
 	//***************************************
     // Public methods
     //***************************************
-	public static List<EventSession> getSessionsCurrent(Context context, long eventId) {
+	public List<EventSession> getSessionsCurrent(long eventId) {
+		Log.d(TAG, "fetching current sessions. eventId=" + eventId);
 		
-		showProgressDialog(context);
-		try {
-			Date now = new Date();
-			List<EventSession> sessions = getGreenhouseOperations(context).getSessionsOnDay(eventId, now);
-			List<EventSession> currentSessions = new ArrayList<EventSession>();
-			
-			for (EventSession session : sessions) {
-				if (session.getStartTime().before(now) && session.getEndTime().after(now)) {
-					currentSessions.add(session);
-				}
+		if (eventId <= 0) {
+			return null;
+		}
+		
+		Date now = new Date();
+		List<EventSession> sessions = getGreenhouseOperations().getSessionsOnDay(eventId, now);
+		List<EventSession> currentSessions = new ArrayList<EventSession>();
+		
+		for (EventSession session : sessions) {
+			if (session.getStartTime().before(now) && session.getEndTime().after(now)) {
+				currentSessions.add(session);
 			}
-			
-			return currentSessions;
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
 		}
 		
-		return null;
+		return currentSessions;
 	}
 
-	public static List<EventSession> getSessionsUpcoming(Context context, long eventId) {
+	public List<EventSession> getSessionsUpcoming(long eventId) {
+		Log.d(TAG, "fetching upcoming sessions. eventId=" + eventId);
 		
-		showProgressDialog(context);
-		try {
-			Date now = new Date();
-			List<EventSession> sessions = getGreenhouseOperations(context).getSessionsOnDay(eventId, now);
-			List<EventSession> upcomingSessions = new ArrayList<EventSession>();
+		if (eventId <= 0) {
+			return null;
+		}
+		
+		Date now = new Date();
+		List<EventSession> sessions = getGreenhouseOperations().getSessionsOnDay(eventId, now);
+		List<EventSession> upcomingSessions = new ArrayList<EventSession>();
 
-			Date upcomingTime = null;
+		Date upcomingTime = null;
+		
+		for (EventSession session : sessions) {
+			if (upcomingTime == null && session.getStartTime().after(now)) {
+				upcomingTime = session.getStartTime();
+			} 
 			
-			for (EventSession session : sessions) {
-				if (upcomingTime == null && session.getStartTime().after(now)) {
-					upcomingTime = session.getStartTime();
-				} 
-				
-				if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) {
-					upcomingSessions.add(session);
-				}
+			if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) {
+				upcomingSessions.add(session);
 			}
-			
-			return upcomingSessions;
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
 		}
 		
-		return null;
+		return upcomingSessions;
 	}
 
-	public static List<EventSession> getSessionsByDay(Context context, long eventId, Date day) {
+	public List<EventSession> getSessionsByDay(long eventId, Date day) {
+		Log.d(TAG, "fetching sessions by day. eventId=" + eventId + " day=" + day.toLocaleString());
 		
-		showProgressDialog(context);
-		try {
-			return getGreenhouseOperations(context).getSessionsOnDay(eventId, day);
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
+		if (eventId <= 0 || day == null) {
+			return null;
 		}
 		
-		return null;
+		return getGreenhouseOperations().getSessionsOnDay(eventId, day);
 	}
 	
-	public static List<EventSession> getFavoriteSessions(Context context, long eventId) {
+	public List<EventSession> getFavoriteSessions(long eventId) {
+		Log.d(TAG, "fetching favorite sessions. eventId=" + eventId);
 		
-		showProgressDialog(context);
-		try {
-			return getGreenhouseOperations(context).getFavoriteSessions(eventId);
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
+		if (eventId <= 0) {
+			return null;
 		}
 		
-		return null;
+		return getGreenhouseOperations().getFavoriteSessions(eventId);
 	}
 
-	public static List<EventSession> getConferenceFavoriteSessions(Context context, long eventId) {
+	public List<EventSession> getConferenceFavoriteSessions(long eventId) {
+		Log.d(TAG, "fetching conference favorite sessions. eventId=" + eventId);
 		
-		showProgressDialog(context);
-		try {
-			return getGreenhouseOperations(context).getConferenceFavoriteSessions(eventId);
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
+		if (eventId <= 0) {
+			return null;
 		}
 		
-		return null;
+		return getGreenhouseOperations().getConferenceFavoriteSessions(eventId);
 	}
 	
-	public static boolean updateFavoriteSession(Context context, long eventId, long sessionId) {
-	
-		showProgressDialog(context);
-		try {
-			return getGreenhouseOperations(context).updateFavoriteSession(eventId, sessionId);
-		} catch (Exception e) {
-			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
-		} finally {
-			dismissProgressDialog();
-		}
-		
-		return false;
+	public boolean updateFavoriteSession(long eventId, long sessionId) {
+		Log.d(TAG, "updating favorite session. eventId=" + eventId + " sessionId=" + sessionId);		
+		return getGreenhouseOperations().updateFavoriteSession(eventId, sessionId);
 	}
 }

@@ -8,10 +8,10 @@ import java.net.URLConnection;
 
 import org.springframework.social.greenhouse.GreenhouseProfile;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,8 +25,7 @@ import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.controllers.ProfileController;
 import com.springsource.greenhouse.util.Prefs;
 
-public class ProfileActivity extends Activity {
-	
+public class ProfileActivity extends BaseActivity {
 	private static final String TAG = "ProfileActivity";
 	
 	
@@ -42,7 +41,7 @@ public class ProfileActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		refreshProfile();
+		downloadProfile();
 	}
 	
 	@Override
@@ -57,7 +56,7 @@ public class ProfileActivity extends Activity {
 	    // Handle item selection
 	    switch (item.getItemId()) {
 	    case R.id.profile_menu_refresh:
-	        refreshProfile();
+	        downloadProfile();
 	        return true;
 	    case R.id.profile_menu_sign_out:
 	        signOut();
@@ -70,11 +69,9 @@ public class ProfileActivity extends Activity {
 	//***************************************
     // Private methods
     //***************************************
-	private void refreshProfile() {
+	private void refreshProfile(GreenhouseProfile profile) {
 		Log.d(TAG, "Refreshing profile");
 				
-		GreenhouseProfile profile = ProfileController.getProfile(this);
-		
 		if (profile == null) {
 			return;
 		}
@@ -92,6 +89,7 @@ public class ProfileActivity extends Activity {
     	finish();
     }
 	
+	// TODO: convert this to apache http client
     private Bitmap getImageBitmap(String url) {
         Bitmap bm = null;
         try {
@@ -108,4 +106,42 @@ public class ProfileActivity extends Activity {
        }
        return bm;
     } 
+    
+    private void downloadProfile() {
+		new DownloadProfileTask().execute();
+	}
+    
+    
+  //***************************************
+    // Private classes
+    //***************************************
+	private class DownloadProfileTask extends AsyncTask<Void, Void, GreenhouseProfile> {
+		private Exception mException;
+		private ProfileController mProfileController;
+		
+		@Override
+		protected void onPreExecute() {
+			showLoadingProgressDialog(); 
+			mProfileController = new ProfileController(getContext());
+		}
+		
+		@Override
+		protected GreenhouseProfile doInBackground(Void... params) {
+			try {
+				return mProfileController.getProfile();
+			} catch(Exception e) {
+				logException(e);
+				mException = e;
+			} 
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(GreenhouseProfile result) {
+			dismissProgressDialog();
+			processException(mException);
+			refreshProfile(result);
+		}
+	}
 }
