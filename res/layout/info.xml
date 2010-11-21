@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MainTabLayout"
-    android:gravity="center">
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_gravity="fill_vertical"
+    android:background="#ffffff">
+    
+	<FrameLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:background="#6DB33F"
+		android:layout_alignParentTop="true">
+		
+		<ImageView android:id="@+id/logo"
+			android:src="@drawable/gh_header_logo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal" />
 
-	<TextView
-    	style="@style/Text"
-        android:id="@+id/info_textview_app_name"
-        android:text="@string/app_name"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp" />
+	</FrameLayout>
+	
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerVertical="true">
+	        
+		<TextView
+	    	style="@style/DarkText"
+	        android:id="@+id/info_textview_version"	        
+	        android:layout_centerHorizontal="true"
+	        android:padding="10dp" />
+	        
+	    <TextView
+	    	style="@style/DarkText"
+	        android:id="@+id/info_textview_copyright"
+	        android:text="@string/copyright"
+	      	android:layout_below="@id/info_textview_version"
+	        android:layout_centerHorizontal="true"
+	        android:padding="10dp" />
+
+	</RelativeLayout>
         
-	<TextView
-    	style="@style/Text"
-        android:id="@+id/info_textview_version"
-        android:layout_below="@id/info_textview_app_name"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp" />
-        
-    <TextView
-    	style="@style/Text"
-        android:id="@+id/info_textview_copyright"
-        android:text="@string/copyright"
-      	android:layout_below="@id/info_textview_version"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp" />
+	<FrameLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" >
+	
+		<ImageView android:id="@+id/logo"
+				android:src="@drawable/spring09_logo"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal" />
+
+	</FrameLayout>
     
 </RelativeLayout>
