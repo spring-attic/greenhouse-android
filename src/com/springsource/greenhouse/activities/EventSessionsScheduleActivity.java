@@ -63,7 +63,7 @@ public class EventSessionsScheduleActivity extends ListActivity {
 
 		while (day.before(event.getEndTime())) {
 			conferenceDates.add((Date) day.clone());
-			conferenceDays.add(new SimpleDateFormat("EEEE").format(day));
+			conferenceDays.add(new SimpleDateFormat("EEEE, MMM d").format(day));
 			day.setDate(day.getDate() + 1);
 		}
 		

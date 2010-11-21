@@ -1,5 +1,6 @@
 package com.springsource.greenhouse.activities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,18 @@ import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventSessionsByDayActivity extends EventSessionsListActivity {
 //	private static final String TAG = "EventSessionsByDayActivity";
+	
+	
+	//***************************************
+	// Activity methods
+	//***************************************
+	@Override
+	public void onStart() {
+		super.onStart();
+		Date day = SharedDataManager.getConferenceDay();
+		String title = new SimpleDateFormat("EEEE, MMM d").format(day);
+		this.setTitle(title);
+	}
 
 	
 	//***************************************
