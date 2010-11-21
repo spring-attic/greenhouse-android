@@ -33,6 +33,10 @@
 			    	
 			    <TextView 
 			    	style="@style/Text"
+			    	android:id="@+id/event_session_details_textview_favorite" />
+			    	
+			    <TextView 
+			    	style="@style/Text"
 			    	android:id="@+id/event_session_details_textview_rating" />
 			    	
 			</LinearLayout>

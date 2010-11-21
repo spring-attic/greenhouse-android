@@ -35,6 +35,11 @@ public class BaseActivity extends Activity {
 		mProgressDialog = ProgressDialog.show(this, "",  "Loading. Please wait...", true);
 	}
 	
+	protected void showProgressDialog(String message) {
+		Log.d(TAG, "showing progress dialog");
+		mProgressDialog = ProgressDialog.show(this, "",  message, true);
+	}
+	
 	protected void dismissProgressDialog() {
 		Log.d(TAG, "dismissing progress dialog");
 		if (mProgressDialog != null) {

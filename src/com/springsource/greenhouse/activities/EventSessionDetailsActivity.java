@@ -2,9 +2,10 @@ package com.springsource.greenhouse.activities;
 
 import java.text.SimpleDateFormat;
 
+import org.springframework.social.greenhouse.Event;
 import org.springframework.social.greenhouse.EventSession;
 
-import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,12 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventSessionDetailsActivity extends Activity {
-	
+public class EventSessionDetailsActivity extends BaseActivity {
 	private static final String TAG = "EventSessionDetailsActivity";
+	
 	
 	//***************************************
 	// Activity methods
@@ -45,10 +47,8 @@ public class EventSessionDetailsActivity extends Activity {
 			      		NavigationManager.startActivity(view.getContext(), EventSessionDescriptionActivity.class);
 			      		break;
 			      	case 1:
-//			    		Event event = SharedDataManager.getCurrentEvent();
-//			    		EventSession session = SharedDataManager.getCurrentSession();
-//			      		EventSessionsController.updateFavoriteSession(view.getContext(), event.getId(), session.getId());
-//			      		break;
+			      		new UpdateFavoriteTask().execute();
+			      		break;
 			      	case 2:
 //			      		NavigationManager.startActivity(view.getContext(), EventSessionsScheduleActivity.class);
 			      	default:
@@ -89,7 +89,55 @@ public class EventSessionDetailsActivity extends Activity {
 		String endTime = new SimpleDateFormat("h:mm a").format(session.getEndTime());
 		textViewSessionTime.setText(startTime + " - " + endTime);
 		
-		textViewSessionRoom.setText(session.getRoom().getLabel());
+		textViewSessionRoom.setText("Room: " + session.getRoom().getLabel());
+		setFavoriteStatus(session.isFavorite());
 //		textViewSessionRating.setText(session.getRating() + " Stars");
+	}
+	
+	private void setFavoriteStatus(Boolean status) {
+		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_textview_favorite);
+		String text = status ? "Favorite: \u2713" : "Favorite:";
+		textViewSessionFavorite.setText(text);
+	}
+	
+	
+	//***************************************
+    // Private classes
+    //***************************************
+	private class UpdateFavoriteTask extends AsyncTask<Void, Void, Boolean> {
+		private Exception mException;
+		private EventSessionsController mEventSessionsController;
+		private Event mEvent;
+		private EventSession mSession;
+		
+		@Override
+		protected void onPreExecute() {
+			showProgressDialog("Updating favorite ..."); 
+			mEvent = SharedDataManager.getCurrentEvent();
+			mSession = SharedDataManager.getCurrentSession();
+			mEventSessionsController = new EventSessionsController(getContext());
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				if (mEvent == null || mSession == null) {
+					return false;
+				}
+				return mEventSessionsController.updateFavoriteSession(mEvent.getId(), mSession.getId());
+			} catch(Exception e) {
+				logException(e);
+				mException = e;
+			} 
+			
+			return false;
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			dismissProgressDialog();
+			processException(mException);
+			setFavoriteStatus(result);
+		}
 	}
 }

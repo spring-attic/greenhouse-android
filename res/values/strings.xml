@@ -29,6 +29,7 @@
     
     <string-array name="event_session_details_options_array">
         <item>Description</item>
+        <item>Favorite</item>
     </string-array>
     
 </resources>
