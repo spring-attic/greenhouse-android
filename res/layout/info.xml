@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MainTabLayout"
+    android:gravity="center">
+
+	<TextView
+    	style="@style/Text"
+        android:id="@+id/info_textview_app_name"
+        android:text="@string/app_name"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" />
+        
+	<TextView
+    	style="@style/Text"
+        android:id="@+id/info_textview_version"
+        android:layout_below="@id/info_textview_app_name"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" />
+        
+    <TextView
+    	style="@style/Text"
+        android:id="@+id/info_textview_copyright"
+        android:text="@string/copyright"
+      	android:layout_below="@id/info_textview_version"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" />
+    
+</RelativeLayout>

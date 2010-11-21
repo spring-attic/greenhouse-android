@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Greenhouse</string>
 	<string name="login">Sign In</string>
+	<string name="copyright">\u00A9 Copyright 2010 SpringSource</string>
     <string name="title_event_details">Event Details</string>
     <string name="title_event_description">Event Description</string>
     <string name="title_event_sessions_filtered">Filtered Sessions</string>
