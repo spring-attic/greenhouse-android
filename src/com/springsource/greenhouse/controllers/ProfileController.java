@@ -6,7 +6,6 @@ import android.content.Context;
 import android.util.Log;
 
 public class ProfileController extends BaseController {
-	private static final String TAG = "ProfileController";
 
 	
 	//***************************************
@@ -21,7 +20,6 @@ public class ProfileController extends BaseController {
     // Public methods
     //***************************************
 	public GreenhouseProfile getProfile() {
-		Log.d(TAG, "fetching profile");
 		return getGreenhouseOperations().getUserProfile();
 	}
 }

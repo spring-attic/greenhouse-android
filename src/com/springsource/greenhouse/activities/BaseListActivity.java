@@ -31,12 +31,14 @@ public class BaseListActivity extends ListActivity {
 	}
 	
 	protected void showLoadingProgressDialog() {
-		Log.d(TAG, "showing loading progress dialog");
 		mProgressDialog = ProgressDialog.show(this, "",  "Loading. Please wait...", true);
 	}
 	
+	protected void showProgressDialog(String message) {
+		mProgressDialog = ProgressDialog.show(this, "",  message, true);
+	}
+	
 	protected void dismissProgressDialog() {
-		Log.d(TAG, "dismissing progress dialog");
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
 		}

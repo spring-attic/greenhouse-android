@@ -10,7 +10,6 @@ import android.content.Context;
 import android.util.Log;
 
 public class EventSessionsController extends BaseController {
-	private static final String TAG = "EventSessionsController";
 	
 	
 	//***************************************
@@ -24,9 +23,7 @@ public class EventSessionsController extends BaseController {
 	//***************************************
     // Public methods
     //***************************************
-	public List<EventSession> getSessionsCurrent(long eventId) {
-		Log.d(TAG, "fetching current sessions. eventId=" + eventId);
-		
+	public List<EventSession> getSessionsCurrent(long eventId) {	
 		if (eventId <= 0) {
 			return null;
 		}
@@ -45,8 +42,6 @@ public class EventSessionsController extends BaseController {
 	}
 
 	public List<EventSession> getSessionsUpcoming(long eventId) {
-		Log.d(TAG, "fetching upcoming sessions. eventId=" + eventId);
-		
 		if (eventId <= 0) {
 			return null;
 		}
@@ -71,8 +66,6 @@ public class EventSessionsController extends BaseController {
 	}
 
 	public List<EventSession> getSessionsByDay(long eventId, Date day) {
-		Log.d(TAG, "fetching sessions by day. eventId=" + eventId + " day=" + day.toLocaleString());
-		
 		if (eventId <= 0 || day == null) {
 			return null;
 		}
@@ -81,8 +74,6 @@ public class EventSessionsController extends BaseController {
 	}
 	
 	public List<EventSession> getFavoriteSessions(long eventId) {
-		Log.d(TAG, "fetching favorite sessions. eventId=" + eventId);
-		
 		if (eventId <= 0) {
 			return null;
 		}
@@ -91,8 +82,6 @@ public class EventSessionsController extends BaseController {
 	}
 
 	public List<EventSession> getConferenceFavoriteSessions(long eventId) {
-		Log.d(TAG, "fetching conference favorite sessions. eventId=" + eventId);
-		
 		if (eventId <= 0) {
 			return null;
 		}
@@ -101,7 +90,6 @@ public class EventSessionsController extends BaseController {
 	}
 	
 	public boolean updateFavoriteSession(long eventId, long sessionId) {
-		Log.d(TAG, "updating favorite session. eventId=" + eventId + " sessionId=" + sessionId);		
 		return getGreenhouseOperations().updateFavoriteSession(eventId, sessionId);
 	}
 }

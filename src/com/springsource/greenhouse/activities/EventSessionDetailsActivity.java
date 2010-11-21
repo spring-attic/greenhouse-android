@@ -21,7 +21,7 @@ import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
 public class EventSessionDetailsActivity extends BaseActivity {
-	private static final String TAG = "EventSessionDetailsActivity";
+//	private static final String TAG = "EventSessionDetailsActivity";
 	
 	
 	//***************************************
@@ -43,14 +43,11 @@ public class EventSessionDetailsActivity extends BaseActivity {
 		    	
 		    	switch(position) {
 			      	case 0:
-			      		Log.d(TAG, "show session description");
 			      		NavigationManager.startActivity(view.getContext(), EventSessionDescriptionActivity.class);
 			      		break;
 			      	case 1:
 			      		new UpdateFavoriteTask().execute();
 			      		break;
-			      	case 2:
-//			      		NavigationManager.startActivity(view.getContext(), EventSessionsScheduleActivity.class);
 			      	default:
 			      		break;
 		    	}

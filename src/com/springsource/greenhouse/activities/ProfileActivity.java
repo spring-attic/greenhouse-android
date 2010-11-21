@@ -70,8 +70,6 @@ public class ProfileActivity extends BaseActivity {
     // Private methods
     //***************************************
 	private void refreshProfile(GreenhouseProfile profile) {
-		Log.d(TAG, "Refreshing profile");
-				
 		if (profile == null) {
 			return;
 		}

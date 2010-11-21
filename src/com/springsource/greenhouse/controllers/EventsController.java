@@ -8,7 +8,7 @@ import android.content.Context;
 import android.util.Log;
 
 public class EventsController extends BaseController {
-	private static final String TAG = "EventsController";
+//	private static final String TAG = "EventsController";
 	
 	//***************************************
     // Constructors
@@ -21,7 +21,6 @@ public class EventsController extends BaseController {
     // Public methods
     //***************************************	
 	public List<Event> getUpcomingEvents() {
-		Log.d(TAG, "fetching upcoming events");
 		return getGreenhouseOperations().getUpcomingEvents();
 	}
 }

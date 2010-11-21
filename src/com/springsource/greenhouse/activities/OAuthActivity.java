@@ -19,7 +19,6 @@ import android.util.Log;
 import com.springsource.greenhouse.util.Prefs;
 
 public class OAuthActivity extends Activity {
-	
 	private static final String TAG = "OAuthActivity";
 	private SharedPreferences _settings;
 
@@ -47,8 +46,6 @@ public class OAuthActivity extends Activity {
 				String requestTokenSecret = oauthConsumer.getTokenSecret();
 				Uri uri = Uri.parse(authUrl);
 				
-				Log.d(TAG, requestTokenValue);
-				Log.d(TAG, requestTokenSecret);
 				Prefs.saveRequestInformation(_settings, requestTokenValue, requestTokenSecret);
 				
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -70,8 +67,6 @@ public class OAuthActivity extends Activity {
 		if (uri == null || !Prefs.getCallbackUri().getScheme().equals(uri.getScheme())) {
 			return;
 		}
-		
-		Log.d(TAG, uri.toString());
 
 		_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
 		String[] tokenAndSecret = Prefs.getRequestTokenAndSecret(_settings);
@@ -99,8 +94,6 @@ public class OAuthActivity extends Activity {
 			String accessTokenValue = oauthConsumer.getToken();
 			String accessTokenSecret = oauthConsumer.getTokenSecret();
 
-			Log.d(TAG, accessTokenValue);
-			Log.d(TAG, accessTokenSecret);
 			Prefs.saveAuthInformation(_settings, accessTokenValue, accessTokenSecret);
 			
 			// Clear the request stuff, now that we have the real thing
