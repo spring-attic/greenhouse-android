@@ -3,7 +3,6 @@ package com.springsource.greenhouse.controllers;
 import org.springframework.social.greenhouse.GreenhouseProfile;
 
 import android.content.Context;
-import android.util.Log;
 
 public class ProfileController extends BaseController {
 

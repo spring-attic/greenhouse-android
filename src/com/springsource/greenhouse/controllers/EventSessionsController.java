@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.social.greenhouse.EventSession;
 
 import android.content.Context;
-import android.util.Log;
 
 public class EventSessionsController extends BaseController {
 	

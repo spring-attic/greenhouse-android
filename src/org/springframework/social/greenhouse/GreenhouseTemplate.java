@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.client.CommonsClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.social.oauth.OAuthSigningClientHttpRequestFactory;
 import org.springframework.social.oauth1.OAuth1RequestSignerFactory;
 import org.springframework.util.LinkedMultiValueMap;
@@ -104,7 +104,7 @@ public class GreenhouseTemplate implements GreenhouseOperations {
 	 */
 	public GreenhouseTemplate(String apiKey, String apiSecret, String accessToken, String accessTokenSecret, String baseUrl) {
 		RestTemplate restTemplate = new RestTemplate(new OAuthSigningClientHttpRequestFactory(
-				new CommonsClientHttpRequestFactory(),
+				new HttpComponentsClientHttpRequestFactory(),
 				OAuth1RequestSignerFactory.getRequestSigner(apiKey, apiSecret, accessToken, accessTokenSecret)));
 		this.restOperations = restTemplate;
 		jsonAcceptingHeaders = new LinkedMultiValueMap<String, String>();

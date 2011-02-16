@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.social.greenhouse.Event;
 
 import android.content.Context;
-import android.util.Log;
 
 public class EventsController extends BaseController {
 //	private static final String TAG = "EventsController";
