@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.EventSession;
 
 import android.os.Bundle;
 import android.view.View;
@@ -16,7 +16,7 @@ import com.springsource.greenhouse.R;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventSessionsListActivity extends BaseListActivity {
+public class EventSessionsListActivity extends AbstractGreenhouseListActivity {
 	private List<EventSession> mSessions;
 	
 	

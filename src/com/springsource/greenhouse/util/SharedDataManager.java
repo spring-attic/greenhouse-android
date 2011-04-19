@@ -3,8 +3,8 @@ package com.springsource.greenhouse.util;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.social.greenhouse.Event;
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.Event;
+import org.springframework.social.greenhouse.types.EventSession;
 
 public class SharedDataManager {
 	

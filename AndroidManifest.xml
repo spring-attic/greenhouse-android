@@ -10,7 +10,7 @@
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
 		<activity 
-			android:name="com.springsource.greenhouse.activities.FrontDoorActivity"
+			android:name="com.springsource.greenhouse.activities.MainActivity"
 			android:theme="@android:style/Theme.NoTitleBar">
 			
 			<intent-filter>
@@ -23,11 +23,6 @@
 		<activity 
 			android:name="com.springsource.greenhouse.activities.SignInActivity"  
 			android:theme="@android:style/Theme.NoTitleBar">
-		<!-- 	<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter> -->
 		</activity>
 
 		<activity 

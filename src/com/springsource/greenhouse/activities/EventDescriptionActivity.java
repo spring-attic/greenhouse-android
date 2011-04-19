@@ -1,6 +1,6 @@
 package com.springsource.greenhouse.activities;
 
-import org.springframework.social.greenhouse.Event;
+import org.springframework.social.greenhouse.types.Event;
 
 import android.app.Activity;
 import android.os.Bundle;

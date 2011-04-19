@@ -2,11 +2,12 @@ package com.springsource.greenhouse.activities;
 
 import java.text.SimpleDateFormat;
 
-import org.springframework.social.greenhouse.Event;
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.Event;
+import org.springframework.social.greenhouse.types.EventSession;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,7 +20,7 @@ import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventSessionDetailsActivity extends BaseActivity {
+public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 //	private static final String TAG = "EventSessionDetailsActivity";
 	
 	
@@ -111,7 +112,7 @@ public class EventSessionDetailsActivity extends BaseActivity {
 			showProgressDialog("Updating favorite ..."); 
 			mEvent = SharedDataManager.getCurrentEvent();
 			mSession = SharedDataManager.getCurrentSession();
-			mEventSessionsController = new EventSessionsController(getContext());
+			mEventSessionsController = new EventSessionsController(getApplicationContext());
 		}
 		
 		@Override
@@ -122,7 +123,7 @@ public class EventSessionDetailsActivity extends BaseActivity {
 				}
 				return mEventSessionsController.updateFavoriteSession(mEvent.getId(), mSession.getId());
 			} catch(Exception e) {
-				logException(e);
+				Log.e(TAG, e.getLocalizedMessage(), e);
 				mException = e;
 			} 
 			

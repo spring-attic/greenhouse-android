@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.social.greenhouse.Event;
+import org.springframework.social.greenhouse.types.Event;
 
 import android.app.ListActivity;
 import android.os.Bundle;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,39 +18,48 @@ package org.springframework.social.greenhouse;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.social.greenhouse.types.Event;
+import org.springframework.social.greenhouse.types.EventSession;
+import org.springframework.social.greenhouse.types.GreenhouseProfile;
+
 /**
  * <p>
- * Interface specifying a basic set of operations for interacting with
- * Greenhouse. Implemented by {@link GreenhouseTemplate}. Not often used
- * directly, but a useful option to enhance testability, as it can easily be
- * mocked or stubbed.
+ * Interface specifying a basic set of operations for interacting with Greenhouse.
+ * Implemented by {@link GreenhouseTemplate}. Not often used directly, but a
+ * useful option to enhance testability, as it can easily be mocked or stubbed.
  * </p>
  * 
  * <p>
- * The methods contained in this interface require OAuth authentication with
- * Greenhouse. When a method's description speaks of the "current user", it is
- * referring to the user for whom access has been granted.
+ * Many of the methods contained in this interface require OAuth authentication
+ * with Greenhouse. When a method's description speaks of the "current user", it
+ * is referring to the user for whom the access token has been issued.
  * </p>
  * 
- * @author Craig Walls
- * 
+ * @author Roy Clarkson
  */
-public interface GreenhouseOperations {
-
+public interface GreenhouseApi {
+	
 	/**
-	 * Retrieve the current user's Greenhouse profile information.
+	 * Retrieves the user's Greenhouse profile ID.
 	 * 
-	 * @return the user's profile information.
+	 * @return the user's Greenhouse profile ID.
+	 */
+	String getProfileId();
+	
+	/**
+	 * Retrieves the current user's profile details.
+	 * 
+	 * @return the user's profile data.
 	 */
 	GreenhouseProfile getUserProfile();
-
+	
 	/**
-	 * Retrieve a list of upcoming events.
-	 * 
-	 * @return A list of events that take place after the current time.
+	 * Retrieves a list of events occurring in the future.
+	 *
+	 * @return the upcoming events.
 	 */
 	List<Event> getUpcomingEvents();
-
+	
 	/**
 	 * Retrieve a list of events that take place after a given time.
 	 * 

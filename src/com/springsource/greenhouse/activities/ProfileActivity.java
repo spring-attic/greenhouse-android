@@ -6,9 +6,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.springframework.social.greenhouse.GreenhouseProfile;
+import org.springframework.social.greenhouse.types.GreenhouseProfile;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -23,10 +22,10 @@ import android.widget.TextView;
 import com.springsource.greenhouse.R;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.controllers.ProfileController;
-import com.springsource.greenhouse.util.Prefs;
 
-public class ProfileActivity extends BaseActivity {
-	private static final String TAG = "ProfileActivity";
+public class ProfileActivity extends AbstractGreenhouseActivity {
+	
+	protected static final String TAG = ProfileActivity.class.getSimpleName();
 	
 	
 	//***************************************
@@ -77,13 +76,13 @@ public class ProfileActivity extends BaseActivity {
 		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);
 		final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
 		
-		textViewMemberName.setText(profile.getDisplayName());		
-		imageViewPicture.setImageBitmap(getImageBitmap(profile.getPictureUrl()));
+		textViewMemberName.setText(profile.getScreenName());		
+		imageViewPicture.setImageBitmap(getImageBitmap(profile.getProfileImageUrl()));
 	}
 	
 	private void signOut() {
-    	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
-    	NavigationManager.startActivity(this, FrontDoorActivity.class);
+//    	Prefs.disconnect(getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE));
+    	NavigationManager.startActivity(this, MainActivity.class);
     	finish();
     }
 	
@@ -115,20 +114,18 @@ public class ProfileActivity extends BaseActivity {
     //***************************************
 	private class DownloadProfileTask extends AsyncTask<Void, Void, GreenhouseProfile> {
 		private Exception mException;
-		private ProfileController mProfileController;
 		
 		@Override
 		protected void onPreExecute() {
-			showLoadingProgressDialog(); 
-			mProfileController = new ProfileController(getContext());
+			showProgressDialog(); 
 		}
 		
 		@Override
 		protected GreenhouseProfile doInBackground(Void... params) {
 			try {
-				return mProfileController.getProfile();
+				return new ProfileController(getApplicationContext()).getProfile();
 			} catch(Exception e) {
-				logException(e);
+				Log.e(TAG, e.getLocalizedMessage(), e);
 				mException = e;
 			} 
 			

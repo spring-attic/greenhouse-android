@@ -1,112 +1,137 @@
 package com.springsource.greenhouse.activities;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import oauth.signpost.OAuthConsumer;
-import oauth.signpost.OAuthProvider;
-import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
-import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.springsource.greenhouse.util.Prefs;
+import com.springsource.greenhouse.controllers.GreenhouseConnectManager;
 
-public class OAuthActivity extends Activity {
-	private static final String TAG = "OAuthActivity";
-	private SharedPreferences _settings;
-
+public class OAuthActivity extends Activity 
+{	
+	private static final String TAG = OAuthActivity.class.getSimpleName();
+	
+	private GreenhouseConnectManager _greenhouseConnectManager;
+	
+	
+	//***************************************
+    // Activity methods
+    //***************************************
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
-
-		if (getIntent().getData() == null) {
-			try {
-				_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-				
-				// scribe
-//				ServiceBuilder serviceBuilder = new ServiceBuilder();
-//				OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
-//				Token requestToken = oAuthService.getRequestToken();
-//				String requestTokenValue = requestToken.getToken();
-//				String requestTokenSecret = requestToken.getSecret();
-//				Uri uri = Uri.parse(Prefs.getUrlBase() + "/oauth/confirm_access?oauth_token=" + requestToken.getToken());
-				
-				// signpost
-				OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
-				OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
-				String authUrl = oauthProvider.retrieveRequestToken(oauthConsumer, Prefs.CALLBACK_URI_STRING);
-				String requestTokenValue = oauthConsumer.getToken();
-				String requestTokenSecret = oauthConsumer.getTokenSecret();
-				Uri uri = Uri.parse(authUrl);
-				
-				Prefs.saveRequestInformation(_settings, requestTokenValue, requestTokenSecret);
-				
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);
-				finish();
-			} catch (Exception e) {
-				Log.e("ErrorHandler", e.getMessage(), e);
-				Writer result = new StringWriter();
-				e.printStackTrace(new PrintWriter(result));
-			}
+		
+		_greenhouseConnectManager = new GreenhouseConnectManager(getApplicationContext());
+	}
+	
+	@Override
+	protected void onStart()
+	{
+		if (!_greenhouseConnectManager.isConnected())
+		{			
+			new PreConnectTask(this).execute();
 		}
 	}
 	
 	@Override
-	protected void onResume() {
+	protected void onResume() 
+	{
 		super.onResume();
 		
 		Uri uri = getIntent().getData();
-		if (uri == null || !Prefs.getCallbackUri().getScheme().equals(uri.getScheme())) {
+		if (!_greenhouseConnectManager.isCallbackUrl(uri)) 
+		{
 			return;
 		}
 
-		_settings = getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-		String[] tokenAndSecret = Prefs.getRequestTokenAndSecret(_settings);
-		String requestTokenValue = tokenAndSecret[0];
-		String requestTokenSecret = tokenAndSecret[1];
 		Intent intent = new Intent(this, MainTabWidget.class);
 
-		try {
-			String verifierValue = uri.getQueryParameter("oauth_verifier");
-
-			// scribe
-//			Token requestToken = new Token(requestTokenValue, requestTokenSecret);
-//			ServiceBuilder serviceBuilder = new ServiceBuilder();
-//			OAuthService oAuthService = serviceBuilder.apiKey(Prefs.getConsumerKey()).apiSecret(Prefs.getConsumerSecret()).provider(GreenhouseApi.class).callback(Prefs.CALLBACK_URI_STRING).build();
-//			Verifier verifier = new Verifier(verifierValue);
-//			Token accessToken = oAuthService.getAccessToken(requestToken, verifier);
-//			String accessTokenValue = accessToken.getToken();
-//			String accessTokenSecret = accessToken.getSecret();
-			
-			// signpost
-			OAuthConsumer oauthConsumer = new CommonsHttpOAuthConsumer(Prefs.getConsumerKey(), Prefs.getConsumerSecret());
-			oauthConsumer.setTokenWithSecret(requestTokenValue, requestTokenSecret);
-			OAuthProvider oauthProvider = new CommonsHttpOAuthProvider(Prefs.getRequestTokenUrl(), Prefs.getAccessTokenUrl(), Prefs.getAuthorizeUrl());
-			oauthProvider.retrieveAccessToken(oauthConsumer, verifierValue);
-			String accessTokenValue = oauthConsumer.getToken();
-			String accessTokenSecret = oauthConsumer.getTokenSecret();
-
-			Prefs.saveAuthInformation(_settings, accessTokenValue, accessTokenSecret);
-			
-			// Clear the request stuff, now that we have the real thing
-			Prefs.resetRequestInformation(_settings);
+		try 
+		{
+			String oauthVerifier = uri.getQueryParameter("oauth_verifier");
+			_greenhouseConnectManager.updateGreenhouseAccessToken(oauthVerifier);
 		}
-		catch (Exception e) {
+		catch (Exception e) 
+		{
 			Log.e(TAG, e.getMessage(), e);
-			Writer result = new StringWriter();
-			e.printStackTrace(new PrintWriter(result));
 		}
-		finally {
+		finally 
+		{
 			startActivity(intent);
 			finish();
+		}
+	}
+	
+	
+	//***************************************
+    // Private methods
+    //***************************************
+	private void displayAuthorization(String authUrl)
+	{
+		Intent intent = new Intent();
+		intent.setClass(this, WebOAuthActivity.class);
+		intent.putExtra("authUrl", authUrl);
+		startActivity(intent);
+		finish();
+	}
+	
+	
+	//***************************************
+    // Private classes
+    //***************************************
+	private class PreConnectTask extends ProgressAsyncTask<Void, Void, String> 
+	{		
+		public PreConnectTask(Context context)
+		{
+			super(context);
+		}
+		
+		@Override
+		protected String doInBackground(Void... params) 
+		{			
+			return _greenhouseConnectManager.getGreenhouseAuthorizeUrl();
+		}
+		
+		@Override
+		protected void onPostExecute(String authUrl)
+		{
+			super.onPostExecute(authUrl);
+			
+			displayAuthorization(authUrl);
+		}
+	}
+	
+	private class PostConnectTask extends ProgressAsyncTask<String, Void, Void> 
+	{
+		public PostConnectTask(Context context) 
+		{
+			super(context);
+		}
+
+		@Override
+		protected Void doInBackground(String... params) 
+		{
+			if (params.length <= 0)
+			{
+				return null;
+			}
+			
+			final String verifier = params[0];
+			
+			_greenhouseConnectManager.updateGreenhouseAccessToken(verifier);
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void v)
+		{
+			super.onPostExecute(v);
+			
+//			showTwitterOptions();
 		}
 	}
 }

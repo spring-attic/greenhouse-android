@@ -1,0 +1,8 @@
+<resources>
+    <string name="local_user_id">1</string>
+    <string name="greenhouse_provider_id">greenhouse</string>
+    <string name="greenhouse_oauth_callback_url">x-com-springsource-greenhouse://oauth-response</string>
+	<string name="greenhouse_base_url">http://10.0.2.2:8080/greenhouse</string>
+    <string name="greenhouse_consumer_key">a08318eb478a1ee31f69a55276f3af64</string>
+    <string name="greenhouse_consumer_key_secret">80e7f8f7ba724aae9103f297e5fb9bdf</string>
+</resources>

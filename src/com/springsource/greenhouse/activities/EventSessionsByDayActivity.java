@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.social.greenhouse.Event;
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.Event;
+import org.springframework.social.greenhouse.types.EventSession;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.util.SharedDataManager;
@@ -48,8 +49,8 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity {
 				
 		@Override
 		protected void onPreExecute() {
-			showLoadingProgressDialog();
-			mEventSessionsController = new EventSessionsController(getContext());
+			showProgressDialog();
+			mEventSessionsController = new EventSessionsController(getApplicationContext());
 			mEvent = SharedDataManager.getCurrentEvent();
 			mDay = SharedDataManager.getConferenceDay();
 		}
@@ -62,7 +63,7 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity {
 				}
 				return mEventSessionsController.getSessionsByDay(mEvent.getId(), mDay);
 			} catch(Exception e) {
-				logException(e);
+				Log.e(TAG, e.getLocalizedMessage(), e);
 				mException = e;
 			} 
 			

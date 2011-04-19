@@ -1,29 +1,33 @@
 package com.springsource.greenhouse.controllers;
 
-import org.springframework.social.greenhouse.GreenhouseOperations;
+import org.springframework.social.greenhouse.GreenhouseApi;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.springsource.greenhouse.util.Prefs;
-
-public class BaseController {
-//	private static final String TAG = "BaseController";
-	private SharedPreferences mGreenhousePreferences;
+public class BaseController 
+{	
+	protected static final String TAG = BaseController.class.getSimpleName();
+	
+	private static GreenhouseConnectManager _sharedGreenhouseConnectManager;
+	
+	private Context _context;
 	
 	
 	//***************************************
     // Constructors
     //***************************************
-	protected BaseController(Context context) {
-		mGreenhousePreferences = context.getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
+	protected BaseController(Context context) 
+	{
+		_context = context;
 	}
+	
 	
 	//***************************************
     // Protected methods
     //***************************************
-	protected GreenhouseOperations getGreenhouseOperations() { 
-		return Prefs.getGreenhouseOperations(mGreenhousePreferences);
+	protected GreenhouseApi getGreenhouseApi() 
+	{ 
+		return getGreenhouseConnectManager().getGreenhouseApi();
 	}
 
 //	protected static void signOut(Activity activity) {
@@ -31,11 +35,18 @@ public class BaseController {
 //    	NavigationManager.startActivity(activity, FrontDoorActivity.class);
 //    	activity.finish();
 //	}
-			
+	
+	
 	//***************************************
     // Private methods
     //***************************************
-//	private static SharedPreferences getSharedPreferences(Context context) {
-//		return context.getSharedPreferences(Prefs.PREFS, Context.MODE_PRIVATE);
-//	}	
+	private GreenhouseConnectManager getGreenhouseConnectManager() 
+	{
+		if (_sharedGreenhouseConnectManager == null) 
+		{
+			_sharedGreenhouseConnectManager = new GreenhouseConnectManager(_context);
+		}
+		
+		return _sharedGreenhouseConnectManager;
+	}
 }

@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.social.greenhouse.Event;
+import org.springframework.social.greenhouse.types.Event;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,14 +22,17 @@ import com.springsource.greenhouse.controllers.EventsController;
 import com.springsource.greenhouse.controllers.NavigationManager;
 import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventsActivity extends BaseListActivity {
-//	private static final String TAG = "EventsActivity";
-	private List<Event> mUpcomingEvents;
+public class EventsActivity extends AbstractGreenhouseListActivity {
+	
+	protected static final String TAG = EventsActivity.class.getSimpleName();
+	
+	private List<Event> upcomingEvents;
 	
 	
 	//***************************************
     // Activity methods
     //***************************************
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,11 +67,12 @@ public class EventsActivity extends BaseListActivity {
 	//***************************************
     // ListActivity methods
     //***************************************
+	
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		Event event = mUpcomingEvents.get(position);
+		Event event = upcomingEvents.get(position);
 		SharedDataManager.setCurrentEvent(event);
 		
 		NavigationManager.startActivity(v.getContext(), EventDetailsActivity.class);
@@ -77,10 +82,11 @@ public class EventsActivity extends BaseListActivity {
 	//***************************************
     // Private methods
     //***************************************
+	
 	private void refreshEvents(List<Event> upcomingEvents) {	
-		mUpcomingEvents = upcomingEvents;
+		this.upcomingEvents = upcomingEvents;
 
-		if (mUpcomingEvents == null) {
+		if (upcomingEvents == null) {
 			return;
 		}
 		
@@ -112,23 +118,23 @@ public class EventsActivity extends BaseListActivity {
 	//***************************************
     // Private classes
     //***************************************
+	
 	private class DownloadEventsTask extends AsyncTask<Void, Void, List<Event>> {
-		private Exception mException;
-		private EventsController mEventsController;
+		private Exception _exception;
 		
 		@Override
 		protected void onPreExecute() {
-			showLoadingProgressDialog(); 
-			mEventsController = new EventsController(getContext());
+			showProgressDialog(); 
 		}
 		
 		@Override
 		protected List<Event> doInBackground(Void... params) {
 			try {
-				return mEventsController.getUpcomingEvents();
+//				return ConnectManager.getGreenhouseApi(getContext()).getUpcomingEvents();
+				return new EventsController(getApplicationContext()).getUpcomingEvents();
 			} catch(Exception e) {
-				logException(e);
-				mException = e;
+				Log.e(TAG, e.getLocalizedMessage(), e);
+				_exception = e;
 			} 
 			
 			return null;
@@ -137,7 +143,7 @@ public class EventsActivity extends BaseListActivity {
 		@Override
 		protected void onPostExecute(List<Event> result) {
 			dismissProgressDialog();
-			processException(mException);
+			processException(_exception);
 			refreshEvents(result);
 		}
 	}

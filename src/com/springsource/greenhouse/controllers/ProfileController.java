@@ -1,6 +1,6 @@
 package com.springsource.greenhouse.controllers;
 
-import org.springframework.social.greenhouse.GreenhouseProfile;
+import org.springframework.social.greenhouse.types.GreenhouseProfile;
 
 import android.content.Context;
 
@@ -19,6 +19,6 @@ public class ProfileController extends BaseController {
     // Public methods
     //***************************************
 	public GreenhouseProfile getProfile() {
-		return getGreenhouseOperations().getUserProfile();
+		return getGreenhouseApi().getUserProfile();
 	}
 }

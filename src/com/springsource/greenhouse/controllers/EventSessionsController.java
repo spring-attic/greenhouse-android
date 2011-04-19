@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.EventSession;
 
 import android.content.Context;
 
@@ -28,7 +28,7 @@ public class EventSessionsController extends BaseController {
 		}
 		
 		Date now = new Date();
-		List<EventSession> sessions = getGreenhouseOperations().getSessionsOnDay(eventId, now);
+		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
 		List<EventSession> currentSessions = new ArrayList<EventSession>();
 		
 		for (EventSession session : sessions) {
@@ -46,7 +46,7 @@ public class EventSessionsController extends BaseController {
 		}
 		
 		Date now = new Date();
-		List<EventSession> sessions = getGreenhouseOperations().getSessionsOnDay(eventId, now);
+		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
 		List<EventSession> upcomingSessions = new ArrayList<EventSession>();
 
 		Date upcomingTime = null;
@@ -69,7 +69,7 @@ public class EventSessionsController extends BaseController {
 			return null;
 		}
 		
-		return getGreenhouseOperations().getSessionsOnDay(eventId, day);
+		return getGreenhouseApi().getSessionsOnDay(eventId, day);
 	}
 	
 	public List<EventSession> getFavoriteSessions(long eventId) {
@@ -77,7 +77,7 @@ public class EventSessionsController extends BaseController {
 			return null;
 		}
 		
-		return getGreenhouseOperations().getFavoriteSessions(eventId);
+		return getGreenhouseApi().getFavoriteSessions(eventId);
 	}
 
 	public List<EventSession> getConferenceFavoriteSessions(long eventId) {
@@ -85,10 +85,10 @@ public class EventSessionsController extends BaseController {
 			return null;
 		}
 		
-		return getGreenhouseOperations().getConferenceFavoriteSessions(eventId);
+		return getGreenhouseApi().getConferenceFavoriteSessions(eventId);
 	}
 	
 	public boolean updateFavoriteSession(long eventId, long sessionId) {
-		return getGreenhouseOperations().updateFavoriteSession(eventId, sessionId);
+		return getGreenhouseApi().updateFavoriteSession(eventId, sessionId);
 	}
 }

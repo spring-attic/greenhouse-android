@@ -2,10 +2,11 @@ package com.springsource.greenhouse.activities;
 
 import java.util.List;
 
-import org.springframework.social.greenhouse.Event;
-import org.springframework.social.greenhouse.EventSession;
+import org.springframework.social.greenhouse.types.Event;
+import org.springframework.social.greenhouse.types.EventSession;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.springsource.greenhouse.controllers.EventSessionsController;
 import com.springsource.greenhouse.util.SharedDataManager;
@@ -32,8 +33,8 @@ public class EventSessionsMyFavoritesActivity extends EventSessionsListActivity 
 				
 		@Override
 		protected void onPreExecute() {
-			showLoadingProgressDialog();
-			mEventSessionsController = new EventSessionsController(getContext());
+			showProgressDialog();
+			mEventSessionsController = new EventSessionsController(getApplicationContext());
 			mEvent = SharedDataManager.getCurrentEvent();
 		}
 		
@@ -45,7 +46,7 @@ public class EventSessionsMyFavoritesActivity extends EventSessionsListActivity 
 				}
 				return mEventSessionsController.getFavoriteSessions(mEvent.getId());
 			} catch(Exception e) {
-				logException(e);
+				Log.e(TAG, e.getLocalizedMessage(), e);
 				mException = e;
 			} 
 			
