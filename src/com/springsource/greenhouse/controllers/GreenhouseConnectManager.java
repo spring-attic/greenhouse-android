@@ -1,25 +1,5 @@
 package com.springsource.greenhouse.controllers;
 
-import java.util.List;
-
-import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.social.connect.DuplicateServiceProviderConnectionException;
-import org.springframework.social.connect.ServiceProviderConnection;
-import org.springframework.social.connect.sqlite.SqliteServiceProviderConnectionRepository;
-import org.springframework.social.connect.sqlite.support.SqliteServiceProviderConnectionRepositoryHelper;
-import org.springframework.social.connect.support.MapServiceProviderConnectionFactoryRegistry;
-import org.springframework.social.greenhouse.GreenhouseApi;
-import org.springframework.social.greenhouse.connect.GreenhouseServiceProviderConnectionFactory;
-import org.springframework.social.oauth1.AuthorizedRequestToken;
-import org.springframework.social.oauth1.OAuth1Operations;
-import org.springframework.social.oauth1.OAuthToken;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.util.Log;
-
-import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
@@ -31,149 +11,149 @@ public class GreenhouseConnectManager
 	private static final String REQUEST_TOKEN_KEY = "request_token";
 	private static final String REQUEST_TOKEN_SECRET_KEY = "request_token_secret";
 	
-	private Context _context;
-	private MapServiceProviderConnectionFactoryRegistry _connectionFactoryRegistry;
-	private GreenhouseServiceProviderConnectionFactory _connectionFactory;
+//	private Context _context;
+//	private MapServiceProviderConnectionFactoryRegistry _connectionFactoryRegistry;
+//	private GreenhouseServiceProviderConnectionFactory _connectionFactory;
 //	private SQLiteOpenHelper _repositoryHelper;
-	private SqliteServiceProviderConnectionRepository _connectionRepository;
+//	private SqliteServiceProviderConnectionRepository _connectionRepository;
 		
 		
 	//***************************************
     // Constructors
     //***************************************
-	public GreenhouseConnectManager(Context context)
-	{
-		_context = context;
-		_connectionFactoryRegistry = new MapServiceProviderConnectionFactoryRegistry();
-		_connectionFactory = new GreenhouseServiceProviderConnectionFactory(getConsumerKey(), getConsumerKeySecret());
-		_connectionFactoryRegistry.addConnectionFactory(_connectionFactory);
+//	public GreenhouseConnectManager(Context context)
+//	{
+//		_context = context;
+//		_connectionFactoryRegistry = new MapServiceProviderConnectionFactoryRegistry();
+//		_connectionFactory = new GreenhouseServiceProviderConnectionFactory(getConsumerKey(), getConsumerKeySecret());
+//		_connectionFactoryRegistry.addConnectionFactory(_connectionFactory);
 //		_repositoryHelper = new SqliteServiceProviderConnectionRepositoryHelper(_context);
-		_connectionRepository = new SqliteServiceProviderConnectionRepository(getLocalUserId(), 
-				new SqliteServiceProviderConnectionRepositoryHelper(_context), _connectionFactoryRegistry, Encryptors.noOpText());
-	}
+//		_connectionRepository = new SqliteServiceProviderConnectionRepository(getLocalUserId(), 
+//				new SqliteServiceProviderConnectionRepositoryHelper(_context), _connectionFactoryRegistry, Encryptors.noOpText());
+//	}
 	
 	
 	//***************************************
     // Accessor methods
     //***************************************
-	private Context getContext() 
-	{
-		return _context;
-	}
-	
-	private String getLocalUserId() 
-	{
-		return getContext().getString(R.string.local_user_id);
-	}
-	
-	private String getProviderId() 
-	{
-		return getContext().getString(R.string.greenhouse_provider_id);
-	}
-	
+//	private Context getContext() 
+//	{
+//		return _context;
+//	}
+//	
+//	private String getLocalUserId() 
+//	{
+//		return getContext().getString(R.string.local_user_id);
+//	}
+//	
+//	private String getProviderId() 
+//	{
+//		return getContext().getString(R.string.greenhouse_provider_id);
+//	}
+//	
 //	private String getBasUrl() 
 //	{
 //		return getContext().getString(R.string.greenhouse_base_url);
 //	}
-
-	private String getConsumerKey() 
-	{
-		return getContext().getString(R.string.greenhouse_consumer_key);
-	}
-
-	private String getConsumerKeySecret() 
-	{
-		return getContext().getString(R.string.greenhouse_consumer_key_secret);
-	}
-
-	private String getOAuthCallbackUrl() 
-	{
-		return getContext().getString(R.string.greenhouse_oauth_callback_url);
-	}
+//
+//	private String getConsumerKey() 
+//	{
+//		return getContext().getString(R.string.greenhouse_consumer_key);
+//	}
+//
+//	private String getConsumerKeySecret() 
+//	{
+//		return getContext().getString(R.string.greenhouse_consumer_key_secret);
+//	}
+//
+//	private String getOAuthCallbackUrl() 
+//	{
+//		return getContext().getString(R.string.greenhouse_oauth_callback_url);
+//	}
 
 	
 	//***************************************
     // Public methods
     //***************************************
-	@SuppressWarnings("unchecked")
-	public GreenhouseApi getGreenhouseApi() 
-	{
-		List<ServiceProviderConnection<?>> connections = _connectionRepository.findConnectionsToProvider(getProviderId());
-		ServiceProviderConnection<GreenhouseApi> twitter = (ServiceProviderConnection<GreenhouseApi>) connections.get(0);
-		return twitter.getServiceApi();
-	}
-	
-	public boolean isConnected() 
-	{
-		return !_connectionRepository.findConnectionsToProvider(getProviderId()).isEmpty();
-	}
-	
-	public boolean isCallbackUrl(Uri uri) 
-	{
-		return (uri != null && Uri.parse(getOAuthCallbackUrl()).getScheme().equals(uri.getScheme()));
-	}
-	
-	public String getGreenhouseAuthorizeUrl() 
-	{ 
-		OAuth1Operations oauth = _connectionFactory.getOAuthOperations();
-		
-		// Fetch a one time use Request Token from Twitter
-		OAuthToken requestToken = oauth.fetchRequestToken(getOAuthCallbackUrl(), null);
-		
-		// save the Request Token to be used later
-		SharedPreferences preferences = _context.getSharedPreferences(GREENHOUSE_PREFERENCES, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(REQUEST_TOKEN_KEY, requestToken.getValue());
-		editor.putString(REQUEST_TOKEN_SECRET_KEY, requestToken.getSecret());
-		editor.commit();
-		
-		// Generate the Twitter authorization url to be used in the browser or web view
-		return oauth.buildAuthorizeUrl(requestToken.getValue(), getOAuthCallbackUrl());
-	}
-	
-	public void updateGreenhouseAccessToken(String verifier) 
-	{
-		// Retrieve the Request Token that we saved earlier
-		SharedPreferences preferences = _context.getSharedPreferences(GREENHOUSE_PREFERENCES, Context.MODE_PRIVATE);		
-		String token = preferences.getString(REQUEST_TOKEN_KEY, null);
-		String secret = preferences.getString(REQUEST_TOKEN_SECRET_KEY, null);
-		OAuthToken requestToken = new OAuthToken(token, secret);
-		
-		if (token == null || secret == null) 
-		{
-			return;
-		}
-
-		// Authorize the Request Token
-		AuthorizedRequestToken authorizedRequestToken = new AuthorizedRequestToken(requestToken, verifier);
-		
-		// Exchange the Authorized Request Token for the Access Token
-		OAuthToken accessToken = _connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
-		
-		// The Request Token is no longer needed, so it can be removed
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.remove(REQUEST_TOKEN_KEY);
-		editor.remove(REQUEST_TOKEN_SECRET_KEY);
-		editor.commit();
-		
-		// Persist the connection and Access Token to the local SQLite 
-		ServiceProviderConnection<GreenhouseApi> connection = _connectionFactory.createConnection(accessToken);
-		
-		try 
-		{
-			_connectionRepository.addConnection(connection);
-		} 
-		catch (DuplicateServiceProviderConnectionException e)
-		{
-			Log.i(TAG, "Connection already exists in repository!");
-		}
-		
-	}
-	
-	public void disconnect()
-	{
-		_connectionRepository.removeConnectionsToProvider(getProviderId());
-	}
+//	@SuppressWarnings("unchecked")
+//	public GreenhouseApi getGreenhouseApi() 
+//	{
+//		List<ServiceProviderConnection<?>> connections = _connectionRepository.findConnectionsToProvider(getProviderId());
+//		ServiceProviderConnection<GreenhouseApi> greenhouse = (ServiceProviderConnection<GreenhouseApi>) connections.get(0);
+//		return greenhouse.getServiceApi();
+//	}
+//	
+//	public boolean isConnected() 
+//	{
+//		return !_connectionRepository.findConnectionsToProvider(getProviderId()).isEmpty();
+//	}
+//	
+//	public boolean isCallbackUrl(Uri uri) 
+//	{
+//		return (uri != null && Uri.parse(getOAuthCallbackUrl()).getScheme().equals(uri.getScheme()));
+//	}
+//	
+//	public String getGreenhouseAuthorizeUrl() 
+//	{ 
+//		OAuth1Operations oauth = _connectionFactory.getOAuthOperations();
+//		
+//		// Fetch a one time use Request Token from Greenhouse
+//		OAuthToken requestToken = oauth.fetchRequestToken(getOAuthCallbackUrl(), null);
+//		
+//		// save the Request Token to be used later
+//		SharedPreferences preferences = _context.getSharedPreferences(GREENHOUSE_PREFERENCES, Context.MODE_PRIVATE);
+//		SharedPreferences.Editor editor = preferences.edit();
+//		editor.putString(REQUEST_TOKEN_KEY, requestToken.getValue());
+//		editor.putString(REQUEST_TOKEN_SECRET_KEY, requestToken.getSecret());
+//		editor.commit();
+//		
+//		// Generate the Greenhouse authorization url to be used in the browser or web view
+//		return oauth.buildAuthorizeUrl(requestToken.getValue(), getOAuthCallbackUrl());
+//	}
+//	
+//	public void updateGreenhouseAccessToken(String verifier) 
+//	{
+//		// Retrieve the Request Token that we saved earlier
+//		SharedPreferences preferences = _context.getSharedPreferences(GREENHOUSE_PREFERENCES, Context.MODE_PRIVATE);		
+//		String token = preferences.getString(REQUEST_TOKEN_KEY, null);
+//		String secret = preferences.getString(REQUEST_TOKEN_SECRET_KEY, null);
+//		OAuthToken requestToken = new OAuthToken(token, secret);
+//		
+//		if (token == null || secret == null) 
+//		{
+//			return;
+//		}
+//
+//		// Authorize the Request Token
+//		AuthorizedRequestToken authorizedRequestToken = new AuthorizedRequestToken(requestToken, verifier);
+//		
+//		// Exchange the Authorized Request Token for the Access Token
+//		OAuthToken accessToken = _connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
+//		
+//		// The Request Token is no longer needed, so it can be removed
+//		SharedPreferences.Editor editor = preferences.edit();
+//		editor.remove(REQUEST_TOKEN_KEY);
+//		editor.remove(REQUEST_TOKEN_SECRET_KEY);
+//		editor.commit();
+//		
+//		// Persist the connection and Access Token to the local SQLite 
+//		ServiceProviderConnection<GreenhouseApi> connection = _connectionFactory.createConnection(accessToken);
+//		
+//		try 
+//		{
+//			_connectionRepository.addConnection(connection);
+//		} 
+//		catch (DuplicateServiceProviderConnectionException e)
+//		{
+//			Log.i(TAG, "Connection already exists in repository!");
+//		}
+//		
+//	}
+//	
+//	public void disconnect()
+//	{
+//		_connectionRepository.removeConnectionsToProvider(getProviderId());
+//	}
 	
 //	public static String getAuthorizeUrl() 
 //	{
@@ -187,7 +167,7 @@ public class GreenhouseConnectManager
 //		editor.putString(REQUEST_TOKEN_SECRET_KEY, requestToken.getSecret());
 //		editor.commit();	
 //		
-//		// Generate the Twitter authorization url to be used in the browser or web view
+//		// Generate the Greenhouse authorization url to be used in the browser or web view
 //		return getServiceProvider().getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), getOAuthCallbackUrl());
 //	}
 //	

@@ -5,12 +5,16 @@
       android:versionCode="1"
       android:versionName="1.0.0">
       
-    <uses-sdk android:minSdkVersion="8"/>
+    <uses-sdk android:minSdkVersion="10"/>
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application
+    	android:name="com.springsource.greenhouse.MainApplication"
+    	android:icon="@drawable/icon" 
+    	android:label="@string/app_name">
+    	
 		<activity 
-			android:name="com.springsource.greenhouse.activities.MainActivity"
+			android:name="com.springsource.greenhouse.MainActivity"
 			android:theme="@android:style/Theme.NoTitleBar">
 			
 			<intent-filter>
@@ -21,83 +25,80 @@
 		</activity>
 
 		<activity 
-			android:name="com.springsource.greenhouse.activities.SignInActivity"  
-			android:theme="@android:style/Theme.NoTitleBar">
-		</activity>
-
-		<activity 
-			android:name="com.springsource.greenhouse.activities.OAuthActivity" 
-			android:label="@string/app_name">
-			
+			android:name="com.springsource.greenhouse.SignInActivity"  
+			android:theme="@android:style/Theme.NoTitleBar" />
+		
+		<activity
+			android:name="com.springsource.greenhouse.WebOAuthActivity"
+			android:label="@string/app_name"
+			android:noHistory="true"
+        	android:excludeFromRecents="true">
+        	
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="x-com-springsource-greenhouse" android:host="oauth-response" />
 			</intent-filter>
-			
-		</activity>
+        	
+        </activity>
 
 		<activity 
-			android:name="com.springsource.greenhouse.activities.MainTabWidget" 
+			android:name="com.springsource.greenhouse.MainTabWidget" 
 			android:label="@string/app_name" 
 			android:theme="@android:style/Theme.NoTitleBar" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventsActivityGroup"  />
+			android:name="com.springsource.greenhouse.events.EventsActivityGroup"  />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventsActivity" />
+			android:name="com.springsource.greenhouse.events.EventsActivity" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventDetailsActivity" 
+			android:name="com.springsource.greenhouse.events.EventDetailsActivity" 
 			android:label="@string/title_event_details" />
 		
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventDescriptionActivity"
+			android:name="com.springsource.greenhouse.events.EventDescriptionActivity"
 			android:label="@string/title_event_description" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsFilteredActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsFilteredActivity"
 			android:label="@string/title_event_sessions_filtered" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsScheduleActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsScheduleActivity"
 			android:label="@string/title_event_sessions_schedule" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsCurrentActivity"
-			android:label="@string/title_event_sessions_current" />
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsCurrentActivity"
+			 android:label="@string/title_event_sessions_current" />
 
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsUpcomingActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsUpcomingActivity"
 			android:label="@string/title_event_sessions_upcoming" />
 
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsMyFavoritesActivity"
-			android:label="@string/title_event_sessions_my_favorites" />
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsMyFavoritesActivity"
+			android:label="@string/title_event_sessions_my_favorites" />		
 
-		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionsConferenceFavoritesActivity"
-			android:label="@string/title_event_sessions_conference_favorites" />
-			
 		<activity
-			android:name="com.springsource.greenhouse.activities.EventSessionsByDayActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsByDayActivity"
 			android:label="@string/title_event_sessions_by_day" />
 
 		<activity
-			android:name="com.springsource.greenhouse.activities.EventSessionDetailsActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionDetailsActivity"
 			android:label="@string/title_event_session_details" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.EventSessionDescriptionActivity"
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionDescriptionActivity"
 			android:label="@string/title_event_session_description" />
 				
 		<activity 
-			android:name="com.springsource.greenhouse.activities.ProfileActivity" />
+			android:name="com.springsource.greenhouse.profile.ProfileActivity" />
 			
 		<activity 
-			android:name="com.springsource.greenhouse.activities.InfoActivity" />
+			android:name="com.springsource.greenhouse.InfoActivity" />
 	
 	</application>
     

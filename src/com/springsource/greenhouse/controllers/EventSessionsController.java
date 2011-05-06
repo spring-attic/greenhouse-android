@@ -1,94 +1,122 @@
 package com.springsource.greenhouse.controllers;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.social.greenhouse.types.EventSession;
+import org.springframework.social.greenhouse.api.EventSession;
 
 import android.content.Context;
 
-public class EventSessionsController extends BaseController {
-	
+public class EventSessionsController extends BaseController 
+{
 	
 	//***************************************
     // Constructors
     //***************************************
-	public EventSessionsController(Context context) {
-		super(context);
+	public EventSessionsController(Context context) 
+	{
+
 	}
 	
 	
 	//***************************************
     // Public methods
     //***************************************
-	public List<EventSession> getSessionsCurrent(long eventId) {	
-		if (eventId <= 0) {
-			return null;
-		}
+	public List<EventSession> getSessionsCurrent(long eventId) 
+	{	
+//		if (eventId <= 0) 
+//		{
+//			return null;
+//		}
+//		
+//		Date now = new Date();
+//		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
+//		List<EventSession> currentSessions = new ArrayList<EventSession>();
+//		
+//		for (EventSession session : sessions) 
+//		{
+//			if (session.getStartTime().before(now) && session.getEndTime().after(now)) 
+//			{
+//				currentSessions.add(session);
+//			}
+//		}
+//		
+//		return currentSessions;
 		
-		Date now = new Date();
-		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
-		List<EventSession> currentSessions = new ArrayList<EventSession>();
-		
-		for (EventSession session : sessions) {
-			if (session.getStartTime().before(now) && session.getEndTime().after(now)) {
-				currentSessions.add(session);
-			}
-		}
-		
-		return currentSessions;
+		return null;
 	}
 
-	public List<EventSession> getSessionsUpcoming(long eventId) {
-		if (eventId <= 0) {
-			return null;
-		}
+	public List<EventSession> getSessionsUpcoming(long eventId) 
+	{
+//		if (eventId <= 0) 
+//		{
+//			return null;
+//		}
+//		
+//		Date now = new Date();
+//		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
+//		List<EventSession> upcomingSessions = new ArrayList<EventSession>();
+//
+//		Date upcomingTime = null;
+//		
+//		for (EventSession session : sessions) 
+//		{
+//			if (upcomingTime == null && session.getStartTime().after(now)) 
+//			{
+//				upcomingTime = session.getStartTime();
+//			} 
+//			
+//			if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) 
+//			{
+//				upcomingSessions.add(session);
+//			}
+//		}
+//		
+//		return upcomingSessions;
 		
-		Date now = new Date();
-		List<EventSession> sessions = getGreenhouseApi().getSessionsOnDay(eventId, now);
-		List<EventSession> upcomingSessions = new ArrayList<EventSession>();
-
-		Date upcomingTime = null;
-		
-		for (EventSession session : sessions) {
-			if (upcomingTime == null && session.getStartTime().after(now)) {
-				upcomingTime = session.getStartTime();
-			} 
-			
-			if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) {
-				upcomingSessions.add(session);
-			}
-		}
-		
-		return upcomingSessions;
+		return null;
 	}
 
-	public List<EventSession> getSessionsByDay(long eventId, Date day) {
-		if (eventId <= 0 || day == null) {
-			return null;
-		}
+	public List<EventSession> getSessionsByDay(long eventId, Date day) 
+	{
+//		if (eventId <= 0 || day == null) 
+//		{
+//			return null;
+//		}
+//		
+//		return getGreenhouseApi().getSessionsOnDay(eventId, day);
 		
-		return getGreenhouseApi().getSessionsOnDay(eventId, day);
+		return null;
 	}
 	
-	public List<EventSession> getFavoriteSessions(long eventId) {
-		if (eventId <= 0) {
-			return null;
-		}
+	public List<EventSession> getFavoriteSessions(long eventId) 
+	{
+//		if (eventId <= 0) 
+//		{
+//			return null;
+//		}
+//		
+//		return getGreenhouseApi().getFavoriteSessions(eventId);
 		
-		return getGreenhouseApi().getFavoriteSessions(eventId);
+		return null;
 	}
 
-	public List<EventSession> getConferenceFavoriteSessions(long eventId) {
-		if (eventId <= 0) {
-			return null;
-		}
+	public List<EventSession> getConferenceFavoriteSessions(long eventId) 
+	{
+//		if (eventId <= 0) 
+//		{
+//			return null;
+//		}
+//		
+//		return getGreenhouseApi().getConferenceFavoriteSessions(eventId);
 		
-		return getGreenhouseApi().getConferenceFavoriteSessions(eventId);
+		return null;
 	}
 	
-	public boolean updateFavoriteSession(long eventId, long sessionId) {
-		return getGreenhouseApi().updateFavoriteSession(eventId, sessionId);
+	public boolean updateFavoriteSession(long eventId, long sessionId) 
+	{
+//		return getGreenhouseApi().updateFavoriteSession(eventId, sessionId);
+		
+		return false;
 	}
 }
