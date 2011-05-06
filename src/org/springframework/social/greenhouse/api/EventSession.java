@@ -15,11 +15,9 @@
  */
 package org.springframework.social.greenhouse.api;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Model class that represents a Greenhouse event session.
@@ -27,38 +25,43 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class EventSession 
+public class EventSession implements Serializable
 {
-	@JsonProperty
+	private static final long serialVersionUID = 1L;
+	
 	private long id;
 
-	@JsonProperty
 	private String title;
 
-	@JsonProperty
 	private String description;
 
-	@JsonProperty
 	private Date startTime;
 
-	@JsonProperty
 	private Date endTime;
 
-	@JsonProperty
 	private String hashtag;
 
-	@JsonProperty
 	private float rating;
 
-	@JsonProperty
 	private boolean favorite;
 
-	@JsonProperty
 	private Room room;
 
-	@JsonProperty
 	private List<Leader> leaders;
+	
+	public EventSession(long id, String title, String description, Date startTime, Date endTime, String hashtag, float rating, boolean favorite, Room room, List<Leader> leaders)
+	{
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.hashtag = hashtag;
+		this.rating = rating;
+		this.favorite = favorite;
+		this.room = room;
+		this.leaders = leaders;
+	}
 
 	public long getId() 
 	{
@@ -110,10 +113,10 @@ public class EventSession
 		return leaders;
 	}
 	
-	public void setLeaders(List<Leader> leaders) 
-	{
-		this.leaders = leaders;
-	}
+//	public void setLeaders(List<Leader> leaders) 
+//	{
+//		this.leaders = leaders;
+//	}
 	
 	public String getJoinedLeaders(String separator) 
 	{		
@@ -132,57 +135,5 @@ public class EventSession
 		return s;
 	}
 
-	public static class Room 
-	{
-		@JsonProperty
-		private long parentId;
 
-		@JsonProperty
-		private long id;
-
-		@JsonProperty
-		private String label;
-
-		public long getParentId() 
-		{
-			return parentId;
-		}
-
-		public long getId() 
-		{
-			return id;
-		}
-
-		public String getLabel() 
-		{
-			return label;
-		}
-	}
-
-	public static class Leader 
-	{
-		@JsonProperty
-		private String name;
-
-		@JsonProperty
-		private String firstName;
-
-		@JsonProperty
-		private String lastName;
-
-		public String getName() 
-		{
-			return name;
-		}
-
-		public String getFirstName() 
-		{
-			return firstName;
-		}
-
-		public String getLastName() 
-		{
-			return lastName;
-		}
-	}
 }

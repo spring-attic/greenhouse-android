@@ -18,7 +18,11 @@ package org.springframework.social.greenhouse.api.impl;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.springframework.social.greenhouse.api.Event;
+import org.springframework.social.greenhouse.api.EventSession;
 import org.springframework.social.greenhouse.api.GreenhouseProfile;
+import org.springframework.social.greenhouse.api.Group;
+import org.springframework.social.greenhouse.api.Leader;
+import org.springframework.social.greenhouse.api.Room;
 import org.springframework.social.greenhouse.api.TimeZone;
 import org.springframework.social.greenhouse.api.Venue;
 
@@ -37,8 +41,11 @@ public class GreenhouseModule extends SimpleModule
 	{
 		context.setMixInAnnotations(GreenhouseProfile.class, GreenhouseProfileMixin.class);
 		context.setMixInAnnotations(Event.class, EventMixin.class);
+		context.setMixInAnnotations(Group.class, GroupMixin.class);
 		context.setMixInAnnotations(Venue.class, VenueMixin.class);
 		context.setMixInAnnotations(TimeZone.class, TimeZoneMixin.class);
-//		context.setMixInAnnotations(EventSession.class, EventSessionMixin.class);
+		context.setMixInAnnotations(EventSession.class, EventSessionMixin.class);
+		context.setMixInAnnotations(Leader.class, LeaderMixin.class);
+		context.setMixInAnnotations(Room.class, RoomMixin.class);
 	}
 }

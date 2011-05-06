@@ -13,30 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.greenhouse.api;
+package org.springframework.social.greenhouse.api.impl;
 
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
+ * Mixin class for adding Jackson annotations to Leader.
+ * 
  * @author Roy Clarkson
  */
-public class TimeZone implements Serializable
+@JsonIgnoreProperties(ignoreUnknown=true)
+abstract class LeaderMixin 
 {
-	private static final long serialVersionUID = 1L;
-
-	private String id;
-
-	@SuppressWarnings("unused")
-	private boolean fixed;
-	
-	public TimeZone(String id, boolean fixed)
-	{
-		this.id = id;
-		this.fixed = fixed;
-	}
-
-	public String getId() 
-	{
-		return id;
-	}
+	@JsonCreator
+	LeaderMixin(
+			@JsonProperty("name") String name, 
+			@JsonProperty("firstName") String firstName,
+			@JsonProperty("lastName") String lastName) {}
 }

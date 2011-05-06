@@ -1,3 +1,18 @@
+/*
+ * Copyright 2011 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.springsource.greenhouse.events.sessions;
 
 import java.text.SimpleDateFormat;
@@ -5,6 +20,7 @@ import java.text.SimpleDateFormat;
 import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.EventSession;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,19 +33,25 @@ import android.widget.TextView;
 
 import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
-import com.springsource.greenhouse.controllers.EventSessionsController;
-import com.springsource.greenhouse.controllers.NavigationManager;
-import com.springsource.greenhouse.util.SharedDataManager;
 
-public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
-//	private static final String TAG = "EventSessionDetailsActivity";
+/**
+ * @author Roy Clarkson
+ */
+public class EventSessionDetailsActivity extends AbstractGreenhouseActivity 
+{
+	private static final String TAG = EventSessionDetailsActivity.class.getSimpleName();
+	
+	private Event _event;
+	
+	private EventSession _session;
 	
 	
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.event_session_details);
 		
@@ -39,12 +61,15 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items);
 		listView.setAdapter(arrayAdapter);
 		
-		listView.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		listView.setOnItemClickListener(new OnItemClickListener() 
+		{
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
+		    {
 		    	
-		    	switch(position) {
+		    	switch(position) 
+		    	{
 			      	case 0:
-			      		NavigationManager.startActivity(view.getContext(), EventSessionDescriptionActivity.class);
+			      		startActivity(new Intent(view.getContext(), EventSessionDescriptionActivity.class));
 			      		break;
 			      	case 1:
 			      		new UpdateFavoriteTask().execute();
@@ -57,8 +82,16 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 	}
 	
 	@Override
-	public void onStart() {
+	public void onStart() 
+	{
 		super.onStart();
+		
+		if (getIntent().hasExtra("event") && getIntent().hasExtra("session"))
+		{
+			_event = (Event) getIntent().getSerializableExtra("event");
+			_session = (EventSession) getIntent().getSerializableExtra("session");
+		}
+		
 		refreshEventDetails();
 	}
 	
@@ -66,11 +99,10 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshEventDetails() {
-		
-		EventSession session = SharedDataManager.getCurrentSession();
-		
-		if (session == null) {
+	private void refreshEventDetails() 
+	{		
+		if (_session == null) 
+		{
 			return;
 		}
 		
@@ -80,19 +112,20 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		final TextView textViewSessionRoom = (TextView) findViewById(R.id.event_session_details_textview_room);
 //		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
 		
-		textViewSessionName.setText(session.getTitle());
-		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));
+		textViewSessionName.setText(_session.getTitle());
+		textViewSessionLeaders.setText(_session.getJoinedLeaders(", "));
 		
-		String startTime = new SimpleDateFormat("h:mm a").format(session.getStartTime());
-		String endTime = new SimpleDateFormat("h:mm a").format(session.getEndTime());
+		String startTime = new SimpleDateFormat("h:mm a").format(_session.getStartTime());
+		String endTime = new SimpleDateFormat("h:mm a").format(_session.getEndTime());
 		textViewSessionTime.setText(startTime + " - " + endTime);
 		
-		textViewSessionRoom.setText("Room: " + session.getRoom().getLabel());
-		setFavoriteStatus(session.isFavorite());
+		textViewSessionRoom.setText("Room: " + _session.getRoom().getLabel());
+		setFavoriteStatus(_session.isFavorite());
 //		textViewSessionRating.setText(session.getRating() + " Stars");
 	}
 	
-	private void setFavoriteStatus(Boolean status) {
+	private void setFavoriteStatus(Boolean status) 
+	{
 		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_textview_favorite);
 		String text = status ? "Favorite: \u2713" : "Favorite:";
 		textViewSessionFavorite.setText(text);
@@ -102,39 +135,43 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 	//***************************************
     // Private classes
     //***************************************
-	private class UpdateFavoriteTask extends AsyncTask<Void, Void, Boolean> {
-		private Exception mException;
-		private EventSessionsController mEventSessionsController;
-		private Event mEvent;
-		private EventSession mSession;
+	private class UpdateFavoriteTask extends AsyncTask<Void, Void, Boolean> 
+	{
+		private Exception exception;
 		
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute() 
+		{
 			showProgressDialog("Updating favorite ..."); 
-			mEvent = SharedDataManager.getCurrentEvent();
-			mSession = SharedDataManager.getCurrentSession();
-			mEventSessionsController = new EventSessionsController(getApplicationContext());
 		}
 		
 		@Override
-		protected Boolean doInBackground(Void... params) {
-			try {
-				if (mEvent == null || mSession == null) {
+		protected Boolean doInBackground(Void... params) 
+		{
+			try 
+			{
+				if (_event == null || _session == null) 
+				{
 					return false;
 				}
-				return mEventSessionsController.updateFavoriteSession(mEvent.getId(), mSession.getId());
-			} catch(Exception e) {
+				
+				return getApplicationContext().getGreenhouseApi().sessionOperations().updateFavoriteSession(_event.getId(), _session.getId());
+				
+			}
+			catch(Exception e) 
+			{
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				mException = e;
+				exception = e;
 			} 
 			
 			return false;
 		}
 		
 		@Override
-		protected void onPostExecute(Boolean result) {
+		protected void onPostExecute(Boolean result) 
+		{
 			dismissProgressDialog();
-			processException(mException);
+			processException(exception);
 			setFavoriteStatus(result);
 		}
 	}

@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * @author Roy Clarkson
@@ -67,12 +68,12 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 		
-		_webView = new WebView(this);
+		_webView = new WebView(this);		
 		setContentView(_webView);
 		
-//		_webView.getSettings().setJavaScriptEnabled(true);
-//		_webView.getSettings().setNavDump(true);
-//		_webView.getSettings().setSaveFormData(true);
+		_webView.setWebViewClient(new OauthWebViewClient());
+		_webView.getSettings().setSaveFormData(false);
+		_webView.getSettings().setSavePassword(false);
 		
 		final Activity activity = this;
 		
@@ -103,36 +104,9 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 	{
 		super.onStart();
 		
-		Log.d(TAG, "onStart()");
-		
-		Uri uri = getIntent().getData();
-		
-		if (uri != null)
-		{
-			Log.d(TAG, "callback url: " + uri.toString());
-			String oauthVerifier = uri.getQueryParameter("oauth_verifier");
-		
-			if (oauthVerifier != null)
-			{
-				_webView.clearView();
-				new GreenhousePostConnectTask().execute(oauthVerifier);
-			}
-		}
-		else
-		{
-			Log.d(TAG, "pre connect");
-			new GreenhousePreConnectTask().execute();
-		}
+		new GreenhousePreConnectTask().execute();
 	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
 		
-		Log.d(TAG, "onResume()");
-	}
-	
 	
 	//***************************************
     // Private methods
@@ -146,19 +120,12 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 	{
 		// save for later use
 		saveRequestToken(requestToken);
-		
-		Log.d(TAG, "requestToken value: " + requestToken.getValue());
-		Log.d(TAG, "requestToken secret: " + requestToken.getSecret());
-		
+				
 		// Generate the Greenhouse authorization URL to be used in the browser or web view
 		String authUrl = _connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), new OAuth1Parameters(getOAuthCallbackUrl()));
-		Log.d(TAG, "authorize url: " + authUrl);
 		
 		// display the Greenhouse authorization screen
-		Intent intent = new Intent("android.intent.action.VIEW", Uri.parse(authUrl));
-		startActivity(intent);
-
-//		_webView.loadUrl(authUrl);
+		_webView.loadUrl(authUrl);
 	}
 	
 	private void displayGreenhouseOptions()
@@ -198,7 +165,6 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		@Override
 		protected void onPreExecute() 
 		{
-			// before the network request begins, show a progress indicator
 			showProgressDialog("Initializing OAuth Connection...");
 		}
 		
@@ -212,9 +178,7 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		@Override
 		protected void onPostExecute(OAuthToken requestToken)
 		{
-			// after the network request completes, hide the progress indicator
-			dismissProgressDialog();
-			
+			dismissProgressDialog();	
 			displayGreenhouseAuthorization(requestToken);
 		}
 	}
@@ -224,7 +188,6 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		@Override
 		protected void onPreExecute() 
 		{
-			// before the network request begins, show a progress indicator
 			showProgressDialog("Finalizing OAuth Connection...");
 		}
 		
@@ -254,11 +217,10 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 			try 
 			{
 				_connectionRepository.addConnection(connection);
-				Log.d(TAG, "connection created");
 			} 
 			catch (DuplicateConnectionException e)
 			{
-				Log.d(TAG, e.getLocalizedMessage());
+				Log.i(TAG, "attempting to add duplicate connection", e);
 			}
 			
 			return null;
@@ -267,10 +229,31 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		@Override
 		protected void onPostExecute(Void v)
 		{
-			// after the network request completes, hide the progress indicator
 			dismissProgressDialog();
-			
 			displayGreenhouseOptions();
+		}
+	}
+	
+	private class OauthWebViewClient extends WebViewClient
+	{
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url)
+		{
+			Uri uri  = Uri.parse(url);
+
+			if (uri.getScheme().equals("x-com-springsource-greenhouse") && uri.getHost().equals("oauth-response"))
+			{
+				String oauthVerifier = uri.getQueryParameter("oauth_verifier");
+				
+				if (oauthVerifier != null)
+				{
+					Log.d(TAG, "oauth_verifier: " + oauthVerifier);
+					new GreenhousePostConnectTask().execute(oauthVerifier);
+					return true;
+				}
+			}
+			
+			return false;
 		}
 	}
 }

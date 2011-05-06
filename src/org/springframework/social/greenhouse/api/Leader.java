@@ -16,47 +16,25 @@
 package org.springframework.social.greenhouse.api;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * @author Roy Clarkson
  */
-public class Venue implements Serializable
+public class Leader implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
-
 	private String name;
 
-	private String postalAddress;
+	private String firstName;
 
-	private String locationHint;
-
-	private Map<String, Double> location;
+	private String lastName;
 	
-	public Venue(long id, String name, String postalAddress, String locationHint, Map<String, Double> location)
+	public Leader(String name, String firstName, String lastName)
 	{
-		this.id = id;
 		this.name = name;
-		this.postalAddress = postalAddress;
-		this.locationHint = locationHint;
-		this.location = location;
-	}
-
-	public double getLatitude() 
-	{
-		return location.get("latitude");
-	}
-
-	public double getLongitude() 
-	{
-		return location.get("longitude");
-	}
-
-	public long getId() 
-	{
-		return id;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public String getName() 
@@ -64,13 +42,13 @@ public class Venue implements Serializable
 		return name;
 	}
 
-	public String getPostalAddress() 
+	public String getFirstName() 
 	{
-		return postalAddress;
+		return firstName;
 	}
 
-	public String getLocationHint() 
+	public String getLastName() 
 	{
-		return locationHint;
+		return lastName;
 	}
 }

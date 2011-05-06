@@ -27,14 +27,14 @@ public interface UserOperations
 	 * 
 	 * @return the user's Greenhouse profile ID.
 	 */
-	long getProfileId();
+	long getAccountId();
 	
 	/**
 	 * Retrieves the authenticated user's Greenhouse screen name
 	 * 
 	 * @return the user's screen name
 	 */
-	String getScreenName();
+	String getDisplayName();
 	
 	/**
 	 * Retrieves the authenticated user's Greenhouse profile details.

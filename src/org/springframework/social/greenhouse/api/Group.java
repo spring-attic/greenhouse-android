@@ -15,6 +15,8 @@
  */
 package org.springframework.social.greenhouse.api;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -24,8 +26,10 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Group 
+public class Group implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	@JsonProperty
 	private String id;
 

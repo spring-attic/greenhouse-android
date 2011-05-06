@@ -42,16 +42,16 @@ public class GreenhouseApiAdapter implements ApiAdapter<GreenhouseApi>
 	public void setConnectionValues(GreenhouseApi api, ConnectionValues values) 
 	{
 		GreenhouseProfile profile = api.userOperations().getUserProfile();
-		values.setProviderUserId(Long.toString(profile.getId()));
-		values.setDisplayName("@" + profile.getScreenName());
+		values.setProviderUserId(Long.toString(profile.getAccountId()));
+		values.setDisplayName(profile.getDisplayName());
 		values.setProfileUrl(profile.getProfileUrl());
-		values.setImageUrl(profile.getProfileImageUrl());
+		values.setImageUrl(profile.getPictureUrl());
 	}
 
 	public UserProfile fetchUserProfile(GreenhouseApi api) 
 	{
 		GreenhouseProfile profile = api.userOperations().getUserProfile();
-		return new UserProfileBuilder().setName(profile.getName()).setUsername(profile.getScreenName()).build();
+		return new UserProfileBuilder().setName(profile.getDisplayName()).build();
 	}
 
 	public void updateStatus(GreenhouseApi api, String message) 

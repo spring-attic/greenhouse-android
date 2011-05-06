@@ -15,6 +15,7 @@
  */
 package org.springframework.social.greenhouse.api;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -24,8 +25,10 @@ import java.util.List;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class Event 
+public class Event implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	private long id;
 
 	private String title;

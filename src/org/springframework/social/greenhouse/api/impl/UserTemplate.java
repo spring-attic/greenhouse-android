@@ -34,16 +34,16 @@ class UserTemplate extends AbstractGreenhouseOperations implements UserOperation
 		this.restTemplate = restTemplate;
 	}
 
-	public long getProfileId() 
+	public long getAccountId() 
 	{
 		requireUserAuthorization();
-		return getUserProfile().getId();
+		return getUserProfile().getAccountId();
 	}
 
-	public String getScreenName() 
+	public String getDisplayName() 
 	{
 		requireUserAuthorization();
-		return getUserProfile().getScreenName();
+		return getUserProfile().getDisplayName();
 	}
 
 	public GreenhouseProfile getUserProfile() 

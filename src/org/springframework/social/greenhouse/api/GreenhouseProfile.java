@@ -27,30 +27,33 @@ public class GreenhouseProfile implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 
-	private final long id;
+	private final long accountId;
 	
-	private final String screenName;
+	private final String displayName;
 	
-	private final String name;
+	private final String pictureUrl;
 	
-	private final String profileImageUrl;
-	
-	public GreenhouseProfile(long id, String screenName, String profileImageUrl) 
+	public GreenhouseProfile(long accountId, String displayName, String pictureUrl) 
 	{
-		this.id = id;
-		this.screenName = screenName;
-		this.name = screenName;
-		this.profileImageUrl = profileImageUrl;		
+		this.accountId = accountId;
+		this.displayName = displayName;
+		
+		/*
+		 *  Android accesses localhost through a proxy, so the image url address is wrong
+		 *  when running on the localhost server.
+		 */
+		// TODO: figure out a better way to handle this hack
+		this.pictureUrl = pictureUrl.replace("localhost", "10.0.2.2");
 	}
 
 	/**
-	 * The user's Greenhouse ID
+	 * The user's Greenhouse Account ID
 	 * 
-	 * @return The user's Greenhouse ID
+	 * @return The user's Greenhouse Account ID
 	 */
-	public long getId() 
+	public long getAccountId() 
 	{
-		return id;
+		return accountId;
 	}
 
 	/**
@@ -58,21 +61,11 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The user's Greenhouse screen name
 	 */
-	public String getScreenName() 
+	public String getDisplayName() 
 	{
-		return screenName;
+		return displayName;
 	}
 	
-	/**
-	 * The user's full name
-	 * 
-	 * @return The user's full name
-	 */
-	public String getName()
-	{
-		return name;
-	}
-
 	/**
 	 * <p>
 	 * The URL of the user's profile image.
@@ -80,9 +73,9 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The URL of the user's profile image.
 	 */
-	public String getProfileImageUrl() 
+	public String getPictureUrl() 
 	{
-		return profileImageUrl;
+		return pictureUrl;
 	}
 
 	/**
@@ -94,6 +87,6 @@ public class GreenhouseProfile implements Serializable
 	 */
 	public String getProfileUrl() 
 	{
-		return "http://10.0.2.2:8080/greenhouse/members/" + id;
+		return "http://10.0.2.2:8080/greenhouse/members/" + accountId;
 	}
 }
