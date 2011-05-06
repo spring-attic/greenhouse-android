@@ -78,6 +78,7 @@ public class EventSessionsScheduleActivity extends ListActivity
 		
 		Intent intent = new Intent();
 		intent.setClass(v.getContext(), EventSessionsByDayActivity.class);
+		intent.putExtra("event", _event);
 		intent.putExtra("day", day);		
 		startActivity(intent);
 	}
