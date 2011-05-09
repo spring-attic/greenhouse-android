@@ -51,7 +51,7 @@ public class MainApplication extends Application
 		_connectionFactory = new GreenhouseConnectionFactory(GREENHOUSE_CONSUMER_TOKEN, GREENHOUSE_CONSUMER_TOKEN_SECRET);
 		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
 		registry.addConnectionFactory(_connectionFactory);
-		_connectionRepository = new SQLiteConnectionRepository("1", new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text("password", "5c0744940b5c369b")); 
+		_connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text("password", "5c0744940b5c369b")); 
 	}
 	
 	

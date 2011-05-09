@@ -122,7 +122,7 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		saveRequestToken(requestToken);
 				
 		// Generate the Greenhouse authorization URL to be used in the browser or web view
-		String authUrl = _connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), new OAuth1Parameters(getOAuthCallbackUrl()));
+		String authUrl = _connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), OAuth1Parameters.NONE);
 		
 		// display the Greenhouse authorization screen
 		_webView.loadUrl(authUrl);
