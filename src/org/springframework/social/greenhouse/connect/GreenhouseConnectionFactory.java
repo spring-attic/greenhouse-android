@@ -23,8 +23,7 @@ import org.springframework.social.greenhouse.api.GreenhouseApi;
  */
 public class GreenhouseConnectionFactory extends OAuth1ConnectionFactory<GreenhouseApi> {
 
-	public GreenhouseConnectionFactory(String consumerKey, String consumerSecret) 
-	{
+	public GreenhouseConnectionFactory(String consumerKey, String consumerSecret) {
 		super("greenhouse", new GreenhouseServiceProvider(consumerKey, consumerSecret), new GreenhouseApiAdapter());
 	}	
 }

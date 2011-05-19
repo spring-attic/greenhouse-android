@@ -20,8 +20,8 @@ import java.io.Serializable;
 /**
  * @author Roy Clarkson
  */
-public class Leader implements Serializable
-{
+public class Leader implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private String name;
@@ -30,25 +30,21 @@ public class Leader implements Serializable
 
 	private String lastName;
 	
-	public Leader(String name, String firstName, String lastName)
-	{
+	public Leader(String name, String firstName, String lastName) {
 		this.name = name;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
 
-	public String getName() 
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getFirstName() 
-	{
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public String getLastName() 
-	{
+	public String getLastName() {
 		return lastName;
 	}
 }

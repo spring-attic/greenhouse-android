@@ -23,8 +23,8 @@ import java.io.Serializable;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class GreenhouseProfile implements Serializable 
-{
+public class GreenhouseProfile implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private final long accountId;
@@ -33,8 +33,7 @@ public class GreenhouseProfile implements Serializable
 	
 	private final String pictureUrl;
 	
-	public GreenhouseProfile(long accountId, String displayName, String pictureUrl) 
-	{
+	public GreenhouseProfile(long accountId, String displayName, String pictureUrl) {
 		this.accountId = accountId;
 		this.displayName = displayName;
 		
@@ -51,8 +50,7 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The user's Greenhouse Account ID
 	 */
-	public long getAccountId() 
-	{
+	public long getAccountId() {
 		return accountId;
 	}
 
@@ -61,8 +59,7 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The user's Greenhouse screen name
 	 */
-	public String getDisplayName() 
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 	
@@ -73,8 +70,7 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The URL of the user's profile image.
 	 */
-	public String getPictureUrl() 
-	{
+	public String getPictureUrl() {
 		return pictureUrl;
 	}
 
@@ -85,8 +81,7 @@ public class GreenhouseProfile implements Serializable
 	 * 
 	 * @return The URL of the user's profile.
 	 */
-	public String getProfileUrl() 
-	{
+	public String getProfileUrl() {
 		return "http://10.0.2.2:8080/greenhouse/members/" + accountId;
 	}
 }

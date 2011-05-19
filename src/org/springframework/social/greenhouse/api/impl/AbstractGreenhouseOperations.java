@@ -24,41 +24,34 @@ import org.springframework.util.MultiValueMap;
 /**
  * @author Roy Clarkson
  */
-class AbstractGreenhouseOperations 
-{	
+class AbstractGreenhouseOperations {
+	
 	private final boolean isAuthorizedForUser;
 
-	public AbstractGreenhouseOperations(boolean isAuthorizedForUser) 
-	{
+	public AbstractGreenhouseOperations(boolean isAuthorizedForUser) {
 		this.isAuthorizedForUser = isAuthorizedForUser;
 	}
 	
-	protected void requireUserAuthorization() 
-	{
-		if (!isAuthorizedForUser) 
-		{
+	protected void requireUserAuthorization() {
+		if (!isAuthorizedForUser) {
 			throw new IllegalStateException("User authorization required: GreenhouseTemplate must be created with OAuth credentials to perform this operation.");
 		}
 	}
 	
-	protected URI buildUri(String path) 
-	{
+	protected URI buildUri(String path) {
 		return buildUri(path, EMPTY_PARAMETERS);
 	}
 	
-	protected URI buildUri(String path, String parameterName, String parameterValue) 
-	{
+	protected URI buildUri(String path, String parameterName, String parameterValue) {
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 		parameters.set(parameterName, parameterValue);
 		return buildUri(path, parameters);
 	}
 	
-	protected URI buildUri(String path, MultiValueMap<String, String> parameters) 
-	{
+	protected URI buildUri(String path, MultiValueMap<String, String> parameters) {
 		URIBuilder uriBuilder = URIBuilder.fromUri(API_URL_BASE + path);
 		
-		for (String paramName : parameters.keySet()) 
-		{
+		for (String paramName : parameters.keySet()) {
 			uriBuilder.queryParam(paramName, String.valueOf(parameters.get(paramName)));
 		}
 		

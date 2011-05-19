@@ -25,8 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class GreenhouseProfileMixin 
-{
+abstract class GreenhouseProfileMixin {
 	@JsonCreator
 	GreenhouseProfileMixin(
 			@JsonProperty("accountId") long id, 

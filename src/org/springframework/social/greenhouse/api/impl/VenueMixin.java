@@ -27,8 +27,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class VenueMixin 
-{
+abstract class VenueMixin {
 	@JsonCreator
 	VenueMixin(
 			@JsonProperty("id") long id, 

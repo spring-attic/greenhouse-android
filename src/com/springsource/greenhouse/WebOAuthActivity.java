@@ -40,53 +40,49 @@ import android.webkit.WebViewClient;
 /**
  * @author Roy Clarkson
  */
-public class WebOAuthActivity extends AbstractGreenhouseActivity
-{
+public class WebOAuthActivity extends AbstractGreenhouseActivity {
+	
 	protected static final String TAG = WebOAuthActivity.class.getSimpleName();
 	
 	private static final String REQUEST_TOKEN_KEY = "request_token";
 	
 	private static final String REQUEST_TOKEN_SECRET_KEY = "request_token_secret";
 	
-	private WebView _webView;
+	private WebView webView;
 	
-	private ConnectionRepository _connectionRepository;
+	private ConnectionRepository connectionRepository;
 	
-	private GreenhouseConnectionFactory _connectionFactory;
+	private GreenhouseConnectionFactory connectionFactory;
 	
-	private SharedPreferences _greenhousePreferences;
+	private SharedPreferences greenhousePreferences;
 
 
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
 		
-		_webView = new WebView(this);		
-		setContentView(_webView);
+		webView = new WebView(this);		
+		setContentView(webView);
 		
-		_webView.setWebViewClient(new OauthWebViewClient());
-		_webView.getSettings().setSaveFormData(false);
-		_webView.getSettings().setSavePassword(false);
+		webView.setWebViewClient(new OAuthWebViewClient());
+		webView.getSettings().setSaveFormData(false);
+		webView.getSettings().setSavePassword(false);
 		
 		final Activity activity = this;
 		
-		_webView.setWebChromeClient(
-				new WebChromeClient() 
-				{
-		            public void onProgressChanged(WebView view, int progress)
-		            {
+		webView.setWebChromeClient(
+				new WebChromeClient() {
+		            public void onProgressChanged(WebView view, int progress) {
 		            	activity.setTitle("Loading...");
 		            	activity.setProgress(progress * 100);
 		            	
-		            	if (progress == 100)
-		            	{
+		            	if (progress == 100) {
 		            		activity.setTitle(R.string.app_name);
 		            	}
 		            }
@@ -94,16 +90,14 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		);
 		
 		
-		_connectionRepository = getApplicationContext().getConnectionRepository();
-		_connectionFactory = getApplicationContext().getConnectionFactory();
-		_greenhousePreferences = getSharedPreferences("GreenhouseConnectPreferences", Context.MODE_PRIVATE);
+		connectionRepository = getApplicationContext().getConnectionRepository();
+		connectionFactory = getApplicationContext().getConnectionFactory();
+		greenhousePreferences = getSharedPreferences("GreenhouseConnectPreferences", Context.MODE_PRIVATE);
 	}
 	
 	@Override
-	public void onStart()
-	{
+	public void onStart() {
 		super.onStart();
-		
 		new GreenhousePreConnectTask().execute();
 	}
 		
@@ -111,115 +105,106 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 	//***************************************
     // Private methods
     //***************************************
-	private String getOAuthCallbackUrl()
-	{
+	private String getOAuthCallbackUrl() {
 		return getString(R.string.greenhouse_oauth_callback_url);
 	}
 	
-	private void displayGreenhouseAuthorization(OAuthToken requestToken)
-	{
+	private void displayGreenhouseAuthorization(OAuthToken requestToken) {
 		// save for later use
 		saveRequestToken(requestToken);
+		
+		Log.d(TAG, "requestToken value: " + requestToken.getValue());
+		Log.d(TAG, "requestToken secret: " + requestToken.getSecret());
+		
+		if (requestToken == null) {
+			return;
+		}
 				
 		// Generate the Greenhouse authorization URL to be used in the browser or web view
-		String authUrl = _connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), OAuth1Parameters.NONE);
+		String authUrl = connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), OAuth1Parameters.NONE);
 		
 		// display the Greenhouse authorization screen
-		_webView.loadUrl(authUrl);
+		webView.loadUrl(authUrl);
 	}
 	
-	private void displayGreenhouseOptions()
-	{
+	private void displayGreenhouseOptions() {
 		Intent intent = new Intent();
 		intent.setClass(this, MainActivity.class);
 	    startActivity(intent);
     	finish();
 	}
 	
-	private void saveRequestToken(OAuthToken requestToken)
-	{
-		SharedPreferences.Editor editor = _greenhousePreferences.edit();
+	private void saveRequestToken(OAuthToken requestToken) {
+		SharedPreferences.Editor editor = greenhousePreferences.edit();
 		editor.putString(REQUEST_TOKEN_KEY, requestToken.getValue());
 		editor.putString(REQUEST_TOKEN_SECRET_KEY, requestToken.getSecret());
 		editor.commit();
 	}
 	
-	private OAuthToken retrieveRequestToken()
-	{		
-		String token = _greenhousePreferences.getString(REQUEST_TOKEN_KEY, null);
-		String secret = _greenhousePreferences.getString(REQUEST_TOKEN_SECRET_KEY, null);
+	private OAuthToken retrieveRequestToken() {		
+		String token = greenhousePreferences.getString(REQUEST_TOKEN_KEY, null);
+		String secret = greenhousePreferences.getString(REQUEST_TOKEN_SECRET_KEY, null);
 		return new OAuthToken(token, secret);
 	}
 	
-	private void deleteRequestToken()
-	{
-		_greenhousePreferences.edit().clear().commit();
+	private void deleteRequestToken() {
+		greenhousePreferences.edit().clear().commit();
 	}
 	
 	
 	//***************************************
     // Private classes
     //***************************************
-	private class GreenhousePreConnectTask extends AsyncTask<Void, Void, OAuthToken> 
-	{		
+	private class GreenhousePreConnectTask extends AsyncTask<Void, Void, OAuthToken> {
+		
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog("Initializing OAuth Connection...");
 		}
 		
 		@Override
-		protected OAuthToken doInBackground(Void... params) 
-		{			
+		protected OAuthToken doInBackground(Void... params) {
 			// Fetch a one time use Request Token from Greenhouse
-			return _connectionFactory.getOAuthOperations().fetchRequestToken(getOAuthCallbackUrl(), null);
+			return connectionFactory.getOAuthOperations().fetchRequestToken(getOAuthCallbackUrl(), null);
 		}
 		
 		@Override
-		protected void onPostExecute(OAuthToken requestToken)
-		{
+		protected void onPostExecute(OAuthToken requestToken) {
 			dismissProgressDialog();	
 			displayGreenhouseAuthorization(requestToken);
 		}
 	}
 	
-	private class GreenhousePostConnectTask extends AsyncTask<String, Void, Void> 
-	{		
+	private class GreenhousePostConnectTask extends AsyncTask<String, Void, Void> {
+		
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog("Finalizing OAuth Connection...");
 		}
 		
 		@Override
-		protected Void doInBackground(String... params) 
-		{
-			if (params.length <= 0)
-			{
+		protected Void doInBackground(String... params) {
+			if (params.length <= 0) {
 				return null;
 			}
 			
 			final String verifier = params[0];
-			
 			OAuthToken requestToken = retrieveRequestToken();
 
 			// Authorize the Request Token
 			AuthorizedRequestToken authorizedRequestToken = new AuthorizedRequestToken(requestToken, verifier);
 			
 			// Exchange the Authorized Request Token for the Access Token
-			OAuthToken accessToken = _connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
+			OAuthToken accessToken = connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
 			
 			deleteRequestToken();
 			
 			// Persist the connection and Access Token to the repository 
-			Connection<GreenhouseApi> connection = _connectionFactory.createConnection(accessToken);
+			Connection<GreenhouseApi> connection = connectionFactory.createConnection(accessToken);
 			
-			try 
-			{
-				_connectionRepository.addConnection(connection);
-			} 
-			catch (DuplicateConnectionException e)
-			{
+			try {
+				connectionRepository.addConnection(connection);
+			} catch (DuplicateConnectionException e) {
 				Log.i(TAG, "attempting to add duplicate connection", e);
 			}
 			
@@ -227,26 +212,22 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity
 		}
 		
 		@Override
-		protected void onPostExecute(Void v)
-		{
+		protected void onPostExecute(Void v) {
 			dismissProgressDialog();
 			displayGreenhouseOptions();
 		}
 	}
 	
-	private class OauthWebViewClient extends WebViewClient
-	{
+	private class OAuthWebViewClient extends WebViewClient {
+		
 		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url)
-		{
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			Uri uri  = Uri.parse(url);
 
-			if (uri.getScheme().equals("x-com-springsource-greenhouse") && uri.getHost().equals("oauth-response"))
-			{
+			if (uri.getScheme().equals("x-com-springsource-greenhouse") && uri.getHost().equals("oauth-response")) {
 				String oauthVerifier = uri.getQueryParameter("oauth_verifier");
 				
-				if (oauthVerifier != null)
-				{
+				if (oauthVerifier != null) {
 					Log.d(TAG, "oauth_verifier: " + oauthVerifier);
 					new GreenhousePostConnectTask().execute(oauthVerifier);
 					return true;

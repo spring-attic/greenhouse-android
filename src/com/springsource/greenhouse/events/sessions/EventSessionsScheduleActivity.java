@@ -34,8 +34,8 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsScheduleActivity extends ListActivity 
-{
+public class EventSessionsScheduleActivity extends ListActivity {
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventSessionsScheduleActivity.class.getSimpleName();
 	
@@ -48,18 +48,15 @@ public class EventSessionsScheduleActivity extends ListActivity
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("event"))
-		{
+		if (getIntent().hasExtra("event")) {
 			_event = (Event) getIntent().getSerializableExtra("event");
 		}
 		
@@ -70,8 +67,7 @@ public class EventSessionsScheduleActivity extends ListActivity
     // ListActivity methods
     //***************************************
 	@Override
-	protected void  onListItemClick(ListView l, View v, int position, long id) 
-	{
+	protected void  onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
 		Date day = conferenceDates.get(position);
@@ -86,10 +82,8 @@ public class EventSessionsScheduleActivity extends ListActivity
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshScheduleDays() 
-	{	
-		if (_event == null) 
-		{
+	private void refreshScheduleDays() {
+		if (_event == null) {
 			return;
 		}
 		
@@ -97,8 +91,7 @@ public class EventSessionsScheduleActivity extends ListActivity
 		List<String> conferenceDays = new ArrayList<String>();
 		Date day = (Date) _event.getStartTime().clone();
 
-		while (day.before(_event.getEndTime())) 
-		{
+		while (day.before(_event.getEndTime())) {
 			conferenceDates.add((Date) day.clone());
 			conferenceDays.add(new SimpleDateFormat("EEEE, MMM d").format(day));
 			day.setDate(day.getDate() + 1);

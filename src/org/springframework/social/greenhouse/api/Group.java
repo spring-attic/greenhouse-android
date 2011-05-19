@@ -17,23 +17,17 @@ package org.springframework.social.greenhouse.api;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
  * Model class representing a Greenhouse group.
  * 
  * @author Craig Walls
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Group implements Serializable
-{
+public class Group implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty
 	private String id;
 
-	@JsonProperty
 	private String label;
 
 	/**
@@ -41,8 +35,7 @@ public class Group implements Serializable
 	 * 
 	 * @return the group ID.
 	 */
-	public String getId() 
-	{
+	public String getId() {
 		return id;
 	}
 
@@ -51,8 +44,7 @@ public class Group implements Serializable
 	 * 
 	 * @return the group's label.
 	 */
-	public String getLabel() 
-	{
+	public String getLabel() {
 		return label;
 	}
 }

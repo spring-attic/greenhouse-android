@@ -24,8 +24,8 @@ import java.util.List;
  * 
  * @author Roy Clarkson
  */
-public interface EventOperations 
-{
+public interface EventOperations {
+	
 	/**
 	 * Retrieves a list of events occurring in the future.
 	 *

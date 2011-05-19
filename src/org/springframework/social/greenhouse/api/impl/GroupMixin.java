@@ -25,8 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class GroupMixin 
-{
+abstract class GroupMixin {
 	@JsonCreator
 	GroupMixin(
 			@JsonProperty("id") String id, 

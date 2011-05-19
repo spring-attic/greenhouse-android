@@ -21,8 +21,8 @@ import java.io.Serializable;
 /**
  * @author Roy Clarkson
  */
-public class Room implements Serializable
-{
+public class Room implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private long parentId;
@@ -31,25 +31,21 @@ public class Room implements Serializable
 
 	private String label;
 	
-	public Room(long parentId, long id, String label)
-	{
+	public Room(long parentId, long id, String label) {
 		this.parentId = parentId;
 		this.id = id;
 		this.label = label;
 	}
 
-	public long getParentId() 
-	{
+	public long getParentId() {
 		return parentId;
 	}
 
-	public long getId() 
-	{
+	public long getId() {
 		return id;
 	}
 
-	public String getLabel() 
-	{
+	public String getLabel() {
 		return label;
 	}
 }

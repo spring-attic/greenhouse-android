@@ -30,8 +30,7 @@ import org.springframework.social.greenhouse.api.Room;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class EventSessionMixin 
-{
+abstract class EventSessionMixin {
 	@JsonCreator
 	EventSessionMixin(
 			@JsonProperty("id") long id, 

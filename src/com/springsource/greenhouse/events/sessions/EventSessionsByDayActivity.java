@@ -28,25 +28,23 @@ import android.util.Log;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsByDayActivity extends EventSessionsListActivity 
-{
+public class EventSessionsByDayActivity extends EventSessionsListActivity {
+	
 	private static final String TAG = EventSessionsByDayActivity.class.getSimpleName();
 	
-	private Date _day;
+	private Date day;
 	
 	
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("day"))
-		{
-			_day = (Date) getIntent().getSerializableExtra("day");
-			String title = new SimpleDateFormat("EEEE, MMM d").format(_day);
+		if (getIntent().hasExtra("day")) {
+			day = (Date) getIntent().getSerializableExtra("day");
+			String title = new SimpleDateFormat("EEEE, MMM d").format(day);
 			this.setTitle(title);
 		}
 	}
@@ -56,8 +54,7 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity
     // Protected methods
     //***************************************
 	@Override
-	protected void downloadSessions() 
-	{
+	protected void downloadSessions() {
 		new DownloadSessionsTask().execute();
 	}
 	
@@ -65,32 +62,24 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity
 	//***************************************
     // Private classes
     //***************************************
-	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> 
-	{
+	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> {
+		
 		private Exception exception;
 				
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog();
 		}
 		
 		@Override
-		protected List<EventSession> doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected List<EventSession> doInBackground(Void... params) {
+			try {
 				Event event = getEvent();
-				
-				if (event == null || _day == null) 
-				{
+				if (event == null || day == null) {
 					return null;
 				}
-				
-				return getApplicationContext().getGreenhouseApi().sessionOperations().getSessionsOnDay(event.getId(), _day);				
-			} 
-			catch(Exception e) 
-			{
+				return getApplicationContext().getGreenhouseApi().sessionOperations().getSessionsOnDay(event.getId(), day);				
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
 			} 
@@ -99,8 +88,7 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity
 		}
 		
 		@Override
-		protected void onPostExecute(List<EventSession> result)
-		{
+		protected void onPostExecute(List<EventSession> result) {
 			dismissProgressDialog();
 			processException(exception);
 			setSessions(result);

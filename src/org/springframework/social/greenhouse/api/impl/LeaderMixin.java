@@ -25,8 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class LeaderMixin 
-{
+abstract class LeaderMixin {
 	@JsonCreator
 	LeaderMixin(
 			@JsonProperty("name") String name, 

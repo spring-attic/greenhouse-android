@@ -22,33 +22,30 @@ import android.os.AsyncTask;
 /**
  * @author Roy Clarkson
  */
-public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result>
-{
-	private Context _context;
+public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
 	
-	private ProgressDialog _progressDialog;
+	private Context context;
 	
-	private String _message;
+	private ProgressDialog progressDialog;
+	
+	private String message;
 	
 	
 	//***************************************
     // Constructors methods
     //***************************************
 	@SuppressWarnings("unused")
-	private ProgressAsyncTask()
-	{
+	private ProgressAsyncTask() {
 		// context is required
 	}
 	
-	public ProgressAsyncTask(Context context)
-	{
+	public ProgressAsyncTask(Context context) {
 		this(context, "Loading. Please wait...");
 	}
 	
-	public ProgressAsyncTask(Context context, String message)
-	{
-		_context = context;
-		_message = message;
+	public ProgressAsyncTask(Context context, String message) {
+		this.context = context;
+		this.message = message;
 	}
 		
 	
@@ -56,22 +53,19 @@ public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncT
     // AsyncTask methods
     //***************************************
 	@Override
-	protected void onPreExecute() 
-	{
+	protected void onPreExecute() {
 		// before the network request begins, show a progress indicator
-		showProgressDialog(_message);
+		showProgressDialog(message);
 	}
 
 	@Override
-	protected void onPostExecute(Result result)
-	{
+	protected void onPostExecute(Result result) {
 		// after the network request completes, hide the progress indicator
 		dismissProgressDialog();
 	}
 	
 	@Override
-	protected void onCancelled()
-	{
+	protected void onCancelled() {
 		dismissProgressDialog();
 	}
 	
@@ -79,16 +73,13 @@ public abstract class ProgressAsyncTask<Params, Progress, Result> extends AsyncT
 	//***************************************
     // Protected methods
     //***************************************
-	protected void showProgressDialog(String message) 
-	{
-		_progressDialog = ProgressDialog.show(_context, "",  message, true);
+	protected void showProgressDialog(String message) {
+		progressDialog = ProgressDialog.show(context, "",  message, true);
 	}
 	
-	protected void dismissProgressDialog() 
-	{
-		if (_progressDialog != null) 
-		{
-			_progressDialog.dismiss();
+	protected void dismissProgressDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
 		}
 	}
 

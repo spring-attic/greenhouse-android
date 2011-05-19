@@ -25,8 +25,8 @@ import java.util.List;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class Event implements Serializable
-{
+public class Event implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private long id;
@@ -55,8 +55,7 @@ public class Event implements Serializable
 
 	private List<Venue> venues;
 	
-	public Event(long id, String title, String location, String hashtag, String description, Date startTime, Date endTime, String slug, String groupName, String groupSlug, Group group, TimeZone timeZone, List<Venue> venues)
-	{
+	public Event(long id, String title, String location, String hashtag, String description, Date startTime, Date endTime, String slug, String groupName, String groupSlug, Group group, TimeZone timeZone, List<Venue> venues) {
 		this.id = id;
 		this.title = title;
 		this.location = location;
@@ -72,73 +71,59 @@ public class Event implements Serializable
 		this.venues = venues;
 	}
 
-	public List<Venue> getVenues() 
-	{
+	public List<Venue> getVenues() {
 		return venues;
 	}
 
-	public void setVenues(List<Venue> venues) 
-	{
+	public void setVenues(List<Venue> venues) {
 		this.venues = venues;
 	}
 
-	public String getSlug() 
-	{
+	public String getSlug() {
 		return slug;
 	}
 
-	public Group getGroup() 
-	{
+	public Group getGroup() {
 		return group;
 	}
 
-	public String getGroupName() 
-	{
+	public String getGroupName() {
 		return groupName;
 	}
 
-	public String getGroupSlug() 
-	{
+	public String getGroupSlug() {
 		return groupSlug;
 	}
 
-	public TimeZone getTimeZone() 
-	{
+	public TimeZone getTimeZone() {
 		return timeZone;
 	}
 
-	public long getId() 
-	{
+	public long getId() {
 		return id;
 	}
 
-	public String getTitle() 
-	{
+	public String getTitle() {
 		return title;
 	}
 
-	public String getLocation() 
-	{
+	public String getLocation() {
 		return location;
 	}
 
-	public String getHashtag() 
-	{
+	public String getHashtag() {
 		return hashtag;
 	}
 
-	public String getDescription() 
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public Date getStartTime() 
-	{
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public Date getEndTime() 
-	{
+	public Date getEndTime() {
 		return endTime;
 	}
 }

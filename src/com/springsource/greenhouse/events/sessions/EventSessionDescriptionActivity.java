@@ -26,33 +26,30 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionDescriptionActivity extends Activity 
-{
+public class EventSessionDescriptionActivity extends Activity {
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventSessionDescriptionActivity.class.getSimpleName();
 	
-	private EventSession _session;
+	private EventSession session;
 	
 
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.event_session_description);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("session"))
-		{
-			_session = (EventSession) getIntent().getSerializableExtra("session");
+		if (getIntent().hasExtra("session")) {
+			session = (EventSession) getIntent().getSerializableExtra("session");
 		}
 		
 		refreshSessionDescription();
@@ -62,14 +59,12 @@ public class EventSessionDescriptionActivity extends Activity
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshSessionDescription() 
-	{		
-		if (_session == null) 
-		{
+	private void refreshSessionDescription() {		
+		if (session == null) {
 			return;
 		}
 		
 		final TextView textViewDescription = (TextView) findViewById(R.id.event_session_description_textview);	
-		textViewDescription.setText(_session.getDescription());		
+		textViewDescription.setText(session.getDescription());		
 	}
 }

@@ -36,20 +36,19 @@ import com.springsource.greenhouse.events.sessions.EventSessionsScheduleActivity
 /**
  * @author Roy Clarkson
  */
-public class EventDetailsActivity extends Activity 
-{
+public class EventDetailsActivity extends Activity {
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventDetailsActivity.class.getSimpleName();
 	
-	private Event _event;
+	private Event event;
 	
 
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.event_details);
 				
@@ -59,15 +58,12 @@ public class EventDetailsActivity extends Activity
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items);
 		listView.setAdapter(arrayAdapter);
 		
-		listView.setOnItemClickListener(new OnItemClickListener() 
-		{
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
-		    {	
+		listView.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	Intent intent = new Intent();
-		    	intent.putExtra("event", _event);
+		    	intent.putExtra("event", event);
 		    	
-		    	switch(position) 
-		    	{
+		    	switch(position) {
 			      	case 0:
 			      		intent.setClass(view.getContext(), EventDescriptionActivity.class);
 			      		break;
@@ -86,13 +82,11 @@ public class EventDetailsActivity extends Activity
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("event"))
-		{
-			_event = (Event) getIntent().getSerializableExtra("event");
+		if (getIntent().hasExtra("event")) {
+			event = (Event) getIntent().getSerializableExtra("event");
 		}
 		
 		refreshEventDetails();
@@ -102,10 +96,8 @@ public class EventDetailsActivity extends Activity
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshEventDetails() 
-	{	
-		if (_event == null)
-		{
+	private void refreshEventDetails() {
+		if (event == null) {
 			return;
 		}
 		
@@ -113,12 +105,12 @@ public class EventDetailsActivity extends Activity
 		final TextView textViewEventDate = (TextView) findViewById(R.id.event_details_textview_date);
 		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
 		
-		textViewEventName.setText(_event.getTitle());
+		textViewEventName.setText(event.getTitle());
 		
-		String startTime = new SimpleDateFormat("EEE, MMM d").format(_event.getStartTime());
-		String endTime = new SimpleDateFormat("EEE, MMM d, yyyy").format(_event.getEndTime());
+		String startTime = new SimpleDateFormat("EEE, MMM d").format(event.getStartTime());
+		String endTime = new SimpleDateFormat("EEE, MMM d, yyyy").format(event.getEndTime());
 		
 		textViewEventDate.setText(startTime + " - " + endTime);
-		textViewEventLocation.setText(_event.getLocation());
+		textViewEventLocation.setText(event.getLocation());
 	}
 }

@@ -29,16 +29,14 @@ import org.springframework.social.greenhouse.api.Venue;
 /**
  * @author Roy Clarkson
  */
-public class GreenhouseModule extends SimpleModule 
-{
-	public GreenhouseModule() 
-	{
+public class GreenhouseModule extends SimpleModule {
+	
+	public GreenhouseModule() {
 		super("GreenhouseModule", new Version(1, 0, 0, null));
 	}
 	
 	@Override
-	public void setupModule(SetupContext context)
-	{
+	public void setupModule(SetupContext context) {
 		context.setMixInAnnotations(GreenhouseProfile.class, GreenhouseProfileMixin.class);
 		context.setMixInAnnotations(Event.class, EventMixin.class);
 		context.setMixInAnnotations(Group.class, GroupMixin.class);

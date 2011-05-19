@@ -28,8 +28,8 @@ import android.util.Log;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsUpcomingActivity extends EventSessionsListActivity 
-{
+public class EventSessionsUpcomingActivity extends EventSessionsListActivity {
+	
 	private static final String TAG = EventSessionsUpcomingActivity.class.getSimpleName();
 
 
@@ -37,8 +37,7 @@ public class EventSessionsUpcomingActivity extends EventSessionsListActivity
     // Protected methods
     //***************************************
 	@Override
-	protected void downloadSessions() 
-	{
+	protected void downloadSessions() {
 		new DownloadSessionsTask().execute();
 	}
 	
@@ -46,25 +45,21 @@ public class EventSessionsUpcomingActivity extends EventSessionsListActivity
 	//***************************************
     // Private classes
     //***************************************
-	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> 
-	{
+	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> {
+		
 		private Exception exception;
 				
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog();
 		}
 		
 		@Override
-		protected List<EventSession> doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected List<EventSession> doInBackground(Void... params) {
+			try {
 				Event event = getEvent();
 				
-				if (event == null) 
-				{
+				if (event == null) {
 					return null;
 				}
 				
@@ -74,24 +69,18 @@ public class EventSessionsUpcomingActivity extends EventSessionsListActivity
 		
 				Date upcomingTime = null;
 				
-				for (EventSession session : sessions) 
-				{
-					if (upcomingTime == null && session.getStartTime().after(now)) 
-					{
+				for (EventSession session : sessions) {
+					if (upcomingTime == null && session.getStartTime().after(now)) {
 						upcomingTime = session.getStartTime();
 					} 
 					
-					if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) 
-					{
+					if (upcomingTime != null && session.getStartTime().compareTo(upcomingTime) == 0) {
 						upcomingSessions.add(session);
 					}
 				}
 				
-				return upcomingSessions;				
-				
-			} 
-			catch(Exception e) 
-			{
+				return upcomingSessions;
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
 			} 
@@ -100,8 +89,7 @@ public class EventSessionsUpcomingActivity extends EventSessionsListActivity
 		}
 		
 		@Override
-		protected void onPostExecute(List<EventSession> result) 
-		{
+		protected void onPostExecute(List<EventSession> result) {
 			dismissProgressDialog();
 			processException(exception);
 			setSessions(result);

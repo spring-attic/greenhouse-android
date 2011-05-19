@@ -26,22 +26,18 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class SignInActivity extends Activity 
-{
+public class SignInActivity extends Activity {
 
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(final Bundle savedInstanceState) 
-	{
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.signin);
 
-		findViewById(R.id.signin_button).setOnClickListener(new OnClickListener() 
-		{
-			public void onClick(final View view) 
-			{
+		findViewById(R.id.signin_button).setOnClickListener(new OnClickListener() {
+			public void onClick(final View view) {
 				startActivity(new Intent(SignInActivity.this, WebOAuthActivity.class));
 				finish();
 			}

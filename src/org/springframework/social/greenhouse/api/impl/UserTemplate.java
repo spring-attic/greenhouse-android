@@ -24,30 +24,26 @@ import org.springframework.web.client.RestTemplate;
  * 
  * @author Roy Clarkson
  */
-class UserTemplate extends AbstractGreenhouseOperations implements UserOperations
-{
+class UserTemplate extends AbstractGreenhouseOperations implements UserOperations {
+	
 	private final RestTemplate restTemplate;
 
-	public UserTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) 
-	{
+	public UserTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.restTemplate = restTemplate;
 	}
 
-	public long getAccountId() 
-	{
+	public long getAccountId() {
 		requireUserAuthorization();
 		return getUserProfile().getAccountId();
 	}
 
-	public String getDisplayName() 
-	{
+	public String getDisplayName() {
 		requireUserAuthorization();
 		return getUserProfile().getDisplayName();
 	}
 
-	public GreenhouseProfile getUserProfile() 
-	{
+	public GreenhouseProfile getUserProfile() {
 		requireUserAuthorization();
 		return restTemplate.getForObject(buildUri("members/@self"), GreenhouseProfile.class);
 	}

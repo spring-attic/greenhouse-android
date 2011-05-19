@@ -20,7 +20,6 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 /**
  * @author Roy Clarkson
  */
-public class GreenhouseErrorHandler extends DefaultResponseErrorHandler 
-{
+public class GreenhouseErrorHandler extends DefaultResponseErrorHandler {
 
 }

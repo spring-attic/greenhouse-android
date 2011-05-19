@@ -25,8 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class RoomMixin 
-{
+abstract class RoomMixin {
 	@JsonCreator
 	RoomMixin(
 			@JsonProperty("parentId") long parentId, 

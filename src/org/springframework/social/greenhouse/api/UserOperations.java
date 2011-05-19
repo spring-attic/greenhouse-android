@@ -20,8 +20,8 @@ package org.springframework.social.greenhouse.api;
  * 
  * @author Roy Clarkson
  */
-public interface UserOperations 
-{
+public interface UserOperations {
+	
 	/**
 	 * Retrieves the user's Greenhouse profile ID.
 	 * 

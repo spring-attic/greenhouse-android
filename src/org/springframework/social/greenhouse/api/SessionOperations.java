@@ -24,8 +24,8 @@ import java.util.List;
  * 
  * @author Roy Clarkson
  */
-public interface SessionOperations 
-{
+public interface SessionOperations {
+	
 	/**
 	 * Retrieves a list of sessions for an event that take place on a given day.
 	 * 

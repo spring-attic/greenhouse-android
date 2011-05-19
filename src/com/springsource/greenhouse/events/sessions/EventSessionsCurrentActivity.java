@@ -28,8 +28,8 @@ import android.util.Log;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsCurrentActivity extends EventSessionsListActivity 
-{
+public class EventSessionsCurrentActivity extends EventSessionsListActivity {
+	
 	private static final String TAG = EventSessionsCurrentActivity.class.getSimpleName();
 	
 	
@@ -37,8 +37,7 @@ public class EventSessionsCurrentActivity extends EventSessionsListActivity
 	// Protected methods
 	//***************************************
 	@Override
-	protected void downloadSessions() 
-	{
+	protected void downloadSessions() {
 		new DownloadSessionsTask().execute();
 	}
 	
@@ -46,25 +45,19 @@ public class EventSessionsCurrentActivity extends EventSessionsListActivity
 	//***************************************
     // Private classes
     //***************************************
-	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> 
-	{
+	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> {
 		private Exception exception;
 				
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog();
 		}
 		
 		@Override
-		protected List<EventSession> doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected List<EventSession> doInBackground(Void... params) {
+			try {
 				Event event = getEvent();
-				
-				if (event == null) 
-				{
+				if (event == null) {
 					return null;
 				}
 				
@@ -72,18 +65,14 @@ public class EventSessionsCurrentActivity extends EventSessionsListActivity
 				List<EventSession> sessions = getApplicationContext().getGreenhouseApi().sessionOperations().getSessionsOnDay(event.getId(), now);
 				List<EventSession> currentSessions = new ArrayList<EventSession>();
 				
-				for (EventSession session : sessions) 
-				{
-					if (session.getStartTime().before(now) && session.getEndTime().after(now)) 
-					{
+				for (EventSession session : sessions) {
+					if (session.getStartTime().before(now) && session.getEndTime().after(now)) {
 						currentSessions.add(session);
 					}
 				}
 				
 				return currentSessions;
-			} 
-			catch(Exception e) 
-			{
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
 			} 
@@ -92,8 +81,7 @@ public class EventSessionsCurrentActivity extends EventSessionsListActivity
 		}
 		
 		@Override
-		protected void onPostExecute(List<EventSession> result) 
-		{
+		protected void onPostExecute(List<EventSession> result) {
 			dismissProgressDialog();
 			processException(exception);
 			setSessions(result);

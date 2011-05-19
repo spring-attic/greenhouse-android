@@ -25,8 +25,8 @@ import java.util.List;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class EventSession implements Serializable
-{
+public class EventSession implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private long id;
@@ -49,8 +49,7 @@ public class EventSession implements Serializable
 
 	private List<Leader> leaders;
 	
-	public EventSession(long id, String title, String description, Date startTime, Date endTime, String hashtag, float rating, boolean favorite, Room room, List<Leader> leaders)
-	{
+	public EventSession(long id, String title, String description, Date startTime, Date endTime, String hashtag, float rating, boolean favorite, Room room, List<Leader> leaders) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -63,53 +62,43 @@ public class EventSession implements Serializable
 		this.leaders = leaders;
 	}
 
-	public long getId() 
-	{
+	public long getId() {
 		return id;
 	}
 
-	public String getTitle() 
-	{
+	public String getTitle() {
 		return title;
 	}
 
-	public String getDescription() 
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public Date getStartTime() 
-	{
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public Date getEndTime() 
-	{
+	public Date getEndTime() {
 		return endTime;
 	}
 
-	public String getHashtag() 
-	{
+	public String getHashtag() {
 		return hashtag;
 	}
 
-	public float getRating() 
-	{
+	public float getRating() {
 		return rating;
 	}
 
-	public boolean isFavorite() 
-	{
+	public boolean isFavorite() {
 		return favorite;
 	}
 
-	public Room getRoom() 
-	{
+	public Room getRoom() {
 		return room;
 	}
 
-	public List<Leader> getLeaders() 
-	{
+	public List<Leader> getLeaders() {
 		return leaders;
 	}
 	
@@ -118,8 +107,7 @@ public class EventSession implements Serializable
 //		this.leaders = leaders;
 //	}
 	
-	public String getJoinedLeaders(String separator) 
-	{		
+	public String getJoinedLeaders(String separator) {		
 		String s = "";
 		int size = leaders.size();
 		
@@ -134,6 +122,5 @@ public class EventSession implements Serializable
 		
 		return s;
 	}
-
-
+	
 }

@@ -32,8 +32,8 @@ import org.springframework.web.client.RestTemplate;
  * 
  * @author Roy Clarkson
  */
-public class GreenhouseTemplate implements GreenhouseApi 
-{
+public class GreenhouseTemplate implements GreenhouseApi {
+	
 	private boolean isAuthorizedForUser;
 	
 	private final RestTemplate restTemplate;
@@ -51,13 +51,11 @@ public class GreenhouseTemplate implements GreenhouseApi
 	 * @param accessToken an access token acquired through OAuth authentication with Greenhouse
 	 * @param accessTokenSecret an access token secret acquired through OAuth authentication with Greenhouse
 	 */
-	public GreenhouseTemplate(String apiKey, String apiSecret, String accessToken, String accessTokenSecret) 
-	{
+	public GreenhouseTemplate(String apiKey, String apiSecret, String accessToken, String accessTokenSecret) {
 		this(ProtectedResourceClientFactory.create(apiKey, apiSecret, accessToken, accessTokenSecret), true);
 	}
 	
-	private GreenhouseTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) 
-	{
+	private GreenhouseTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		this.restTemplate = restTemplate;
 		this.isAuthorizedForUser = isAuthorizedForUser;
 		registerGreenhouseModule(restTemplate);
@@ -67,36 +65,29 @@ public class GreenhouseTemplate implements GreenhouseApi
 		this.sessionOperations = new SessionTemplate(restTemplate, isAuthorizedForUser);
 	}
 	
-	public boolean isAuthorizedForUser()
-	{
+	public boolean isAuthorizedForUser() {
 		return isAuthorizedForUser;
 	}
 	
-	public UserOperations userOperations()
-	{
+	public UserOperations userOperations() {
 		return userOperations;
 	}
 	
-	public EventOperations eventOperations()
-	{
+	public EventOperations eventOperations() {
 		return eventOperations;
 	}
 	
-	public SessionOperations sessionOperations()
-	{
+	public SessionOperations sessionOperations() {
 		return sessionOperations;
 	}
 	
 	// private helper 
 
-	private void registerGreenhouseModule(RestTemplate restTemplate) 
-	{
+	private void registerGreenhouseModule(RestTemplate restTemplate) {
 		List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
 		
-		for (HttpMessageConverter<?> converter : converters) 
-		{
-			if(converter instanceof MappingJacksonHttpMessageConverter) 
-			{
+		for (HttpMessageConverter<?> converter : converters) {
+			if(converter instanceof MappingJacksonHttpMessageConverter) {
 				MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
 				ObjectMapper objectMapper = new ObjectMapper();				
 				objectMapper.registerModule(new GreenhouseModule());
@@ -107,8 +98,7 @@ public class GreenhouseTemplate implements GreenhouseApi
 	
 	// subclassing hooks
 
-	protected RestTemplate getRestTemplate() 
-	{
+	protected RestTemplate getRestTemplate() {
 		return restTemplate;
 	}
 }

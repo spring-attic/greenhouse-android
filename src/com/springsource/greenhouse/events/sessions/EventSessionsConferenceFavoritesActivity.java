@@ -26,8 +26,8 @@ import android.util.Log;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsConferenceFavoritesActivity extends EventSessionsListActivity 
-{
+public class EventSessionsConferenceFavoritesActivity extends EventSessionsListActivity {
+	
 	private static final String TAG = EventSessionsConferenceFavoritesActivity.class.getSimpleName();
 	
 	
@@ -35,8 +35,7 @@ public class EventSessionsConferenceFavoritesActivity extends EventSessionsListA
     // Protected methods
     //***************************************
 	@Override
-	protected void downloadSessions() 
-	{
+	protected void downloadSessions() {
 		new DownloadSessionsTask().execute();
 	}
 	
@@ -44,33 +43,25 @@ public class EventSessionsConferenceFavoritesActivity extends EventSessionsListA
 	//***************************************
     // Private classes
     //***************************************
-	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> 
-	{
+	private class DownloadSessionsTask extends AsyncTask<Void, Void, List<EventSession>> {
+		
 		private Exception exception;
 				
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog();
 		}
 		
 		@Override
-		protected List<EventSession> doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected List<EventSession> doInBackground(Void... params) {
+			try {
 				Event event = getEvent();
-				
-				if (event == null) 
-				{
+				if (event == null) {
 					return null;
 				}
-				
 				return getApplicationContext().getGreenhouseApi().sessionOperations().getConferenceFavoriteSessions(event.getId());
 				
-			} 
-			catch(Exception e) 
-			{
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
 			} 
@@ -79,8 +70,7 @@ public class EventSessionsConferenceFavoritesActivity extends EventSessionsListA
 		}
 		
 		@Override
-		protected void onPostExecute(List<EventSession> result) 
-		{
+		protected void onPostExecute(List<EventSession> result) {
 			dismissProgressDialog();
 			processException(exception);
 			setSessions(result);

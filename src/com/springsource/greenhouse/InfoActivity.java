@@ -26,28 +26,24 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class InfoActivity extends AbstractGreenhouseActivity 
-{
+public class InfoActivity extends AbstractGreenhouseActivity {
 	
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.info);
 		
 		final TextView textViewInfoVersion = (TextView) findViewById(R.id.info_textview_version);
 	
-		try 
-		{
+		try {
 			ComponentName componentName = new ComponentName(this, AbstractGreenhouseActivity.class);
 			String packageName = componentName.getPackageName();
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
 			textViewInfoVersion.setText("Version " + packageInfo.versionName);
-		} 
-		catch (NameNotFoundException e) { }
+		} catch (NameNotFoundException e) { }
 		
 	}
 }

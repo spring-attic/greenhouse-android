@@ -28,37 +28,32 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Roy Clarkson
  */
-public class SessionTemplate extends AbstractGreenhouseOperations implements SessionOperations
-{
+public class SessionTemplate extends AbstractGreenhouseOperations implements SessionOperations {
+	
 	private final RestTemplate restTemplate;
 
-	public SessionTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) 
-	{
+	public SessionTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.restTemplate = restTemplate;
 	}
 	
-	public List<EventSession> getSessionsOnDay(long eventId, Date date) 
-	{
+	public List<EventSession> getSessionsOnDay(long eventId, Date date) {
 		String isoDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(isoDate).toString();
 		return restTemplate.getForObject(buildUri(url), EventSessionList.class);
 	}
 
-	public List<EventSession> getFavoriteSessions(long eventId) 
-	{
+	public List<EventSession> getFavoriteSessions(long eventId) {
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/favorites").toString();
 		return restTemplate.getForObject(buildUri(url), EventSessionList.class);
 	}
 
-	public List<EventSession> getConferenceFavoriteSessions(long eventId) 
-	{
+	public List<EventSession> getConferenceFavoriteSessions(long eventId) {
 		String url = new StringBuilder().append("events/").append(eventId).append("/favorites").toString();
 		return restTemplate.getForObject(buildUri(url), EventSessionList.class);
 	}
 
-	public boolean updateFavoriteSession(long eventId, long sessionId) 
-	{
+	public boolean updateFavoriteSession(long eventId, long sessionId) {
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("favorite").toString();
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
 	}

@@ -28,15 +28,13 @@ import com.springsource.greenhouse.profile.ProfileActivity;
 /**
  * @author Roy Clarkson
  */
-public class MainTabWidget extends TabActivity 
-{
+public class MainTabWidget extends TabActivity {
 	
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		

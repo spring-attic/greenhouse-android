@@ -42,48 +42,42 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class ProfileActivity extends AbstractGreenhouseActivity 
-{	
+public class ProfileActivity extends AbstractGreenhouseActivity {
+	
 	protected static final String TAG = ProfileActivity.class.getSimpleName();
 	
-	private GreenhouseProfile _profile;
+	private GreenhouseProfile profile;
 	
 	
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (_profile == null)
-		{
+		if (profile == null) {
 			downloadProfile();
 		}
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.profile_menu, menu);
 	    return true;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{
+	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
-	    switch (item.getItemId()) 
-	    {
+	    switch (item.getItemId()) {
 		    case R.id.profile_menu_refresh:
 		        downloadProfile();
 		        return true;
@@ -98,29 +92,25 @@ public class ProfileActivity extends AbstractGreenhouseActivity
 	//***************************************
     // Private methods
     //***************************************
-	private void refreshProfile(GreenhouseProfile profile) 
-	{
-		if (profile == null) 
-		{
+	private void refreshProfile(GreenhouseProfile profile) {
+		if (profile == null) {
 			return;
 		}
 		
-		_profile = profile;
+		this.profile = profile;
 		
 		final TextView textViewMemberName = (TextView) findViewById(R.id.profile_textview_member_name);		
 		textViewMemberName.setText(profile.getDisplayName());
 		new DownloadProfileImageTask().execute(profile.getPictureUrl());
 	}
 	
-	private void signOut() 
-	{
+	private void signOut() {
     	getApplicationContext().getConnectionRepository().removeConnectionsToProvider(getApplicationContext().getConnectionFactory().getProviderId());
     	startActivity(new Intent(this, MainActivity.class));
     	finish();
     } 
     
-    private void downloadProfile() 
-    {
+    private void downloadProfile() {
 		new DownloadProfileTask().execute();
 	}
     
@@ -128,51 +118,42 @@ public class ProfileActivity extends AbstractGreenhouseActivity
 	//***************************************
 	// Private classes
 	//***************************************
-	private class DownloadProfileTask extends AsyncTask<Void, Void, GreenhouseProfile> 
-	{
-		private Exception _exception;
+	private class DownloadProfileTask extends AsyncTask<Void, Void, GreenhouseProfile> {
+		
+		private Exception exception;
 		
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog(); 
 		}
 		
 		@Override
-		protected GreenhouseProfile doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected GreenhouseProfile doInBackground(Void... params) {
+			try {
 				return getApplicationContext().getPrimaryConnection().getApi().userOperations().getUserProfile();
-			} 
-			catch(Exception e) 
-			{
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				_exception = e;
-			} 
+				exception = e;
+			}
 			
 			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(GreenhouseProfile result) 
-		{
+		protected void onPostExecute(GreenhouseProfile result) {
 			dismissProgressDialog();
-			processException(_exception);
+			processException(exception);
 			refreshProfile(result);
 		}
 	}
 	
-	private class DownloadProfileImageTask extends AsyncTask<String, Void, Bitmap> 
-	{		
+	private class DownloadProfileImageTask extends AsyncTask<String, Void, Bitmap> {
+		
 		@Override
-		protected Bitmap doInBackground(String... urls) 
-		{
+		protected Bitmap doInBackground(String... urls) {
 			Bitmap bitmap = null;
-			try 
-			{
-				if (urls.length > 0)
-				{
+			try {
+				if (urls.length > 0) {
 					URL url = new URL(urls[0]);
 					URLConnection conn = url.openConnection();
 					conn.connect();
@@ -182,9 +163,7 @@ public class ProfileActivity extends AbstractGreenhouseActivity
 					bis.close();
 					is.close();
 				}
-			} 
-			catch (IOException e) 
-			{
+			} catch (IOException e) {
 				Log.e(TAG, "Error retrieving profile image", e);
 			}
 
@@ -192,8 +171,7 @@ public class ProfileActivity extends AbstractGreenhouseActivity
 		}
 
 		@Override
-		protected void onPostExecute(Bitmap result) 
-		{
+		protected void onPostExecute(Bitmap result) {
 			final ImageView imageViewPicture = (ImageView) findViewById(R.id.profile_imageview_picture);
 			imageViewPicture.setImageBitmap(result);
 		}

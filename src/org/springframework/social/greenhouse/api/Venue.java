@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * @author Roy Clarkson
  */
-public class Venue implements Serializable
-{
+public class Venue implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private long id;
@@ -35,8 +35,7 @@ public class Venue implements Serializable
 
 	private Map<String, Double> location;
 	
-	public Venue(long id, String name, String postalAddress, String locationHint, Map<String, Double> location)
-	{
+	public Venue(long id, String name, String postalAddress, String locationHint, Map<String, Double> location) {
 		this.id = id;
 		this.name = name;
 		this.postalAddress = postalAddress;
@@ -44,33 +43,27 @@ public class Venue implements Serializable
 		this.location = location;
 	}
 
-	public double getLatitude() 
-	{
+	public double getLatitude() {
 		return location.get("latitude");
 	}
 
-	public double getLongitude() 
-	{
+	public double getLongitude() {
 		return location.get("longitude");
 	}
 
-	public long getId() 
-	{
+	public long getId() {
 		return id;
 	}
 
-	public String getName() 
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getPostalAddress() 
-	{
+	public String getPostalAddress() {
 		return postalAddress;
 	}
 
-	public String getLocationHint() 
-	{
+	public String getLocationHint() {
 		return locationHint;
 	}
 }

@@ -29,35 +29,31 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsFilteredActivity extends ListActivity 
-{
+public class EventSessionsFilteredActivity extends ListActivity {
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventSessionsFilteredActivity.class.getSimpleName();
 	
-	private Event _event;
+	private Event event;
 	
 	
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		String[] menu_items = getResources().getStringArray(R.array.event_filtered_sessions_options_array);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items); 
 		setListAdapter(arrayAdapter);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("event"))
-		{
-			_event = (Event) getIntent().getSerializableExtra("event");
+		if (getIntent().hasExtra("event")) {
+			event = (Event) getIntent().getSerializableExtra("event");
 		}
 	}
 	
@@ -66,20 +62,17 @@ public class EventSessionsFilteredActivity extends ListActivity
     // ListActivity methods
     //***************************************
 	@Override
-	protected void  onListItemClick(ListView l, View v, int position, long id) 
-	{
+	protected void  onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		if (_event == null)
-		{
+		if (event == null) {
 			return;
 		}
 		
 		Intent intent = new Intent();
-		intent.putExtra("event", _event);
+		intent.putExtra("event", event);
 		
-		switch(position) 
-		{
+		switch(position) {
 			case 0:
 				intent.setClass(v.getContext(), EventSessionsCurrentActivity.class);
 				break;

@@ -24,31 +24,27 @@ import android.os.Bundle;
 /**
  * @author Roy Clarkson
  */
-public class MainActivity extends AbstractGreenhouseActivity 
-{	
+public class MainActivity extends AbstractGreenhouseActivity {
+	
 	@SuppressWarnings("unused")
 	private static final String TAG = MainActivity.class.getSimpleName();
 	
-	private ConnectionRepository _connectionRepository;
+	private ConnectionRepository connectionRepository;
 	
 	
 	//***************************************
     // Activity methods
     //***************************************
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		_connectionRepository = getApplicationContext().getConnectionRepository();
+		connectionRepository = getApplicationContext().getConnectionRepository();
 		
 		Intent intent;
-		if (isConnected())
-		{		 
+		if (isConnected()) {
 			intent = new Intent(this, MainTabWidget.class);
-		}
-		else 
-		{
+		} else {
 			intent = new Intent(this, SignInActivity.class);
 		}
 		
@@ -87,8 +83,7 @@ public class MainActivity extends AbstractGreenhouseActivity
 	//***************************************
     // Private methods
     //***************************************
-	private boolean isConnected() 
-	{
-		return _connectionRepository.findPrimaryConnectionToApi(GreenhouseApi.class) != null;
+	private boolean isConnected() {
+		return connectionRepository.findPrimaryConnectionToApi(GreenhouseApi.class) != null;
 	}
 }

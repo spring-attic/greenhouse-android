@@ -26,22 +26,19 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventDescriptionActivity extends Activity 
-{
+public class EventDescriptionActivity extends Activity {
 
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.event_description);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		refreshEventDescription();
 	}
@@ -50,10 +47,8 @@ public class EventDescriptionActivity extends Activity
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshEventDescription() 
-	{		
-		if (!getIntent().hasExtra("event")) 
-		{
+	private void refreshEventDescription() {
+		if (!getIntent().hasExtra("event")) {
 			return;
 		}
 		

@@ -37,21 +37,20 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventSessionDetailsActivity extends AbstractGreenhouseActivity 
-{
+public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
+	
 	private static final String TAG = EventSessionDetailsActivity.class.getSimpleName();
 	
-	private Event _event;
+	private Event event;
 	
-	private EventSession _session;
+	private EventSession session;
 	
 	
 	//***************************************
 	// Activity methods
 	//***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.event_session_details);
 		
@@ -61,13 +60,9 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items);
 		listView.setAdapter(arrayAdapter);
 		
-		listView.setOnItemClickListener(new OnItemClickListener() 
-		{
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) 
-		    {
-		    	
-		    	switch(position) 
-		    	{
+		listView.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		    	switch(position) {
 			      	case 0:
 			      		startActivity(new Intent(view.getContext(), EventSessionDescriptionActivity.class));
 			      		break;
@@ -82,27 +77,23 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (getIntent().hasExtra("event") && getIntent().hasExtra("session"))
-		{
-			_event = (Event) getIntent().getSerializableExtra("event");
-			_session = (EventSession) getIntent().getSerializableExtra("session");
+		if (getIntent().hasExtra("event") && getIntent().hasExtra("session")) {
+			event = (Event) getIntent().getSerializableExtra("event");
+			session = (EventSession) getIntent().getSerializableExtra("session");
 		}
 		
-		refreshEventDetails();
+		refreshEventDetails(); 
 	}
 	
 	
 	//***************************************
 	// Private methods
 	//***************************************
-	private void refreshEventDetails() 
-	{		
-		if (_session == null) 
-		{
+	private void refreshEventDetails() {		
+		if (session == null) {
 			return;
 		}
 		
@@ -112,20 +103,19 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity
 		final TextView textViewSessionRoom = (TextView) findViewById(R.id.event_session_details_textview_room);
 //		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
 		
-		textViewSessionName.setText(_session.getTitle());
-		textViewSessionLeaders.setText(_session.getJoinedLeaders(", "));
+		textViewSessionName.setText(session.getTitle());
+		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));
 		
-		String startTime = new SimpleDateFormat("h:mm a").format(_session.getStartTime());
-		String endTime = new SimpleDateFormat("h:mm a").format(_session.getEndTime());
+		String startTime = new SimpleDateFormat("h:mm a").format(session.getStartTime());
+		String endTime = new SimpleDateFormat("h:mm a").format(session.getEndTime());
 		textViewSessionTime.setText(startTime + " - " + endTime);
 		
-		textViewSessionRoom.setText("Room: " + _session.getRoom().getLabel());
-		setFavoriteStatus(_session.isFavorite());
+		textViewSessionRoom.setText("Room: " + session.getRoom().getLabel());
+		setFavoriteStatus(session.isFavorite());
 //		textViewSessionRating.setText(session.getRating() + " Stars");
 	}
 	
-	private void setFavoriteStatus(Boolean status) 
-	{
+	private void setFavoriteStatus(Boolean status) {
 		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_textview_favorite);
 		String text = status ? "Favorite: \u2713" : "Favorite:";
 		textViewSessionFavorite.setText(text);
@@ -135,31 +125,23 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity
 	//***************************************
     // Private classes
     //***************************************
-	private class UpdateFavoriteTask extends AsyncTask<Void, Void, Boolean> 
-	{
+	private class UpdateFavoriteTask extends AsyncTask<Void, Void, Boolean> {
+		
 		private Exception exception;
 		
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog("Updating favorite ..."); 
 		}
 		
 		@Override
-		protected Boolean doInBackground(Void... params) 
-		{
-			try 
-			{
-				if (_event == null || _session == null) 
-				{
+		protected Boolean doInBackground(Void... params) {
+			try {
+				if (event == null || session == null) {
 					return false;
 				}
-				
-				return getApplicationContext().getGreenhouseApi().sessionOperations().updateFavoriteSession(_event.getId(), _session.getId());
-				
-			}
-			catch(Exception e) 
-			{
+				return getApplicationContext().getGreenhouseApi().sessionOperations().updateFavoriteSession(event.getId(), session.getId());
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
 			} 
@@ -168,8 +150,7 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity
 		}
 		
 		@Override
-		protected void onPostExecute(Boolean result) 
-		{
+		protected void onPostExecute(Boolean result) {
 			dismissProgressDialog();
 			processException(exception);
 			setFavoriteStatus(result);

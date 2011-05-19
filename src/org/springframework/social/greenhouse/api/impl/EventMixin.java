@@ -31,8 +31,7 @@ import org.springframework.social.greenhouse.api.Venue;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class EventMixin 
-{
+abstract class EventMixin {
 	@JsonCreator
 	EventMixin(
 			@JsonProperty("id") long id, 

@@ -39,8 +39,8 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class EventsActivity extends AbstractGreenhouseListActivity 
-{	
+public class EventsActivity extends AbstractGreenhouseListActivity {
+	
 	protected static final String TAG = EventsActivity.class.getSimpleName();
 	
 	private List<Event> upcomingEvents;
@@ -50,36 +50,30 @@ public class EventsActivity extends AbstractGreenhouseListActivity
     // Activity methods
     //***************************************
 	@Override
-	public void onCreate(Bundle savedInstanceState) 
-	{
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 	
 	@Override
-	public void onStart() 
-	{
+	public void onStart() {
 		super.onStart();
 		
-		if (upcomingEvents == null)
-		{
+		if (upcomingEvents == null) {
 			downloadEvents();
 		}
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) 
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.events_menu, menu);
 	    return true;
 	}
 	
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{		
+	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle item selection
-	    switch (item.getItemId()) 
-	    {
+	    switch (item.getItemId()) {
 	    	case R.id.events_menu_refresh:
 	    		downloadEvents();
 	    		return true;
@@ -93,8 +87,7 @@ public class EventsActivity extends AbstractGreenhouseListActivity
     // ListActivity methods
     //***************************************
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) 
-	{
+	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
 		Event event = upcomingEvents.get(position);
@@ -109,20 +102,17 @@ public class EventsActivity extends AbstractGreenhouseListActivity
 	//***************************************
     // Private methods
     //***************************************
-	private void refreshEvents(List<Event> upcomingEvents) 
-	{	
+	private void refreshEvents(List<Event> upcomingEvents) {	
 		this.upcomingEvents = upcomingEvents;
 
-		if (upcomingEvents == null) 
-		{
+		if (upcomingEvents == null) {
 			return;
 		}
 		
 		List<Map<String,String>> events = new ArrayList<Map<String,String>>();
 		
 		// TODO: Is there w way to populate the table from an Event instead of a Map?
-		for (Event event : upcomingEvents) 
-		{
+		for (Event event : upcomingEvents) {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", event.getTitle());
 			map.put("groupName", event.getGroupName());
@@ -139,8 +129,7 @@ public class EventsActivity extends AbstractGreenhouseListActivity
 		setListAdapter(adapter);
 	}
 		
-	private void downloadEvents() 
-	{
+	private void downloadEvents() {
 		new DownloadEventsTask().execute();
 	}
 	
@@ -148,37 +137,31 @@ public class EventsActivity extends AbstractGreenhouseListActivity
 	//***************************************
     // Private classes
     //***************************************
-	private class DownloadEventsTask extends AsyncTask<Void, Void, List<Event>> 
-	{
-		private Exception _exception;
+	private class DownloadEventsTask extends AsyncTask<Void, Void, List<Event>> {
+		
+		private Exception exception;
 		
 		@Override
-		protected void onPreExecute() 
-		{
+		protected void onPreExecute() {
 			showProgressDialog(); 
 		}
 		
 		@Override
-		protected List<Event> doInBackground(Void... params) 
-		{
-			try 
-			{
+		protected List<Event> doInBackground(Void... params) {
+			try {
 				return getApplicationContext().getGreenhouseApi().eventOperations().getUpcomingEvents();
-			} 
-			catch(Exception e) 
-			{
+			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				_exception = e;
+				exception = e;
 			} 
 			
 			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(List<Event> result) 
-		{
+		protected void onPostExecute(List<Event> result) {
 			dismissProgressDialog();
-			processException(_exception);
+			processException(exception);
 			refreshEvents(result);
 		}
 	}

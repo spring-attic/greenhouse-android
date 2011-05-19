@@ -25,8 +25,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Roy Clarkson
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
-abstract class TimeZoneMixin 
-{
+abstract class TimeZoneMixin {
 	@JsonCreator
 	TimeZoneMixin(
 			@JsonProperty("id") String id, 

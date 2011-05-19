@@ -29,29 +29,28 @@ import android.app.Application;
 /**
  * @author Roy Clarkson
  */
-public class MainApplication extends Application 
-{
+public class MainApplication extends Application  {
+	
 	private static final String GREENHOUSE_CONSUMER_TOKEN = "e9fbccdae98d5696";
 	
 	private static final String GREENHOUSE_CONSUMER_TOKEN_SECRET = "9fa283e1eca2d4e8";
 	
-	private GreenhouseConnectionFactory _connectionFactory;
+	private GreenhouseConnectionFactory connectionFactory;
 	
-	private ConnectionRepository _connectionRepository;
+	private ConnectionRepository connectionRepository;
 	
 	
 	//***************************************
     // Application methods
     //***************************************
 	@Override
-	public void onCreate()
-	{
+	public void onCreate() {
 		super.onCreate();
 		
-		_connectionFactory = new GreenhouseConnectionFactory(GREENHOUSE_CONSUMER_TOKEN, GREENHOUSE_CONSUMER_TOKEN_SECRET);
+		connectionFactory = new GreenhouseConnectionFactory(GREENHOUSE_CONSUMER_TOKEN, GREENHOUSE_CONSUMER_TOKEN_SECRET);
 		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
-		registry.addConnectionFactory(_connectionFactory);
-		_connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text("password", "5c0744940b5c369b")); 
+		registry.addConnectionFactory(connectionFactory);
+		connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text("password", "5c0744940b5c369b")); 
 	}
 	
 	
@@ -63,26 +62,21 @@ public class MainApplication extends Application
 	//***************************************
     // Public methods
     //***************************************
-	public ConnectionRepository getConnectionRepository()
-	{
-		return _connectionRepository;
+	public ConnectionRepository getConnectionRepository() {
+		return connectionRepository;
 	}
 	
-	public GreenhouseConnectionFactory getConnectionFactory()
-	{
-		return _connectionFactory;
+	public GreenhouseConnectionFactory getConnectionFactory() {
+		return connectionFactory;
 	}
 	
-	public Connection<GreenhouseApi> getPrimaryConnection()
-	{
+	public Connection<GreenhouseApi> getPrimaryConnection() {
 		return getConnectionRepository().findPrimaryConnectionToApi(GreenhouseApi.class);
 	}
 	
-	public GreenhouseApi getGreenhouseApi()
-	{
+	public GreenhouseApi getGreenhouseApi() {
 		Connection<GreenhouseApi> connection = getPrimaryConnection();
-		if (connection != null)
-		{
+		if (connection != null) {
 			return connection.getApi();
 		}
 

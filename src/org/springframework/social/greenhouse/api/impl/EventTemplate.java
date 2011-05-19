@@ -27,12 +27,11 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author Roy Clarkson
  */
-public class EventTemplate extends AbstractGreenhouseOperations implements EventOperations 
-{
+public class EventTemplate extends AbstractGreenhouseOperations implements EventOperations {
+	
 	private final RestTemplate restTemplate;
 
-	public EventTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) 
-	{
+	public EventTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
 		super(isAuthorizedForUser);
 		this.restTemplate = restTemplate;
 	}

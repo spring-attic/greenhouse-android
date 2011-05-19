@@ -20,8 +20,8 @@ import java.io.Serializable;
 /**
  * @author Roy Clarkson
  */
-public class TimeZone implements Serializable
-{
+public class TimeZone implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private String id;
@@ -29,14 +29,12 @@ public class TimeZone implements Serializable
 	@SuppressWarnings("unused")
 	private boolean fixed;
 	
-	public TimeZone(String id, boolean fixed)
-	{
+	public TimeZone(String id, boolean fixed) {
 		this.id = id;
 		this.fixed = fixed;
 	}
 
-	public String getId() 
-	{
+	public String getId() {
 		return id;
 	}
 }
