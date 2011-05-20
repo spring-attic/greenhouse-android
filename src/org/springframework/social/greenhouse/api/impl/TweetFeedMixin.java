@@ -13,35 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.greenhouse.api;
+package org.springframework.social.greenhouse.api.impl;
 
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.springframework.social.greenhouse.api.Tweet;
 
 /**
+ * Mixin class for adding Jackson annotations to Tweet.
+ * 
  * @author Roy Clarkson
  */
-public class Leader {
-
-	private String name;
-
-	private String firstName;
-
-	private String lastName;
-	
-	public Leader(String name, String firstName, String lastName) {
-		this.name = name;
-		this.firstName = firstName;
-		this.lastName = lastName;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
+@JsonIgnoreProperties(ignoreUnknown=true)
+abstract class TweetFeedMixin {
+	@JsonCreator
+	TweetFeedMixin(
+			@JsonProperty("lastPage") boolean lastPage, 
+			@JsonProperty("maxId") long maxId, 
+			@JsonProperty("sinceId") long sinceId,
+			@JsonProperty("tweets") List<Tweet> tweets) {}
 }

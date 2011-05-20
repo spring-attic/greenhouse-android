@@ -15,14 +15,11 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
 
 /**
  * @author Roy Clarkson
  */
-public class TimeZone implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class TimeZone {
 
 	private String id;
 

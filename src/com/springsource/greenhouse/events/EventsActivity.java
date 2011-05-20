@@ -15,10 +15,7 @@
  */
 package com.springsource.greenhouse.events;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.social.greenhouse.api.Event;
 
@@ -31,7 +28,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.springsource.greenhouse.AbstractGreenhouseListActivity;
 import com.springsource.greenhouse.R;
@@ -91,11 +87,8 @@ public class EventsActivity extends AbstractGreenhouseListActivity {
 		super.onListItemClick(l, v, position, id);
 		
 		Event event = upcomingEvents.get(position);
-		
-		Intent intent = new Intent();
-		intent.setClass(EventsActivity.this, EventDetailsActivity.class);
-		intent.putExtra("event", event);
-		startActivity(intent);
+		getApplicationContext().setSelectedEvent(event);		
+		startActivity(new Intent(this, EventDetailsActivity.class));
 	}
 	
 	
@@ -109,24 +102,7 @@ public class EventsActivity extends AbstractGreenhouseListActivity {
 			return;
 		}
 		
-		List<Map<String,String>> events = new ArrayList<Map<String,String>>();
-		
-		// TODO: Is there w way to populate the table from an Event instead of a Map?
-		for (Event event : upcomingEvents) {
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("title", event.getTitle());
-			map.put("groupName", event.getGroupName());
-			events.add(map);
-		}		
-		
-		SimpleAdapter adapter = new SimpleAdapter(
-				this,
-				events,
-				R.layout.events_list_item,
-				new String[] { "title", "groupName" },
-				new int[] { R.id.title, R.id.subtitle } );
-		
-		setListAdapter(adapter);
+		setListAdapter(new EventsListAdapter(this, upcomingEvents));
 	}
 		
 	private void downloadEvents() {
@@ -153,7 +129,7 @@ public class EventsActivity extends AbstractGreenhouseListActivity {
 			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
 				exception = e;
-			} 
+			}
 			
 			return null;
 		}

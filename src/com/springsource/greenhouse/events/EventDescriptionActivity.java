@@ -17,16 +17,16 @@ package com.springsource.greenhouse.events;
 
 import org.springframework.social.greenhouse.api.Event;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
  */
-public class EventDescriptionActivity extends Activity {
+public class EventDescriptionActivity extends AbstractGreenhouseActivity {
 
 	//***************************************
 	// Activity methods
@@ -48,12 +48,8 @@ public class EventDescriptionActivity extends Activity {
 	// Private methods
 	//***************************************
 	private void refreshEventDescription() {
-		if (!getIntent().hasExtra("event")) {
-			return;
-		}
-		
 		final TextView textViewDescription = (TextView) findViewById(R.id.event_description_textview);
-		Event event = (Event) getIntent().getSerializableExtra("event");
+		Event event = getApplicationContext().getSelectedEvent();
 		textViewDescription.setText(event.getDescription());
 	}
 }

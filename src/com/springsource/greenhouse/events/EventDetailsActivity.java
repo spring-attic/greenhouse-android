@@ -15,11 +15,8 @@
  */
 package com.springsource.greenhouse.events;
 
-import java.text.SimpleDateFormat;
-
 import org.springframework.social.greenhouse.api.Event;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
 import com.springsource.greenhouse.events.sessions.EventSessionsFilteredActivity;
 import com.springsource.greenhouse.events.sessions.EventSessionsScheduleActivity;
@@ -36,7 +34,7 @@ import com.springsource.greenhouse.events.sessions.EventSessionsScheduleActivity
 /**
  * @author Roy Clarkson
  */
-public class EventDetailsActivity extends Activity {
+public class EventDetailsActivity extends AbstractGreenhouseActivity {
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventDetailsActivity.class.getSimpleName();
@@ -61,7 +59,6 @@ public class EventDetailsActivity extends Activity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	Intent intent = new Intent();
-		    	intent.putExtra("event", event);
 		    	
 		    	switch(position) {
 			      	case 0:
@@ -72,6 +69,10 @@ public class EventDetailsActivity extends Activity {
 			      		break;
 			      	case 2:
 			      		intent.setClass(view.getContext(), EventSessionsScheduleActivity.class);
+			      		break;
+			      	case 3:
+			      		intent.setClass(view.getContext(), EventTweetsActivity.class);
+			      		break;
 			      	default:
 			      		break;
 		    	}
@@ -84,11 +85,7 @@ public class EventDetailsActivity extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (getIntent().hasExtra("event")) {
-			event = (Event) getIntent().getSerializableExtra("event");
-		}
-		
+		event = getApplicationContext().getSelectedEvent();		
 		refreshEventDetails();
 	}
 	
@@ -105,12 +102,8 @@ public class EventDetailsActivity extends Activity {
 		final TextView textViewEventDate = (TextView) findViewById(R.id.event_details_textview_date);
 		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
 		
-		textViewEventName.setText(event.getTitle());
-		
-		String startTime = new SimpleDateFormat("EEE, MMM d").format(event.getStartTime());
-		String endTime = new SimpleDateFormat("EEE, MMM d, yyyy").format(event.getEndTime());
-		
-		textViewEventDate.setText(startTime + " - " + endTime);
+		textViewEventName.setText(event.getTitle());		
+		textViewEventDate.setText(event.getFormattedTimeSpan());
 		textViewEventLocation.setText(event.getLocation());
 	}
 }

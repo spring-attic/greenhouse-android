@@ -63,6 +63,10 @@
 			android:label="@string/title_event_description" />
 			
 		<activity 
+			android:name="com.springsource.greenhouse.events.EventTweetsActivity"
+			android:label="@string/title_event_tweets" />
+			
+		<activity 
 			android:name="com.springsource.greenhouse.events.sessions.EventSessionsFilteredActivity"
 			android:label="@string/title_event_sessions_filtered" />
 			
@@ -80,7 +84,11 @@
 
 		<activity 
 			android:name="com.springsource.greenhouse.events.sessions.EventSessionsMyFavoritesActivity"
-			android:label="@string/title_event_sessions_my_favorites" />		
+			android:label="@string/title_event_sessions_my_favorites" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.events.sessions.EventSessionsConferenceFavoritesActivity"
+			android:label="@string/title_event_sessions_conference_favorites" />
 
 		<activity
 			android:name="com.springsource.greenhouse.events.sessions.EventSessionsByDayActivity"

@@ -56,7 +56,7 @@ public class EventSessionsCurrentActivity extends EventSessionsListActivity {
 		@Override
 		protected List<EventSession> doInBackground(Void... params) {
 			try {
-				Event event = getEvent();
+				Event event = getSelectedEvent();
 				if (event == null) {
 					return null;
 				}

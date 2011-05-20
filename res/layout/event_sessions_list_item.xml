@@ -7,9 +7,12 @@
      android:padding="5dp">
 
      <TextView style="@style/BoldText" 
-         android:id="@+id/title"/>
+         android:id="@+id/event_sessions_list_item_title"/>
 
-     <TextView style="@style/Text"  
-         android:id="@+id/subtitle"/>
+     <TextView style="@style/SmallText"  
+         android:id="@+id/event_sessions_list_item_leaders"/>
+         
+     <TextView style="@style/SmallText"  
+         android:id="@+id/event_sessions_list_item_time_and_room"/>
          
  </LinearLayout>

@@ -44,6 +44,7 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 	}
 
 	public List<EventSession> getFavoriteSessions(long eventId) {
+		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/favorites").toString();
 		return restTemplate.getForObject(buildUri(url), EventSessionList.class);
 	}
@@ -54,6 +55,7 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 	}
 
 	public boolean updateFavoriteSession(long eventId, long sessionId) {
+		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("favorite").toString();
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
 	}

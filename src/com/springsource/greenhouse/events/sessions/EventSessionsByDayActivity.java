@@ -41,9 +41,8 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (getIntent().hasExtra("day")) {
-			day = (Date) getIntent().getSerializableExtra("day");
+		day = getApplicationContext().getSelectedDay();
+		if (day != null) {
 			String title = new SimpleDateFormat("EEEE, MMM d").format(day);
 			this.setTitle(title);
 		}
@@ -74,7 +73,7 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity {
 		@Override
 		protected List<EventSession> doInBackground(Void... params) {
 			try {
-				Event event = getEvent();
+				Event event = getSelectedEvent();
 				if (event == null || day == null) {
 					return null;
 				}

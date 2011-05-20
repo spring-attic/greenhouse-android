@@ -46,4 +46,9 @@ public interface GreenhouseApi {
 	 */
 	UserOperations userOperations();
 	
+	/**
+	 * Returns the portion of the Greenhouse API containing the tweet operations.
+	 */
+	TweetOperations tweetOperations();
+	
 }

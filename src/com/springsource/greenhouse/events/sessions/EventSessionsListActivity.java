@@ -15,10 +15,7 @@
  */
 package com.springsource.greenhouse.events.sessions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.EventSession;
@@ -27,17 +24,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.springsource.greenhouse.AbstractGreenhouseListActivity;
-import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
  */
 public abstract class EventSessionsListActivity extends AbstractGreenhouseListActivity {
-	
-	private Event event;
 	
 	private List<EventSession> sessions;
 	
@@ -52,12 +45,7 @@ public abstract class EventSessionsListActivity extends AbstractGreenhouseListAc
 	
 	@Override
 	public void onStart() {
-		super.onStart();
-		
-		if (getIntent().hasExtra("event")) {
-			event = (Event) getIntent().getSerializableExtra("event");
-		}
-		
+		super.onStart();		
 		downloadSessions();
 	}
 	
@@ -66,60 +54,39 @@ public abstract class EventSessionsListActivity extends AbstractGreenhouseListAc
     // ListActivity methods
     //***************************************
 	@Override
-	protected void  onListItemClick(ListView l, View v, int position, long id) {
+	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Intent intent = new Intent();
-		intent.setClass(v.getContext(), EventSessionDetailsActivity.class);
-		intent.putExtra("event", event);
-		intent.putExtra("session", getSessions().get(position));
-		startActivity(intent);
+		EventSession session = getSession(position);
+		getApplicationContext().setSelectedSession(session);
+		startActivity(new Intent(v.getContext(), EventSessionDetailsActivity.class));
 	}
 	
 	
 	//***************************************
-	// Public methods
+	// Abstract methods
 	//***************************************
-	protected Event getEvent() {
-		return event;
+	abstract void downloadSessions();
+	
+	
+	//***************************************
+	// Protected methods
+	//***************************************
+	protected Event getSelectedEvent() {
+		return getApplicationContext().getSelectedEvent();
+	}
+	
+	protected void setSessions(List<EventSession> sessions) {
+		this.sessions = sessions;
+		getApplicationContext().setSelectedSession(null);
+		setListAdapter(new EventSessionsListAdapter(this, sessions));
 	}
 	
 	protected List<EventSession> getSessions() {
 		return sessions;
 	}
 	
-	protected void setSessions(List<EventSession> sessions) {
-		this.sessions = sessions;
-		refreshSessions();
+	protected EventSession getSession(int position) {
+		return sessions.get(position);
 	}
 	
-
-	//***************************************
-	// Protected methods
-	//***************************************
-	protected void refreshSessions() {
-		if (sessions == null) {
-			return;
-		}
-
-		List<Map<String,String>> sessionMaps = new ArrayList<Map<String,String>>();
-		
-		// TODO: Is there w way to populate the table from a Session instead of a Map?
-		for (EventSession session : sessions) {
-			Map<String, String> map = new HashMap<String, String>();			
-			map.put("title", session.getTitle());
-			map.put("leaders", session.getJoinedLeaders(", "));
-			sessionMaps.add(map);
-		}
-		
-		SimpleAdapter adapter = new SimpleAdapter(
-				this,
-				sessionMaps,
-				R.layout.event_sessions_list_item,
-				new String[] { "title", "leaders" },
-				new int[] { R.id.title, R.id.subtitle } );
-		
-		setListAdapter(adapter);
-	}
-	
-	abstract void downloadSessions();
 }

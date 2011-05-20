@@ -15,8 +15,6 @@
  */
 package com.springsource.greenhouse.events.sessions;
 
-import java.text.SimpleDateFormat;
-
 import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.EventSession;
 
@@ -79,12 +77,8 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (getIntent().hasExtra("event") && getIntent().hasExtra("session")) {
-			event = (Event) getIntent().getSerializableExtra("event");
-			session = (EventSession) getIntent().getSerializableExtra("session");
-		}
-		
+		event = getApplicationContext().getSelectedEvent();
+		session = getApplicationContext().getSelectedSession();		
 		refreshEventDetails(); 
 	}
 	
@@ -101,18 +95,14 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		final TextView textViewSessionLeaders = (TextView) findViewById(R.id.event_session_details_textview_leaders);
 		final TextView textViewSessionTime = (TextView) findViewById(R.id.event_session_details_textview_time);
 		final TextView textViewSessionRoom = (TextView) findViewById(R.id.event_session_details_textview_room);
-//		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
+		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
 		
 		textViewSessionName.setText(session.getTitle());
-		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));
-		
-		String startTime = new SimpleDateFormat("h:mm a").format(session.getStartTime());
-		String endTime = new SimpleDateFormat("h:mm a").format(session.getEndTime());
-		textViewSessionTime.setText(startTime + " - " + endTime);
-		
+		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));		
+		textViewSessionTime.setText(session.getFormattedTimeSpan());		
 		textViewSessionRoom.setText("Room: " + session.getRoom().getLabel());
 		setFavoriteStatus(session.isFavorite());
-//		textViewSessionRating.setText(session.getRating() + " Stars");
+		textViewSessionRating.setText(session.getRating() + " Stars");
 	}
 	
 	private void setFavoriteStatus(Boolean status) {

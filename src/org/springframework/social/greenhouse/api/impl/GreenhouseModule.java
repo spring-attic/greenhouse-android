@@ -24,6 +24,8 @@ import org.springframework.social.greenhouse.api.Group;
 import org.springframework.social.greenhouse.api.Leader;
 import org.springframework.social.greenhouse.api.Room;
 import org.springframework.social.greenhouse.api.TimeZone;
+import org.springframework.social.greenhouse.api.Tweet;
+import org.springframework.social.greenhouse.api.TweetFeed;
 import org.springframework.social.greenhouse.api.Venue;
 
 /**
@@ -45,5 +47,7 @@ public class GreenhouseModule extends SimpleModule {
 		context.setMixInAnnotations(EventSession.class, EventSessionMixin.class);
 		context.setMixInAnnotations(Leader.class, LeaderMixin.class);
 		context.setMixInAnnotations(Room.class, RoomMixin.class);
+		context.setMixInAnnotations(TweetFeed.class, TweetFeedMixin.class);
+		context.setMixInAnnotations(Tweet.class, TweetMixin.class);
 	}
 }

@@ -15,15 +15,11 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
-
 
 /**
  * @author Roy Clarkson
  */
-public class Room implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Room {
 
 	private long parentId;
 

@@ -5,6 +5,7 @@
 	<string name="copyright">\u00A9 Copyright 2011 SpringSource</string>
     <string name="title_event_details">Event Details</string>
     <string name="title_event_description">Event Description</string>
+	<string name="title_event_tweets">Event Tweets</string>
     <string name="title_event_sessions_filtered">Filtered Sessions</string>
     <string name="title_event_sessions_schedule">Session Schedule</string>
     <string name="title_event_sessions_current">Current Sessions</string>
@@ -19,6 +20,7 @@
         <item>Description</item>
         <item>Filtered Sessions</item>
         <item>Session Schedule</item>
+        <item>Tweets</item>
     </string-array>
     
     <string-array name="event_filtered_sessions_options_array">

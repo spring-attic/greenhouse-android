@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the original author or authors.
+ * Copyright 2011 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,13 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
 
 /**
  * Model class representing a Greenhouse group.
  * 
  * @author Craig Walls
  */
-public class Group implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Group {
 
 	private String id;
 

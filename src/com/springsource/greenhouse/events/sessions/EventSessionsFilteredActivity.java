@@ -15,8 +15,6 @@
  */
 package com.springsource.greenhouse.events.sessions;
 
-import org.springframework.social.greenhouse.api.Event;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,8 +32,6 @@ public class EventSessionsFilteredActivity extends ListActivity {
 	@SuppressWarnings("unused")
 	private static final String TAG = EventSessionsFilteredActivity.class.getSimpleName();
 	
-	private Event event;
-	
 	
 	//***************************************
 	// Activity methods
@@ -47,16 +43,7 @@ public class EventSessionsFilteredActivity extends ListActivity {
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.menu_list_item, menu_items); 
 		setListAdapter(arrayAdapter);
 	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
 		
-		if (getIntent().hasExtra("event")) {
-			event = (Event) getIntent().getSerializableExtra("event");
-		}
-	}
-	
 	
 	//***************************************
     // ListActivity methods
@@ -65,12 +52,7 @@ public class EventSessionsFilteredActivity extends ListActivity {
 	protected void  onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		
-		if (event == null) {
-			return;
-		}
-		
 		Intent intent = new Intent();
-		intent.putExtra("event", event);
 		
 		switch(position) {
 			case 0:

@@ -17,16 +17,16 @@ package com.springsource.greenhouse.events.sessions;
 
 import org.springframework.social.greenhouse.api.EventSession;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
  */
-public class EventSessionDescriptionActivity extends Activity {
+public class EventSessionDescriptionActivity extends AbstractGreenhouseActivity {
 	
 	@SuppressWarnings("unused")
 	private static final String TAG = EventSessionDescriptionActivity.class.getSimpleName();
@@ -40,18 +40,13 @@ public class EventSessionDescriptionActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.event_session_description);
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (getIntent().hasExtra("session")) {
-			session = (EventSession) getIntent().getSerializableExtra("session");
-		}
-		
+		session = getApplicationContext().getSelectedSession();		
 		refreshSessionDescription();
 	}
 	

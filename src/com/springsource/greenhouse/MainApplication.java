@@ -15,13 +15,18 @@
  */
 package com.springsource.greenhouse;
 
+import java.util.Date;
+
 import org.springframework.security.crypto.encrypt.AndroidEncryptors;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.sqlite.SQLiteConnectionRepository;
 import org.springframework.social.connect.sqlite.support.SQLiteConnectionRepositoryHelper;
 import org.springframework.social.connect.support.ConnectionFactoryRegistry;
+import org.springframework.social.greenhouse.api.Event;
+import org.springframework.social.greenhouse.api.EventSession;
 import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Tweet;
 import org.springframework.social.greenhouse.connect.GreenhouseConnectionFactory;
 
 import android.app.Application;
@@ -38,6 +43,14 @@ public class MainApplication extends Application  {
 	private GreenhouseConnectionFactory connectionFactory;
 	
 	private ConnectionRepository connectionRepository;
+	
+	private Event selectedEvent;
+	
+	private EventSession selectedSession;
+	
+	private Date selectedDay;
+	
+	private Tweet selectedTweet;
 	
 	
 	//***************************************
@@ -82,4 +95,38 @@ public class MainApplication extends Application  {
 
 		return null;
 	}
+
+	public void setSelectedEvent(Event event) {
+		this.selectedEvent = event;
+	}
+	
+	public Event getSelectedEvent() {
+		return selectedEvent;
+	}
+	
+	public void setSelectedSession(EventSession session) {
+		this.selectedSession = session;
+	}
+	
+	public EventSession getSelectedSession() {
+		return selectedSession;
+	}
+	
+	public void setSelectedDay(Date selectedDay) {
+		this.selectedDay = selectedDay;
+	}
+
+	public Date getSelectedDay() {
+		return selectedDay;
+	}
+
+
+	public void setSelectedTweet(Tweet selectedTweet) {
+		this.selectedTweet = selectedTweet;
+	}
+
+	public Tweet getSelectedTweet() {
+		return selectedTweet;
+	}
+	
 }

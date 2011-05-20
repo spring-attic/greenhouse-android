@@ -13,37 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.springsource.greenhouse.events.sessions;
+package com.springsource.greenhouse.twitter;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.social.greenhouse.api.Event;
+import org.springframework.social.greenhouse.api.Tweet;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.springsource.greenhouse.AbstractGreenhouseListActivity;
-import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
  */
-public class EventSessionsScheduleActivity extends AbstractGreenhouseListActivity {
+public abstract class TweetsListActivity extends AbstractGreenhouseListActivity {
 	
-	@SuppressWarnings("unused")
-	private static final String TAG = EventSessionsScheduleActivity.class.getSimpleName();
+	protected static final String TAG = TweetsListActivity.class.getSimpleName();
 	
-	private Event event;
+	private List<Tweet> tweets;
 	
-	private List<Date> conferenceDates;
 	
-
 	//***************************************
 	// Activity methods
 	//***************************************
@@ -55,40 +48,45 @@ public class EventSessionsScheduleActivity extends AbstractGreenhouseListActivit
 	@Override
 	public void onStart() {
 		super.onStart();
-		event = getApplicationContext().getSelectedEvent();
-		getApplicationContext().setSelectedDay(null);
-		refreshScheduleDays();
+		downloadTweets();
 	}
+	
 	
 	//***************************************
     // ListActivity methods
     //***************************************
 	@Override
-	protected void  onListItemClick(ListView l, View v, int position, long id) {
+	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Date day = conferenceDates.get(position);
-		getApplicationContext().setSelectedDay(day);		
-		startActivity(new Intent(v.getContext(), EventSessionsByDayActivity.class));
+		Tweet tweet = getTweet(position);
+		getApplicationContext().setSelectedTweet(tweet);
+		startActivity(new Intent(v.getContext(), TweetDetailsActivity.class));
 	}
 	
+	
 	//***************************************
-	// Private methods
+	// Abstract methods
 	//***************************************
-	private void refreshScheduleDays() {
-		if (event == null) {
-			return;
-		}
-		
-		conferenceDates = new ArrayList<Date>();
-		List<String> conferenceDays = new ArrayList<String>();
-		Date day = (Date) event.getStartTime().clone();
-
-		while (day.before(event.getEndTime())) {
-			conferenceDates.add((Date) day.clone());
-			conferenceDays.add(new SimpleDateFormat("EEEE, MMM d").format(day));
-			day.setDate(day.getDate() + 1);
-		}
-		
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.menu_list_item, conferenceDays));
+	protected abstract void downloadTweets();
+	
+	
+	//***************************************
+    // Protected methods
+    //***************************************
+	protected Event getSelectedEvent() {
+		return getApplicationContext().getSelectedEvent();
 	}
+	
+	protected void setTweets(List<Tweet> tweets) {
+		this.tweets = tweets;
+	}
+	
+	protected List<Tweet> getTweets() {
+		return tweets;
+	}
+	
+	protected Tweet getTweet(int position) {
+		return tweets.get(position);
+	}
+
 }

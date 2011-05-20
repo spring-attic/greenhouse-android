@@ -23,6 +23,7 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import org.springframework.social.greenhouse.api.EventOperations;
 import org.springframework.social.greenhouse.api.GreenhouseApi;
 import org.springframework.social.greenhouse.api.SessionOperations;
+import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.social.greenhouse.api.UserOperations;
 import org.springframework.social.oauth1.ProtectedResourceClientFactory;
 import org.springframework.web.client.RestTemplate;
@@ -44,6 +45,8 @@ public class GreenhouseTemplate implements GreenhouseApi {
 	
 	private final SessionOperations sessionOperations;
 	
+	private final TweetOperations tweetOperations;
+	
 	/**
 	 * Create a new instance of GreenhouseTemplate.
 	 * @param apiKey the application's API key
@@ -63,6 +66,7 @@ public class GreenhouseTemplate implements GreenhouseApi {
 		this.userOperations = new UserTemplate(restTemplate, isAuthorizedForUser);
 		this.eventOperations = new EventTemplate(restTemplate, isAuthorizedForUser);
 		this.sessionOperations = new SessionTemplate(restTemplate, isAuthorizedForUser);
+		this.tweetOperations = new TweetTemplate(restTemplate, isAuthorizedForUser);
 	}
 	
 	public boolean isAuthorizedForUser() {
@@ -79,6 +83,10 @@ public class GreenhouseTemplate implements GreenhouseApi {
 	
 	public SessionOperations sessionOperations() {
 		return sessionOperations;
+	}
+	
+	public TweetOperations tweetOperations() {
+		return tweetOperations;
 	}
 	
 	// private helper 

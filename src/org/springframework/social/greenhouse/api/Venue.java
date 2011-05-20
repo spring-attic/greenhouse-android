@@ -15,15 +15,12 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
 import java.util.Map;
 
 /**
  * @author Roy Clarkson
  */
-public class Venue implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Venue {
 
 	private long id;
 

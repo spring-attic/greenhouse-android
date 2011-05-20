@@ -15,7 +15,7 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +25,7 @@ import java.util.List;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class EventSession implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class EventSession {
 	
 	private long id;
 
@@ -121,6 +119,12 @@ public class EventSession implements Serializable {
 		}
 		
 		return s;
+	}
+	
+	public String getFormattedTimeSpan() {
+		String startTime = new SimpleDateFormat("h:mma").format(getStartTime());
+		String endTime = new SimpleDateFormat("h:mma, EEE").format(getEndTime());
+		return startTime + " - " + endTime;
 	}
 	
 }

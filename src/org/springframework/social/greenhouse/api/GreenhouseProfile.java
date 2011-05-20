@@ -15,7 +15,6 @@
  */
 package org.springframework.social.greenhouse.api;
 
-import java.io.Serializable;
 
 /**
  * A model class containing a Greenhouse user's profile information.
@@ -23,9 +22,7 @@ import java.io.Serializable;
  * @author Craig Walls
  * @author Roy Clarkson
  */
-public class GreenhouseProfile implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class GreenhouseProfile {
 
 	private final long accountId;
 	
