@@ -28,5 +28,17 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 //		parameters.add("pageSize", PAGE_SIZE);
 		return restTemplate.getForObject(this.buildUri(url, parameters), TweetFeed.class);
 	}
+	
+	public TweetFeed getTweetsForEventSession(long eventId, long sessionId) {
+		return getTweetsForEventSession(eventId, sessionId, 1);
+	}
+
+	public TweetFeed getTweetsForEventSession(long eventId, long sessionId, int page) {
+		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/tweets").append("?page=").append(page).append("&pageSize=").append(PAGE_SIZE).toString();
+		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+//		parameters.add("page", page));
+//		parameters.add("pageSize", PAGE_SIZE);
+		return restTemplate.getForObject(this.buildUri(url, parameters), TweetFeed.class);
+	}
 
 }

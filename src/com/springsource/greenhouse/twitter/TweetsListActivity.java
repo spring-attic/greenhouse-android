@@ -18,6 +18,7 @@ package com.springsource.greenhouse.twitter;
 import java.util.List;
 
 import org.springframework.social.greenhouse.api.Event;
+import org.springframework.social.greenhouse.api.EventSession;
 import org.springframework.social.greenhouse.api.Tweet;
 
 import android.content.Intent;
@@ -77,8 +78,14 @@ public abstract class TweetsListActivity extends AbstractGreenhouseListActivity 
 		return getApplicationContext().getSelectedEvent();
 	}
 	
+	protected EventSession getSelectedSession() {
+		return getApplicationContext().getSelectedSession();
+	}
+	
 	protected void setTweets(List<Tweet> tweets) {
 		this.tweets = tweets;
+		getApplicationContext().setSelectedTweet(null);
+		setListAdapter(new TweetsListAdapter(this, tweets));
 	}
 	
 	protected List<Tweet> getTweets() {

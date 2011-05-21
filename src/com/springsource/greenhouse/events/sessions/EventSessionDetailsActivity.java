@@ -65,7 +65,13 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 			      		startActivity(new Intent(view.getContext(), EventSessionDescriptionActivity.class));
 			      		break;
 			      	case 1:
+			      		startActivity(new Intent(view.getContext(), EventSessionTweetsActivity.class));
+			      		break;
+			      	case 2:
 			      		new UpdateFavoriteTask().execute();
+			      		break;
+			      	case 3:
+			      		// TODO: rate session
 			      		break;
 			      	default:
 			      		break;
