@@ -56,7 +56,7 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 
 	public boolean updateFavoriteSession(long eventId, long sessionId) {
 		requireUserAuthorization();
-		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("favorite").toString();
+		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/favorite").toString();
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
 	}
 
