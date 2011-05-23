@@ -8,8 +8,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="1dp">
+        android:layout_height="fill_parent">
+<!--         android:padding="1dp"> -->
         
         <TabWidget
             android:id="@android:id/tabs"

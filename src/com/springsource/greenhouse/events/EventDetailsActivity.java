@@ -62,15 +62,12 @@ public class EventDetailsActivity extends AbstractGreenhouseActivity {
 		    	
 		    	switch(position) {
 			      	case 0:
-			      		intent.setClass(view.getContext(), EventDescriptionActivity.class);
-			      		break;
-			      	case 1:
 			      		intent.setClass(view.getContext(), EventSessionsFilteredActivity.class);
 			      		break;
-			      	case 2:
+			      	case 1:
 			      		intent.setClass(view.getContext(), EventSessionsScheduleActivity.class);
 			      		break;
-			      	case 3:
+			      	case 2:
 			      		intent.setClass(view.getContext(), EventTweetsActivity.class);
 			      		break;
 			      	default:
@@ -101,9 +98,11 @@ public class EventDetailsActivity extends AbstractGreenhouseActivity {
 		final TextView textViewEventName = (TextView) findViewById(R.id.event_details_textview_name);
 		final TextView textViewEventDate = (TextView) findViewById(R.id.event_details_textview_date);
 		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
+		final TextView textViewDescription = (TextView) findViewById(R.id.event_details_textview_description);
 		
 		textViewEventName.setText(event.getTitle());		
 		textViewEventDate.setText(event.getFormattedTimeSpan());
 		textViewEventLocation.setText(event.getLocation());
+		textViewDescription.setText(event.getDescription());
 	}
 }

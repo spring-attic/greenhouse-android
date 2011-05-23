@@ -19,7 +19,6 @@
     <string name="title_tweet_details">Tweet Details</string>
     
     <string-array name="event_details_options_array">
-        <item>Description</item>
         <item>Filtered Sessions</item>
         <item>Session Schedule</item>
         <item>Tweets</item>
@@ -33,7 +32,6 @@
     </string-array>
     
     <string-array name="event_session_details_options_array">
-        <item>Description</item>
         <item>Tweets</item>
         <item>Favorite</item>
         <item>Rate</item>

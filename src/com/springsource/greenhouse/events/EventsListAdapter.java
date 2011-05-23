@@ -24,6 +24,9 @@ public class EventsListAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
+		if (events == null) {
+			return 0;
+		}
 		return events.size();
 	}
 

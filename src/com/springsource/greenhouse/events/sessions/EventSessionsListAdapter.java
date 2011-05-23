@@ -25,6 +25,9 @@ public class EventSessionsListAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
+		if (sessions == null) {
+			return 0;
+		}
 		return sessions.size();
 	}
 

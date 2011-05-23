@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MainTabLayout"
+    style="@style/FillLayout"
     android:gravity="center">
     
 	<ImageView
@@ -12,7 +12,7 @@
 		android:padding="10dp" />
     
     <TextView
-    	style="@style/Text"
+    	style="@style/TextView"
         android:id="@+id/profile_textview_member_name"
         android:layout_below="@id/profile_imageview_picture"
         android:layout_centerHorizontal="true"

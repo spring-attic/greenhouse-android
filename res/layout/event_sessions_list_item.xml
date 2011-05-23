@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:orientation="vertical"
-     android:padding="5dp">
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:padding="5dp">
 
-     <TextView style="@style/BoldText" 
-         android:id="@+id/event_sessions_list_item_title"/>
+	<TextView style="@style/TextView.Bold" 
+		android:id="@+id/event_sessions_list_item_title"/>
 
-     <TextView style="@style/SmallText"  
-         android:id="@+id/event_sessions_list_item_leaders"/>
+	<TextView style="@style/TextView.Small" 
+		android:id="@+id/event_sessions_list_item_leaders"/>
          
-     <TextView style="@style/SmallText"  
-         android:id="@+id/event_sessions_list_item_time_and_room"/>
+	<TextView style="@style/TextView.Small" 
+		android:id="@+id/event_sessions_list_item_time_and_room"/>
          
- </LinearLayout>
+</LinearLayout>

@@ -62,15 +62,12 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	switch(position) {
 			      	case 0:
-			      		startActivity(new Intent(view.getContext(), EventSessionDescriptionActivity.class));
-			      		break;
-			      	case 1:
 			      		startActivity(new Intent(view.getContext(), EventSessionTweetsActivity.class));
 			      		break;
-			      	case 2:
+			      	case 1:
 			      		new UpdateFavoriteTask().execute();
 			      		break;
-			      	case 3:
+			      	case 2:
 			      		// TODO: rate session
 			      		break;
 			      	default:
@@ -97,22 +94,26 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 			return;
 		}
 		
-		final TextView textViewSessionName = (TextView) findViewById(R.id.event_session_details_textview_name);
-		final TextView textViewSessionLeaders = (TextView) findViewById(R.id.event_session_details_textview_leaders);
-		final TextView textViewSessionTime = (TextView) findViewById(R.id.event_session_details_textview_time);
-		final TextView textViewSessionRoom = (TextView) findViewById(R.id.event_session_details_textview_room);
-		final TextView textViewSessionRating = (TextView) findViewById(R.id.event_session_details_textview_rating);
+		TextView t = (TextView) findViewById(R.id.event_session_details_name);
+		t.setText(session.getTitle());
 		
-		textViewSessionName.setText(session.getTitle());
-		textViewSessionLeaders.setText(session.getJoinedLeaders(", "));		
-		textViewSessionTime.setText(session.getFormattedTimeSpan());		
-		textViewSessionRoom.setText("Room: " + session.getRoom().getLabel());
+		t = (TextView) findViewById(R.id.event_session_details_leaders);
+		t.setText(session.getJoinedLeaders(", "));
+		
+		t = (TextView) findViewById(R.id.event_session_details_time_and_room);
+		t.setText(session.getFormattedTimeSpan() + " in " + session.getRoom().getLabel());
+		
+		t = (TextView) findViewById(R.id.event_session_details_rating);
+		t.setText(session.getRating() + " Stars");
+		
+		t = (TextView) findViewById(R.id.event_session_details_description);
+		t.setText(session.getDescription());
+		
 		setFavoriteStatus(session.isFavorite());
-		textViewSessionRating.setText(session.getRating() + " Stars");
 	}
 	
 	private void setFavoriteStatus(Boolean status) {
-		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_textview_favorite);
+		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_favorite);
 		String text = status ? "Favorite: \u2713" : "Favorite:";
 		textViewSessionFavorite.setText(text);
 	}
