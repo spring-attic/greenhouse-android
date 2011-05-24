@@ -66,7 +66,7 @@ public class TweetsListAdapter extends BaseAdapter {
 		t.setText(tweet.getText());
 		
 		t = (TextView) view.findViewById(R.id.tweet_list_item_fromuser);
-		t.setText("@" + tweet.getFromUser());
+		t.setText(tweet.getFromUser());
 		
 		return view;
 	}

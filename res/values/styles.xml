@@ -41,11 +41,15 @@
     <style name="TextView.Small">
     	<item name="android:textSize">12sp</item> 
     </style>
+    
+    <style name="TextView.Small.Bold">
+    	<item name="android:textStyle">bold</item> 
+    </style>
         
-    <style name="TextView.Bold">    
+    <style name="TextView.Bold">
         <item name="android:textStyle">bold</item>
     </style> 
-        
+
     
     <!-- Button Styles -->
     

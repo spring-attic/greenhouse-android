@@ -20,7 +20,7 @@
         android:layout_height="fill_parent">
 
 	    <TextView 
-	    	style="@style/TextView.Small"
+	    	style="@style/TextView.Small.Bold"
 	    	android:id="@+id/tweet_list_item_fromuser"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
