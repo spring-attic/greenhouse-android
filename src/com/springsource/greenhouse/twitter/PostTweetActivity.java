@@ -97,7 +97,17 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
 		}
 		
 		final EditText editText = (EditText) findViewById(R.id.post_tweet_text);
-		editText.setText(event.getHashtag());
+		String tweetText = null;
+		
+		if (getIntent().hasExtra("reply")) {
+			tweetText = new StringBuilder().append("@").append(getIntent().getStringExtra("reply")).append(" ").append(event.getHashtag()).toString();
+		} else if (getIntent().hasExtra("quote")) {
+			tweetText = getIntent().getStringExtra("quote");
+		} else {
+			tweetText = event.getHashtag();
+		}
+		
+		editText.setText(tweetText);
 	}
 	
 	

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2011 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.springsource.greenhouse.twitter;
 
 import java.text.SimpleDateFormat;
@@ -7,6 +22,7 @@ import org.springframework.social.greenhouse.api.Tweet;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +36,9 @@ import android.widget.TextView;
 import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
 
+/**
+ * @author Roy Clarkson
+ */
 public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	
 	protected static final String TAG = TweetDetailsActivity.class.getSimpleName();
@@ -44,16 +63,21 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 		listView.setAdapter(arrayAdapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {		    	
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	switch(position) {
 			      	case 0:
-			      		// TODO: reply
+			      		Intent replyIntent = new Intent(view.getContext(), PostTweetActivity.class);
+			      		replyIntent.putExtra("reply", tweet.getFromUser());
+			      		startActivity(replyIntent);
 			      		break;
 			      	case 1:
 			      		showRetweetDialog();
 			      		break;
 			      	case 2:
-			      		// TODO: quote
+			      		Intent quoteIntent = new Intent(view.getContext(), PostTweetActivity.class);
+			      		String quote = new StringBuilder().append("\"@").append(tweet.getFromUser()).append(" ").append(tweet.getText()).append("\"").toString();
+			      		quoteIntent.putExtra("quote", quote);
+			      		startActivity(quoteIntent);
 			      		break;
 			      	default:
 			      		break;
@@ -80,7 +104,7 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 		}
 		
 		TextView t = (TextView) findViewById(R.id.tweet_details_fromuser);
-		t.setText("@" + tweet.getFromUser());
+		t.setText(tweet.getFromUser());
 		
 		t = (TextView) findViewById(R.id.tweet_details_time);
 		t.setText(new SimpleDateFormat("MMM d h:mm a").format(tweet.getCreatedAt()));
