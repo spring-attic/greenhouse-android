@@ -56,6 +56,13 @@ public interface TweetOperations {
 	TweetFeed getTweetsForEventSession(long eventId, long sessionId, int page);
 	
 	/**
+	 * Posts a status update to twitter.
+ 	 * @param eventId the id of the event
+	 * @param status the status to post to twitter
+	 */
+	void postTweetForEvent(long eventId, String status);
+	
+	/**
 	 * Posts a retweet of an existing tweet.
  	 * @param eventId the id of the event
 	 * @param tweetId The ID of the tweet to be retweeted

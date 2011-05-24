@@ -101,6 +101,10 @@
 		<activity 
 			android:name="com.springsource.greenhouse.twitter.TweetDetailsActivity" 
 			android:label="@string/title_tweet_details" />
+			
+		<activity 
+			android:name="com.springsource.greenhouse.twitter.PostTweetActivity" 
+			android:label="@string/title_post_tweet" />
 				
 		<activity 
 			android:name="com.springsource.greenhouse.profile.ProfileActivity" />

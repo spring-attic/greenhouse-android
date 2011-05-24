@@ -30,6 +30,7 @@ import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
 import com.springsource.greenhouse.events.sessions.EventSessionsFilteredActivity;
 import com.springsource.greenhouse.events.sessions.EventSessionsScheduleActivity;
+import com.springsource.greenhouse.twitter.PostTweetActivity;
 
 /**
  * @author Roy Clarkson
@@ -68,6 +69,9 @@ public class EventDetailsActivity extends AbstractGreenhouseActivity {
 			      		intent.setClass(view.getContext(), EventSessionsScheduleActivity.class);
 			      		break;
 			      	case 2:
+			      		intent.setClass(view.getContext(), PostTweetActivity.class);
+			      		break;
+			      	case 3:
 			      		intent.setClass(view.getContext(), EventTweetsActivity.class);
 			      		break;
 			      	default:

@@ -17,11 +17,13 @@
     <string name="title_event_session_description">Session Description</string>
     <string name="title_event_session_tweets">Session Tweets</string>
     <string name="title_tweet_details">Tweet Details</string>
+    <string name="title_post_tweet">Post Tweet</string>
     
     <string-array name="event_details_options_array">
         <item>Filtered Sessions</item>
         <item>Session Schedule</item>
-        <item>Tweets</item>
+        <item>Post Tweet</item>
+        <item>Twitter Feed</item>
     </string-array>
     
     <string-array name="event_filtered_sessions_options_array">
@@ -32,7 +34,7 @@
     </string-array>
     
     <string-array name="event_session_details_options_array">
-        <item>Tweets</item>
+        <item>Twitter Feed</item>
         <item>Favorite</item>
         <item>Rate</item>
     </string-array>
