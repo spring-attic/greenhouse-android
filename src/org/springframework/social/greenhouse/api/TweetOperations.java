@@ -25,54 +25,41 @@ public interface TweetOperations {
 
 	/**
 	 * Retrieves a list of the most recent tweets for an Event.
-	 * 
-	 * @param eventId
-	 * 				the id of the event
-	 * 
+	 * @param eventId the id of the event
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEvent(long eventId);
 	
 	/**
 	 * Retrieves a list of tweets for an Event. Use the page parameter to retrieve older tweets.
-	 * 
-	 * @param eventId
-	 * 				the id of the event
-	 * 
-	 * @param page
-	 * 				the page of tweets 
-	 *
+	 * @param eventId the id of the event
+	 * @param page the page of tweets 
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEvent(long eventId, int page);
 	
 	/**
 	 * Retrieves a list of tweets for an Event Session.
-	 * 
-	 * @param eventId
-	 * 				the id of the event
-	 * 
-	 * @param sessionId
-	 * 				the id of the session
-	 *
+	 * @param eventId the id of the event 
+	 * @param sessionId the id of the session
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEventSession(long eventId, long sessionId);
 	
 	/**
 	 * Retrieves a list of tweets for an Event. Use the page parameter to retrieve older tweets.
-	 * 
-	 * @param eventId
-	 * 				the id of the event
-	 * 
-	 * @param sessionId
-	 * 				the id of the session
-	 * 
-	 * @param page
-	 * 				the page of tweets 
-	 *
+	 * @param eventId the id of the event
+	 * @param sessionId the id of the session
+	 * @param page the page of tweets 
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEventSession(long eventId, long sessionId, int page);
+	
+	/**
+	 * Posts a retweet of an existing tweet.
+ 	 * @param eventId the id of the event
+	 * @param tweetId The ID of the tweet to be retweeted
+	 */
+	void retweet(long eventId, long tweetId);
 	
 }

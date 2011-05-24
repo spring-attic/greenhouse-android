@@ -2,9 +2,14 @@ package com.springsource.greenhouse.twitter;
 
 import java.text.SimpleDateFormat;
 
+import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.Tweet;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -18,6 +23,8 @@ import com.springsource.greenhouse.R;
 public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	
 	protected static final String TAG = TweetDetailsActivity.class.getSimpleName();
+	
+	private Event event;
 	
 	private Tweet tweet;
 	
@@ -37,24 +44,20 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 		listView.setAdapter(arrayAdapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//		    	Intent intent = new Intent();
-		    	
+		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {		    	
 		    	switch(position) {
 			      	case 0:
-//			      		intent.setClass(view.getContext(), EventSessionsFilteredActivity.class);
+			      		// TODO: reply
 			      		break;
 			      	case 1:
-//			      		intent.setClass(view.getContext(), EventSessionsScheduleActivity.class);
+			      		showRetweetDialog();
 			      		break;
 			      	case 2:
-//			      		intent.setClass(view.getContext(), EventTweetsActivity.class);
+			      		// TODO: quote
 			      		break;
 			      	default:
 			      		break;
 		    	}
-		    	
-//		    	startActivity(intent);
 		    }
 		});
 	}
@@ -62,6 +65,7 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		event = getApplicationContext().getSelectedEvent();
 		tweet = getApplicationContext().getSelectedTweet();
 		refreshTweetDetails();
 	}
@@ -83,6 +87,60 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 		
 		t = (TextView) findViewById(R.id.tweet_details_text);
 		t.setText(tweet.getText());		
+	}
+	
+	private void showRetweetDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure you want to Retweet?")
+		       .setCancelable(false)
+		       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		    	   public void onClick(DialogInterface dialog, int id) {
+		        	   retweet();
+		           }
+		       })
+		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+		           public void onClick(DialogInterface dialog, int id) {
+		        	   dialog.cancel();
+		           }
+		       });
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+	
+	private void retweet() {
+		new RetweetTask().execute();
+	}
+		
+	
+	//***************************************
+    // Private classes
+    //***************************************
+	private class RetweetTask extends AsyncTask<Void, Void, Void> {
+		
+		private Exception exception;
+		
+		@Override
+		protected void onPreExecute() {
+			showProgressDialog("Retweeting..."); 
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				getApplicationContext().getGreenhouseApi().tweetOperations().retweet(event.getId(), tweet.getId());
+			} catch(Exception e) {
+				Log.e(TAG, e.getLocalizedMessage(), e);
+				exception = e;
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			dismissProgressDialog();
+			processException(exception);
+		}
 	}
 
 }

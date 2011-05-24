@@ -1,5 +1,7 @@
 package org.springframework.social.greenhouse.api.impl;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.social.greenhouse.api.TweetFeed;
 import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,7 +28,7 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 //		parameters.add("page", page));
 //		parameters.add("pageSize", PAGE_SIZE);
-		return restTemplate.getForObject(this.buildUri(url, parameters), TweetFeed.class);
+		return restTemplate.getForObject(buildUri(url, parameters), TweetFeed.class);
 	}
 	
 	public TweetFeed getTweetsForEventSession(long eventId, long sessionId) {
@@ -38,7 +40,14 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
 //		parameters.add("page", page));
 //		parameters.add("pageSize", PAGE_SIZE);
-		return restTemplate.getForObject(this.buildUri(url, parameters), TweetFeed.class);
+		return restTemplate.getForObject(buildUri(url, parameters), TweetFeed.class);
+	}
+	
+	public void retweet(long eventId, long tweetId) {
+		String url = new StringBuilder().append("events/").append(eventId).append("/retweet").toString();
+		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
+		postData.add("tweetId", String.valueOf(tweetId));
+		restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), null);
 	}
 
 }
