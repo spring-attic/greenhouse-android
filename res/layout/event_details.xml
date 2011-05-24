@@ -18,7 +18,7 @@
 		<ScrollView
 			style="@style/ScrollView">
 	
-			<RelativeLayout
+			<FrameLayout
 				style="@style/FillLayout.Padded">
 	
 				<LinearLayout
@@ -29,23 +29,23 @@
 		
 					<TextView 
 						style="@style/TextView.Bold" 
-						android:id="@+id/event_details_textview_name" />
+						android:id="@+id/event_details_name" />
 				
 				    <TextView 
 				    	style="@style/TextView.Small"
-				    	android:id="@+id/event_details_textview_date" />
+				    	android:id="@+id/event_details_date" />
 				        
 				    <TextView 
 				    	style="@style/TextView.Small"
-				    	android:id="@+id/event_details_textview_location" />
+				    	android:id="@+id/event_details_location" />
 				    	
 				    <TextView 
 				    	style="@style/TextView"
-				    	android:id="@+id/event_details_textview_description" />
+				    	android:id="@+id/event_details_description" />
 				    	
 				</LinearLayout>
 	
-			</RelativeLayout>
+			</FrameLayout>
 			
 		</ScrollView>
 

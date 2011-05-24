@@ -95,14 +95,17 @@ public class EventDetailsActivity extends AbstractGreenhouseActivity {
 			return;
 		}
 		
-		final TextView textViewEventName = (TextView) findViewById(R.id.event_details_textview_name);
-		final TextView textViewEventDate = (TextView) findViewById(R.id.event_details_textview_date);
-		final TextView textViewEventLocation = (TextView) findViewById(R.id.event_details_textview_location);
-		final TextView textViewDescription = (TextView) findViewById(R.id.event_details_textview_description);
+		TextView t = (TextView) findViewById(R.id.event_details_name);
+		t.setText(event.getTitle());
 		
-		textViewEventName.setText(event.getTitle());		
-		textViewEventDate.setText(event.getFormattedTimeSpan());
-		textViewEventLocation.setText(event.getLocation());
-		textViewDescription.setText(event.getDescription());
+		t = (TextView) findViewById(R.id.event_details_date);
+		t.setText(event.getFormattedTimeSpan());
+		
+		t = (TextView) findViewById(R.id.event_details_location);
+		t.setText(event.getLocation());
+		
+		t = (TextView) findViewById(R.id.event_details_description);
+		t.setText(event.getDescription());		
 	}
+	
 }
