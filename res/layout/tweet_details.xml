@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	style="@style/FillLayout">
+	
+	<ListView
+		style="@style/MenuListView"
+		android:layout_alignParentBottom="true"
+		android:id="@+id/tweet_details_menu"
+		android:entries="@array/tweet_details_options_array" />
+	
+	<FrameLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@id/tweet_details_menu"
+		android:layout_alignParentTop="true">
+	
+		<ScrollView
+			style="@style/ScrollView">
+	
+			<FrameLayout
+				style="@style/FillLayout.Padded">
+	
+				<LinearLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+				    android:orientation="vertical"
+		    		android:paddingBottom="20dp">
+		
+					<TextView 
+						style="@style/TextView.Bold" 
+						android:id="@+id/tweet_details_fromuser" />
+				
+				    <TextView 
+				    	style="@style/TextView.Small"
+				    	android:id="@+id/tweet_details_time" />
+				        
+				    <TextView 
+				    	style="@style/TextView.Small"
+				    	android:id="@+id/tweet_details_text" />
+				    	
+				</LinearLayout>
+	
+			</FrameLayout>
+			
+		</ScrollView>
+
+	</FrameLayout>
+	
+</RelativeLayout>

@@ -120,7 +120,6 @@ public class MainApplication extends Application  {
 		return selectedDay;
 	}
 
-
 	public void setSelectedTweet(Tweet selectedTweet) {
 		this.selectedTweet = selectedTweet;
 	}

@@ -19,13 +19,14 @@ import java.util.List;
 
 import org.springframework.social.greenhouse.api.Tweet;
 
-import android.R;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
@@ -58,14 +59,14 @@ public class TweetsListAdapter extends BaseAdapter {
 		View view = convertView;
 		
 		if (view == null) {
-			view = layoutInflater.inflate(R.layout.simple_list_item_2, parent, false);
+			view = layoutInflater.inflate(R.layout.tweet_list_item, parent, false);
 		}
 		
-		TextView t = (TextView) view.findViewById(R.id.text1);
+		TextView t = (TextView) view.findViewById(R.id.tweet_list_item_text);
 		t.setText(tweet.getText());
 		
-		t = (TextView) view.findViewById(R.id.text2);
-		t.setText(tweet.getFromUser());
+		t = (TextView) view.findViewById(R.id.tweet_list_item_fromuser);
+		t.setText("@" + tweet.getFromUser());
 		
 		return view;
 	}

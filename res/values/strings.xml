@@ -37,4 +37,10 @@
         <item>Rate</item>
     </string-array>
     
+    <string-array name="tweet_details_options_array">
+        <item>Reply</item>
+        <item>Retweet</item>
+        <item>Quote</item>
+    </string-array>
+    
 </resources>
