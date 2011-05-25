@@ -15,6 +15,7 @@
  */
 package com.springsource.greenhouse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.DuplicateConnectionException;
@@ -23,9 +24,12 @@ import org.springframework.social.greenhouse.connect.GreenhouseConnectionFactory
 import org.springframework.social.oauth1.AuthorizedRequestToken;
 import org.springframework.social.oauth1.OAuth1Parameters;
 import org.springframework.social.oauth1.OAuthToken;
+import org.springframework.web.client.HttpClientErrorException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -110,15 +114,13 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 	}
 	
 	private void displayGreenhouseAuthorization(OAuthToken requestToken) {
-		// save for later use
-		saveRequestToken(requestToken);
-		
-		Log.d(TAG, "requestToken value: " + requestToken.getValue());
-		Log.d(TAG, "requestToken secret: " + requestToken.getSecret());
 		
 		if (requestToken == null) {
 			return;
 		}
+				
+		// save for later use
+		saveRequestToken(requestToken);
 				
 		// Generate the Greenhouse authorization URL to be used in the browser or web view
 		String authUrl = connectionFactory.getOAuthOperations().buildAuthorizeUrl(requestToken.getValue(), OAuth1Parameters.NONE);
@@ -151,11 +153,26 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 		greenhousePreferences.edit().clear().commit();
 	}
 	
+	private void displayAppAuthorizationError() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("This application is not authorized to connect to Greenhouse");
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+		     	signOut();
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+	
 	
 	//***************************************
     // Private classes
     //***************************************
 	private class GreenhousePreConnectTask extends AsyncTask<Void, Void, OAuthToken> {
+		
+		private Exception exception;
 		
 		@Override
 		protected void onPreExecute() {
@@ -164,14 +181,26 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 		
 		@Override
 		protected OAuthToken doInBackground(Void... params) {
-			// Fetch a one time use Request Token from Greenhouse
-			return connectionFactory.getOAuthOperations().fetchRequestToken(getOAuthCallbackUrl(), null);
+			try {
+				// Fetch a one time use Request Token from Greenhouse
+				return connectionFactory.getOAuthOperations().fetchRequestToken(getOAuthCallbackUrl(), null);
+			} catch(Exception e) {
+				this.exception = e;
+				return null;
+			}
 		}
 		
 		@Override
 		protected void onPostExecute(OAuthToken requestToken) {
-			dismissProgressDialog();	
-			displayGreenhouseAuthorization(requestToken);
+			dismissProgressDialog();
+			
+			if (exception != null && exception instanceof HttpClientErrorException) {
+				if (((HttpClientErrorException)exception).getStatusCode() == HttpStatus.UNAUTHORIZED) {
+					displayAppAuthorizationError();
+				}
+			} else {
+				displayGreenhouseAuthorization(requestToken);
+			}
 		}
 	}
 	

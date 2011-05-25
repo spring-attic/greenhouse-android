@@ -79,6 +79,6 @@ public class GreenhouseProfile {
 	 * @return The URL of the user's profile.
 	 */
 	public String getProfileUrl() {
-		return "http://10.0.2.2:8080/greenhouse/members/" + accountId;
+		return "https://greenhouse.springsource.org/members/" + accountId;
 	}
 }
