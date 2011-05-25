@@ -40,8 +40,8 @@ public class EventSessionsByDayActivity extends EventSessionsListActivity {
 	//***************************************
 	@Override
 	public void onStart() {
-		super.onStart();
 		day = getApplicationContext().getSelectedDay();
+		super.onStart();
 		if (day != null) {
 			String title = new SimpleDateFormat("EEEE, MMM d").format(day);
 			this.setTitle(title);

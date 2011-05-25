@@ -32,6 +32,8 @@ import com.springsource.greenhouse.AbstractGreenhouseListActivity;
  */
 public abstract class EventSessionsListActivity extends AbstractGreenhouseListActivity {
 	
+	private Event event;
+	
 	private List<EventSession> sessions;
 	
 	
@@ -45,7 +47,8 @@ public abstract class EventSessionsListActivity extends AbstractGreenhouseListAc
 	
 	@Override
 	public void onStart() {
-		super.onStart();		
+		super.onStart();
+		event = getApplicationContext().getSelectedEvent();
 		downloadSessions();
 	}
 	
@@ -72,7 +75,7 @@ public abstract class EventSessionsListActivity extends AbstractGreenhouseListAc
 	// Protected methods
 	//***************************************
 	protected Event getSelectedEvent() {
-		return getApplicationContext().getSelectedEvent();
+		return event;
 	}
 	
 	protected void setSessions(List<EventSession> sessions) {

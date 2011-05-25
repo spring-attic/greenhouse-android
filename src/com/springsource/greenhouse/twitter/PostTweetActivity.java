@@ -15,10 +15,14 @@
  */
 package com.springsource.greenhouse.twitter;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.EventSession;
+import org.springframework.web.client.HttpClientErrorException;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -29,7 +33,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
@@ -98,13 +101,14 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
 		
 		final EditText editText = (EditText) findViewById(R.id.post_tweet_text);
 		String tweetText = null;
+		String hashtag = session == null ? event.getHashtag() : event.getHashtag() + " " + session.getHashtag();
 		
 		if (getIntent().hasExtra("reply")) {
-			tweetText = new StringBuilder().append("@").append(getIntent().getStringExtra("reply")).append(" ").append(event.getHashtag()).toString();
+			tweetText = new StringBuilder().append("@").append(getIntent().getStringExtra("reply")).append(" ").append(hashtag).toString();
 		} else if (getIntent().hasExtra("quote")) {
 			tweetText = getIntent().getStringExtra("quote");
 		} else {
-			tweetText = event.getHashtag();
+			tweetText = hashtag;
 		}
 		
 		editText.setText(tweetText);
@@ -115,7 +119,17 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
     // Private methods
     //***************************************
 	private void showResult(String result) {
-		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+//		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(result);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+		     	dialog.cancel();
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 	
 	
@@ -136,11 +150,22 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				getApplicationContext().getGreenhouseApi().tweetOperations().postTweetForEvent(event.getId(), status);
-				return "Success";
+				if (session != null) {
+					getApplicationContext().getGreenhouseApi().tweetOperations().postTweetForEventSession(event.getId(), session.getId(), status);
+				} else {
+					getApplicationContext().getGreenhouseApi().tweetOperations().postTweetForEvent(event.getId(), status);
+				}
+				return "Thank you for tweeting about this event!";
+			} catch(HttpClientErrorException e) {
+				if (e.getStatusCode() == HttpStatus.PRECONDITION_FAILED) {
+					return "Your account is not connected to Twitter. Please sign in to greenhouse.springsource.org to connect.";
+				} else {
+					Log.e(TAG, e.getLocalizedMessage(), e);
+					return "A problem occurred while posting to Twitter. Please verify your account is connected at greenhouse.springsource.org.";
+				}
 			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				return "An error occurred. See the log for details";
+				return "A problem occurred while posting to Twitter. Please verify your account is connected at greenhouse.springsource.org.";
 			}
 		}
 		

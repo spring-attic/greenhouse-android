@@ -25,14 +25,14 @@ public interface TweetOperations {
 
 	/**
 	 * Retrieves a list of the most recent tweets for an Event.
-	 * @param eventId the id of the event
+	 * @param eventId the ID of the event
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEvent(long eventId);
 	
 	/**
 	 * Retrieves a list of tweets for an Event. Use the page parameter to retrieve older tweets.
-	 * @param eventId the id of the event
+	 * @param eventId the ID of the event
 	 * @param page the page of tweets 
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
@@ -40,33 +40,49 @@ public interface TweetOperations {
 	
 	/**
 	 * Retrieves a list of tweets for an Event Session.
-	 * @param eventId the id of the event 
-	 * @param sessionId the id of the session
+	 * @param eventId the ID of the event 
+	 * @param sessionId the ID of the session
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEventSession(long eventId, long sessionId);
 	
 	/**
-	 * Retrieves a list of tweets for an Event. Use the page parameter to retrieve older tweets.
-	 * @param eventId the id of the event
-	 * @param sessionId the id of the session
+	 * Retrieves a list of tweets for an Event Session. Use the page parameter to retrieve older tweets.
+	 * @param eventId the ID of the event
+	 * @param sessionId the ID of the session
 	 * @param page the page of tweets 
 	 * @return a {@link TweetFeed} object that contains a list of {@link Tweet} objects.
 	 */
 	TweetFeed getTweetsForEventSession(long eventId, long sessionId, int page);
 	
 	/**
-	 * Posts a status update to twitter.
- 	 * @param eventId the id of the event
+	 * Posts a status update to twitter about an event.
+ 	 * @param eventId the ID of the event
 	 * @param status the status to post to twitter
 	 */
 	void postTweetForEvent(long eventId, String status);
 	
 	/**
+	 * Posts a status update to twitter about a session.
+ 	 * @param eventId the ID of the event
+ 	 * @param sessionId the ID of the session
+	 * @param status the status to post to twitter
+	 */
+	void postTweetForEventSession(long eventId, long sessionId, String status);
+	
+	/**
 	 * Posts a retweet of an existing tweet.
- 	 * @param eventId the id of the event
+ 	 * @param eventId the ID of the event
 	 * @param tweetId The ID of the tweet to be retweeted
 	 */
-	void retweet(long eventId, long tweetId);
+	void retweetForEvent(long eventId, long tweetId);
+	
+	/**
+	 * Posts a retweet of an existing tweet.
+ 	 * @param eventId the ID of the event
+ 	 * @param sessionid the ID of the session
+	 * @param tweetId The ID of the tweet to be retweeted
+	 */
+	void retweetForEventSession(long eventId, long sessionId, long tweetId);
 	
 }

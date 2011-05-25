@@ -17,8 +17,11 @@ package com.springsource.greenhouse.twitter;
 
 import java.text.SimpleDateFormat;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.social.greenhouse.api.Event;
+import org.springframework.social.greenhouse.api.EventSession;
 import org.springframework.social.greenhouse.api.Tweet;
+import org.springframework.web.client.HttpClientErrorException;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,6 +47,8 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	protected static final String TAG = TweetDetailsActivity.class.getSimpleName();
 	
 	private Event event;
+	
+	private EventSession session;
 	
 	private Tweet tweet;
 	
@@ -90,6 +95,7 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	public void onStart() {
 		super.onStart();
 		event = getApplicationContext().getSelectedEvent();
+		session = getApplicationContext().getSelectedSession();
 		tweet = getApplicationContext().getSelectedTweet();
 		refreshTweetDetails();
 	}
@@ -134,12 +140,26 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 	private void retweet() {
 		new RetweetTask().execute();
 	}
+	
+	private void showResult(String result) {
+//		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(result);
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+		     	dialog.cancel();
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 		
 	
 	//***************************************
     // Private classes
     //***************************************
-	private class RetweetTask extends AsyncTask<Void, Void, Void> {
+	private class RetweetTask extends AsyncTask<Void, Void, String> {
 		
 		private Exception exception;
 		
@@ -149,21 +169,32 @@ public class TweetDetailsActivity extends AbstractGreenhouseActivity {
 		}
 		
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected String doInBackground(Void... params) {
 			try {
-				getApplicationContext().getGreenhouseApi().tweetOperations().retweet(event.getId(), tweet.getId());
+				if (session != null) {
+					getApplicationContext().getGreenhouseApi().tweetOperations().retweetForEventSession(event.getId(), session.getId(), tweet.getId());
+				} else {
+					getApplicationContext().getGreenhouseApi().tweetOperations().retweetForEvent(event.getId(), tweet.getId());
+				}
+				return "Thank you for tweeting about this event!";
+			} catch(HttpClientErrorException e) {
+				if (e.getStatusCode() == HttpStatus.PRECONDITION_FAILED) {
+					return "Your account is not connected to Twitter. Please sign in to greenhouse.springsource.org to connect.";
+				} else {
+					Log.e(TAG, e.getLocalizedMessage(), e);
+					return "A problem occurred while posting to Twitter. Please verify your account is connected at greenhouse.springsource.org.";
+				}
 			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				exception = e;
+				return "A problem occurred while posting to Twitter. Please verify your account is connected at greenhouse.springsource.org.";
 			}
-			
-			return null;
 		}
 		
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(String result) {
 			dismissProgressDialog();
 			processException(exception);
+			showResult(result);
 		}
 	}
 

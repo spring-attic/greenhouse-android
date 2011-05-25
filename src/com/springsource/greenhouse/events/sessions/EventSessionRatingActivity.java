@@ -177,11 +177,11 @@ public class EventSessionRatingActivity extends AbstractGreenhouseActivity {
 					return "This session has not yet finished. Please wait until the session has completed before submitting your rating.";
 				} else {
 					Log.e(TAG, e.getLocalizedMessage(), e);
-					return "An error occurred while submitting the rating.";
+					return "A problem occurred while submitting the rating.";
 				}
 			} catch(Exception e) {
 				Log.e(TAG, e.getLocalizedMessage(), e);
-				return "An error occurred while submitting the rating.";
+				return "A problem occurred while submitting the rating.";
 			}
 		}
 		

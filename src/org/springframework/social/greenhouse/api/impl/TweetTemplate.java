@@ -62,17 +62,35 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	}
 	
 	public void postTweetForEvent(long eventId, String status) {
+		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/tweets").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("status", status);
 		restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), null);
 	}
 	
-	public void retweet(long eventId, long tweetId) {
+	public void postTweetForEventSession(long eventId, long sessionId, String status) {
+		requireUserAuthorization();
+		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/tweets").toString();
+		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
+		postData.add("status", status);
+		restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), null);
+	}
+	
+	public void retweetForEvent(long eventId, long tweetId) {
+		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/retweet").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("tweetId", String.valueOf(tweetId));
 		restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), null);
 	}
-
+	
+	public void retweetForEventSession(long eventId, long sessionId, long tweetId) {
+		requireUserAuthorization();
+		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/retweet").toString();
+		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
+		postData.add("tweetId", String.valueOf(tweetId));
+		restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), null);
+	}
+	
 }
