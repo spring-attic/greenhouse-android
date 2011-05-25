@@ -25,6 +25,7 @@ import org.springframework.social.oauth1.AuthorizedRequestToken;
 import org.springframework.social.oauth1.OAuth1Parameters;
 import org.springframework.social.oauth1.OAuthToken;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -153,9 +154,9 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 		greenhousePreferences.edit().clear().commit();
 	}
 	
-	private void displayAppAuthorizationError() {
+	private void displayAppAuthorizationError(String message) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("This application is not authorized to connect to Greenhouse");
+		builder.setMessage(message);
 		builder.setCancelable(false);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
@@ -196,7 +197,7 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 			
 			if (exception != null && exception instanceof HttpClientErrorException) {
 				if (((HttpClientErrorException)exception).getStatusCode() == HttpStatus.UNAUTHORIZED) {
-					displayAppAuthorizationError();
+					displayAppAuthorizationError("This application is not authorized to connect to Greenhouse");
 				}
 			} else {
 				displayGreenhouseAuthorization(requestToken);
@@ -205,6 +206,8 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 	}
 	
 	private class GreenhousePostConnectTask extends AsyncTask<String, Void, Void> {
+		
+		private Exception exception;
 		
 		@Override
 		protected void onPreExecute() {
@@ -223,8 +226,14 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 			// Authorize the Request Token
 			AuthorizedRequestToken authorizedRequestToken = new AuthorizedRequestToken(requestToken, verifier);
 			
-			// Exchange the Authorized Request Token for the Access Token
-			OAuthToken accessToken = connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
+			OAuthToken accessToken = null;
+			try {
+				// Exchange the Authorized Request Token for the Access Token
+				accessToken = connectionFactory.getOAuthOperations().exchangeForAccessToken(authorizedRequestToken, null);
+			} catch(Exception e) {
+				exception = e;
+				return null;
+			}
 			
 			deleteRequestToken();
 			
@@ -243,7 +252,14 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 		@Override
 		protected void onPostExecute(Void v) {
 			dismissProgressDialog();
-			displayGreenhouseOptions();
+			
+			if (exception != null && exception instanceof HttpServerErrorException) {
+				if (((HttpServerErrorException)exception).getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
+					displayAppAuthorizationError("You are already connected with another Android device. Please remove the connection at Greenhouse and try again.");
+				}
+			} else {
+				displayGreenhouseOptions();
+			}
 		}
 	}
 	
