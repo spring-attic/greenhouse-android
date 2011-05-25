@@ -3,35 +3,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
-    
-    <ImageView
-        android:id="@+id/tweet_list_item_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="6dp"
-        android:src="@drawable/twitter_logo" />
-        
-    <LinearLayout
-        android:orientation="vertical"    
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="fill_parent">
+    android:orientation="vertical"
+    android:padding="5dp">
 
-	    <TextView 
-	    	style="@style/TextView.Small.Bold"
-	    	android:id="@+id/tweet_list_item_fromuser"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:singleLine="true" />
-	
-	    <TextView
-	    	style="@style/TextView.Small"  
-	        android:id="@+id/tweet_list_item_text"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" />
+    <TextView 
+    	style="@style/TextView.Small.Bold"
+    	android:id="@+id/tweet_list_item_fromuser"
+        android:singleLine="true" />
+
+    <TextView
+    	style="@style/TextView.Small"  
+        android:id="@+id/tweet_list_item_text" />
 		        
-	</LinearLayout>
-
 </LinearLayout>

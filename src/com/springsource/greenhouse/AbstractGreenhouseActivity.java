@@ -20,7 +20,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -85,8 +88,22 @@ public abstract class AbstractGreenhouseActivity extends Activity implements Gre
 	}
 	
 	protected void displayAuthorizationError() {
-		Toast toast = Toast.makeText(this, "You are not authorized to connect to Greenhouse. Please sign out and reauthorize the app.", Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("You are not authorized to connect to Greenhouse. Please reauthorize the app.");
+		builder.setCancelable(false);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+		     	signOut();
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
+	
+	protected void signOut() {
+    	getApplicationContext().getConnectionRepository().removeConnectionsToProvider(getApplicationContext().getConnectionFactory().getProviderId());
+    	startActivity(new Intent(this, MainActivity.class));
+    	finish();
+    }
+
 }

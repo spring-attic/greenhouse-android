@@ -119,7 +119,6 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
     // Private methods
     //***************************************
 	private void showResult(String result) {
-//		Toast.makeText(this, result, Toast.LENGTH_LONG).show();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(result);
 		builder.setCancelable(false);

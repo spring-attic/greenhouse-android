@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class TweetTemplate extends AbstractGreenhouseOperations implements TweetOperations {
 	
-	private static final String PAGE_SIZE = "20";
+	private static final String PAGE_SIZE = "40";
 	
 	private final RestTemplate restTemplate;
 

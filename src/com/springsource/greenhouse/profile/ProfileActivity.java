@@ -23,7 +23,6 @@ import java.net.URLConnection;
 
 import org.springframework.social.greenhouse.api.GreenhouseProfile;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -36,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.springsource.greenhouse.AbstractGreenhouseActivity;
-import com.springsource.greenhouse.MainActivity;
 import com.springsource.greenhouse.R;
 
 /**
@@ -103,13 +101,7 @@ public class ProfileActivity extends AbstractGreenhouseActivity {
 		textViewMemberName.setText(profile.getDisplayName());
 		new DownloadProfileImageTask().execute(profile.getPictureUrl());
 	}
-	
-	private void signOut() {
-    	getApplicationContext().getConnectionRepository().removeConnectionsToProvider(getApplicationContext().getConnectionFactory().getProviderId());
-    	startActivity(new Intent(this, MainActivity.class));
-    	finish();
-    } 
-    
+	    
     private void downloadProfile() {
 		new DownloadProfileTask().execute();
 	}
