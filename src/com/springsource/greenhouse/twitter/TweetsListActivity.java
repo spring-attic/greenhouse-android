@@ -23,10 +23,14 @@ import org.springframework.social.greenhouse.api.Tweet;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
 import com.springsource.greenhouse.AbstractGreenhouseListActivity;
+import com.springsource.greenhouse.R;
 
 /**
  * @author Roy Clarkson
@@ -50,6 +54,25 @@ public abstract class TweetsListActivity extends AbstractGreenhouseListActivity 
 	public void onStart() {
 		super.onStart();
 		downloadTweets();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.tweets_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    	case R.id.tweets_menu_refresh:
+	    		downloadTweets();
+	    		return true;
+	    	default:
+	    		return super.onOptionsItemSelected(item);
+	    }
 	}
 	
 	
