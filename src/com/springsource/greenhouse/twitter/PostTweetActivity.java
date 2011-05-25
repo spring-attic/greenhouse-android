@@ -151,10 +151,11 @@ public class PostTweetActivity extends AbstractGreenhouseActivity {
 			try {
 				if (session != null) {
 					getApplicationContext().getGreenhouseApi().tweetOperations().postTweetForEventSession(event.getId(), session.getId(), status);
+					return "Thank you for tweeting about this session!";
 				} else {
 					getApplicationContext().getGreenhouseApi().tweetOperations().postTweetForEvent(event.getId(), status);
+					return "Thank you for tweeting about this event!";
 				}
-				return "Thank you for tweeting about this event!";
 			} catch(HttpClientErrorException e) {
 				if (e.getStatusCode() == HttpStatus.PRECONDITION_FAILED) {
 					return "Your account is not connected to Twitter. Please sign in to greenhouse.springsource.org to connect.";
