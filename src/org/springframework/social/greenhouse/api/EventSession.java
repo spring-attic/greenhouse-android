@@ -84,6 +84,10 @@ public class EventSession {
 		return hashtag;
 	}
 
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+	
 	public float getRating() {
 		return rating;
 	}

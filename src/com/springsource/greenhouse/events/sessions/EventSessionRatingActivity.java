@@ -170,7 +170,8 @@ public class EventSessionRatingActivity extends AbstractGreenhouseActivity {
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				getApplicationContext().getGreenhouseApi().sessionOperations().rateSession(event.getId(), session.getId(), getRating(), getComment());
+				float newRating = getApplicationContext().getGreenhouseApi().sessionOperations().rateSession(event.getId(), session.getId(), getRating(), getComment());
+				session.setRating(newRating);				
 				return "Thank you for rating this session!";
 			} catch(HttpClientErrorException e) {
 				if (e.getStatusCode() == HttpStatus.PRECONDITION_FAILED) {

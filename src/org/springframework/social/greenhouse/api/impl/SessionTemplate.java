@@ -63,13 +63,13 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
 	}
 	
-	public double rateSession(long eventId, long sessionId, int rating, String comment) {
+	public float rateSession(long eventId, long sessionId, int rating, String comment) {
 		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/rating").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("value", String.valueOf(rating));
 		postData.add("comment", comment);
-		return restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), Double.class).getBody();
+		return restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), Float.class).getBody();
 	}
 
 	@SuppressWarnings("serial")

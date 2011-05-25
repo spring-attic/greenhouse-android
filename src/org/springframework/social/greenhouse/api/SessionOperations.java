@@ -69,5 +69,5 @@ public interface SessionOperations {
 	 * @param comment feedback about the {@link Session}
 	 * @return the new average rating for the session
 	 */
-	double rateSession(long eventId, long sessionId, int rating, String comment);
+	float rateSession(long eventId, long sessionId, int rating, String comment);
 }
