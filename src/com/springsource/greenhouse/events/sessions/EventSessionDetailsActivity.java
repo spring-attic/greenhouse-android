@@ -108,7 +108,11 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		t.setText(session.getFormattedTimeSpan() + " in " + session.getRoom().getLabel());
 		
 		t = (TextView) findViewById(R.id.event_session_details_rating);
-		t.setText(session.getRating() + " Stars");
+		if (session.getRating() == 0) {
+			t.setText("No Ratings");
+		} else {
+			t.setText(session.getRating() + " Stars");
+		}
 		
 		t = (TextView) findViewById(R.id.event_session_details_description);
 		t.setText(session.getDescription());
@@ -118,7 +122,7 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 	
 	private void setFavoriteStatus(Boolean status) {
 		final TextView textViewSessionFavorite = (TextView) findViewById(R.id.event_session_details_favorite);
-		String text = status ? "Favorite: \u2713" : "Favorite:";
+		String text = status ? "Favorite: \u2713" : "Not a Favorite";
 		textViewSessionFavorite.setText(text);
 	}
 	

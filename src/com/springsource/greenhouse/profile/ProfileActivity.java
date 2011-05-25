@@ -157,6 +157,8 @@ public class ProfileActivity extends AbstractGreenhouseActivity {
 				}
 			} catch (IOException e) {
 				Log.e(TAG, "Error retrieving profile image", e);
+			} catch(Exception e) {
+				Log.e(TAG, e.getLocalizedMessage(), e);
 			}
 
 			return bitmap;
@@ -168,4 +170,5 @@ public class ProfileActivity extends AbstractGreenhouseActivity {
 			imageViewPicture.setImageBitmap(result);
 		}
 	}
+	
 }
