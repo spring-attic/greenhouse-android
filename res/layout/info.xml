@@ -26,11 +26,13 @@
 		android:layout_centerVertical="true">
 	        
 		<TextView
+			style="@style/TextView"
 	        android:id="@+id/info_textview_version"	        
 	        android:layout_centerHorizontal="true"
 	        android:padding="10dp" />
 	        
 	    <TextView
+	    	style="@style/TextView"
 	        android:id="@+id/info_textview_copyright"
 	        android:text="@string/copyright"
 	      	android:layout_below="@id/info_textview_version"
