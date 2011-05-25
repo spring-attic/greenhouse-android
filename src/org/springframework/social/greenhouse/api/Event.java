@@ -16,6 +16,7 @@
 package org.springframework.social.greenhouse.api;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,6 +54,8 @@ public class Event {
 
 	private List<Venue> venues;
 	
+	private String formattedTimeSpan;
+	
 	public Event(long id, String title, String location, String hashtag, String description, Date startTime, Date endTime, String slug, String groupName, String groupSlug, Group group, TimeZone timeZone, List<Venue> venues) {
 		this.id = id;
 		this.title = title;
@@ -67,6 +70,7 @@ public class Event {
 		this.group = group;
 		this.timeZone = timeZone;
 		this.venues = venues;
+		setFormattedTimeSpan(startTime, endTime);
 	}
 
 	public List<Venue> getVenues() {
@@ -126,8 +130,35 @@ public class Event {
 	}
 	
 	public String getFormattedTimeSpan() {
-		String startFormatted = new SimpleDateFormat("EEE, MMM d").format(getStartTime());
-		String endFormatted = new SimpleDateFormat("EEE, MMM d, yyyy").format(getEndTime());
-		return startFormatted + " - " + endFormatted;
+		return formattedTimeSpan;
+	}
+	
+	// helpers
+	
+	private void setFormattedTimeSpan(Date start, Date end) {		
+		Calendar startCal = Calendar.getInstance();
+		startCal.setTime(start);
+		Calendar endCal = Calendar.getInstance();
+		endCal.setTime(end);
+		
+		// if start and end time are exactly the same, just show the date
+		if (startCal.compareTo(endCal) == 0) {			
+			this.formattedTimeSpan = new SimpleDateFormat("EEE, MMM d, yyyy").format(start);
+		}
+		
+		// if start and end time are same day, show the times for the event
+		if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR) && 
+				startCal.get(Calendar.DAY_OF_YEAR) == endCal.get(Calendar.DAY_OF_YEAR)) {
+			String startFormatted = new SimpleDateFormat("EEE, MMM d, yyyy, h:mm a").format(getStartTime());
+			String endFormatted = new SimpleDateFormat("h:mm a").format(getEndTime());
+			this.formattedTimeSpan = startFormatted + " - " + endFormatted;
+		} 
+
+		// if the times are days apart, display the date range for the event
+		else {
+			String startFormatted = new SimpleDateFormat("EEE, MMM d").format(start);
+			String endFormatted = new SimpleDateFormat("EEE, MMM d, yyyy").format(end);
+			this.formattedTimeSpan = startFormatted + " - " + endFormatted;
+		}
 	}
 }
