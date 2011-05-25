@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerVertical="true">
+    				
+	<EditText
+		android:id="@+id/event_session_rating_text"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="2dp"
+		android:height="100dp"
+		android:maxLength="140"
+		android:gravity="top" />
+		
+	<RelativeLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+    	android:layout_height="wrap_content">
+    	
+		<TextView
+	        android:id="@+id/event_session_rating_stars"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:padding="2dp"
+	        android:text="5 Stars" />
+		
+		<TextView
+	        android:id="@+id/event_session_rating_count"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:padding="2dp"
+	        android:text="140" />
+	
+	</RelativeLayout>
+	
+	<Button
+		android:id="@+id/event_session_rating_select_star"
+		android:text="Select Stars"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+	<Button
+		android:id="@+id/event_session_rating_submit"
+		android:text="Submit Rating"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" />
+	
+</LinearLayout>

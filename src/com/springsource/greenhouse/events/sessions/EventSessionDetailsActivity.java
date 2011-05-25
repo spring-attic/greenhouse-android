@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.springsource.greenhouse.AbstractGreenhouseActivity;
 import com.springsource.greenhouse.R;
+import com.springsource.greenhouse.twitter.PostTweetActivity;
 
 /**
  * @author Roy Clarkson
@@ -62,13 +63,16 @@ public class EventSessionDetailsActivity extends AbstractGreenhouseActivity {
 		    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		    	switch(position) {
 			      	case 0:
-			      		startActivity(new Intent(view.getContext(), EventSessionTweetsActivity.class));
-			      		break;
-			      	case 1:
 			      		new UpdateFavoriteTask().execute();
 			      		break;
+			      	case 1:
+			      		startActivity(new Intent(view.getContext(), EventSessionRatingActivity.class));
+			      		break;
 			      	case 2:
-			      		// TODO: rate session
+			      		startActivity(new Intent(view.getContext(), PostTweetActivity.class));
+			      		break;
+			      	case 3:
+			      		startActivity(new Intent(view.getContext(), EventSessionTweetsActivity.class));
 			      		break;
 			      	default:
 			      		break;

@@ -20,9 +20,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.social.greenhouse.api.EventSession;
 import org.springframework.social.greenhouse.api.SessionOperations;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -58,6 +61,15 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 		requireUserAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/favorite").toString();
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
+	}
+	
+	public double rateSession(long eventId, long sessionId, int rating, String comment) {
+		requireUserAuthorization();
+		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/rating").toString();
+		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
+		postData.add("value", String.valueOf(rating));
+		postData.add("comment", comment);
+		return restTemplate.exchange(buildUri(url), HttpMethod.POST, new HttpEntity<MultiValueMap<String, String>>(postData, null), Double.class).getBody();
 	}
 
 	@SuppressWarnings("serial")

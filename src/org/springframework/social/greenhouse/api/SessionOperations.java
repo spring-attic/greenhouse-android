@@ -60,4 +60,14 @@ public interface SessionOperations {
 	 * @return true if the {@link Session} is a favorite, and false if it is not
 	 */
 	boolean updateFavoriteSession(long eventId, long sessionId);
+	
+	/**
+	 * Rate a session. 
+	 * @param eventId the ID of the {@link Event}
+	 * @param sessionId the ID of the {@link Session}
+	 * @param rating a rating value, 1 to 5 for the {@link Session}
+	 * @param comment feedback about the {@link Session}
+	 * @return the new average rating for the session
+	 */
+	double rateSession(long eventId, long sessionId, int rating, String comment);
 }
