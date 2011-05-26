@@ -29,9 +29,9 @@ public class GreenhouseServiceProvider extends AbstractOAuth1ServiceProvider<Gre
 
 	public GreenhouseServiceProvider(String consumerKey, String consumerSecret) {
 		super(consumerKey, consumerSecret, new OAuth1Template(consumerKey, consumerSecret,
-			"https://greenhouse.springsource.org/oauth/request_token",
-			"https://greenhouse.springsource.org/oauth/confirm_access",
-			"https://greenhouse.springsource.org/oauth/access_token"));
+			"http://10.0.2.2:8080/greenhouse/oauth/request_token",
+			"http://10.0.2.2:8080/greenhouse/oauth/confirm_access",
+			"http://10.0.2.2:8080/greenhouse/oauth/access_token"));
 	}
 
 	public GreenhouseApi getApi(String accessToken, String secret) {

@@ -59,8 +59,7 @@ class AbstractGreenhouseOperations {
 		return uri;
 	}
 	
-//	private static final String API_URL_BASE = "http://10.0.2.2:8080/greenhouse/";
-	private static final String API_URL_BASE = "https://greenhouse.springsource.org/";
+	private static final String API_URL_BASE = "http://10.0.2.2:8080/greenhouse/";
 	
 	private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
 }
