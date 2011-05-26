@@ -43,6 +43,9 @@ public class TweetsListAdapter extends BaseAdapter {
 	}
 
 	public int getCount() {
+		if (tweets == null) {
+			return 0;
+		}
 		return tweets.size();
 	}
 
