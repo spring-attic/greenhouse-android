@@ -25,27 +25,22 @@ import org.springframework.social.greenhouse.api.GreenhouseApi;
 import org.springframework.social.greenhouse.api.SessionOperations;
 import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.social.greenhouse.api.UserOperations;
-import org.springframework.social.oauth1.ProtectedResourceClientFactory;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.social.oauth1.AbstractOAuth1ApiTemplate;
 
 /**
  * This is the central class for interacting with Greenhouse.
  * 
  * @author Roy Clarkson
  */
-public class GreenhouseTemplate implements GreenhouseApi {
+public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements GreenhouseApi {
+		
+	private UserOperations userOperations;
 	
-	private boolean isAuthorizedForUser;
+	private EventOperations eventOperations;
 	
-	private final RestTemplate restTemplate;
+	private SessionOperations sessionOperations;
 	
-	private final UserOperations userOperations;
-	
-	private final EventOperations eventOperations;
-	
-	private final SessionOperations sessionOperations;
-	
-	private final TweetOperations tweetOperations;
+	private TweetOperations tweetOperations;
 	
 	/**
 	 * Create a new instance of GreenhouseTemplate.
@@ -54,23 +49,11 @@ public class GreenhouseTemplate implements GreenhouseApi {
 	 * @param accessToken an access token acquired through OAuth authentication with Greenhouse
 	 * @param accessTokenSecret an access token secret acquired through OAuth authentication with Greenhouse
 	 */
-	public GreenhouseTemplate(String apiKey, String apiSecret, String accessToken, String accessTokenSecret) {
-		this(ProtectedResourceClientFactory.create(apiKey, apiSecret, accessToken, accessTokenSecret), true);
-	}
-	
-	private GreenhouseTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		this.restTemplate = restTemplate;
-		this.isAuthorizedForUser = isAuthorizedForUser;
-		registerGreenhouseModule(restTemplate);
-		restTemplate.setErrorHandler(new GreenhouseErrorHandler());
-		this.userOperations = new UserTemplate(restTemplate, isAuthorizedForUser);
-		this.eventOperations = new EventTemplate(restTemplate, isAuthorizedForUser);
-		this.sessionOperations = new SessionTemplate(restTemplate, isAuthorizedForUser);
-		this.tweetOperations = new TweetTemplate(restTemplate, isAuthorizedForUser);
-	}
-	
-	public boolean isAuthorizedForUser() {
-		return isAuthorizedForUser;
+	public GreenhouseTemplate(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret) {
+		super(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+		registerGreenhouseJsonModule();
+		getRestTemplate().setErrorHandler(new GreenhouseErrorHandler());
+		initSubApis();
 	}
 	
 	public UserOperations userOperations() {
@@ -91,9 +74,8 @@ public class GreenhouseTemplate implements GreenhouseApi {
 	
 	// private helper 
 
-	private void registerGreenhouseModule(RestTemplate restTemplate) {
-		List<HttpMessageConverter<?>> converters = restTemplate.getMessageConverters();
-		
+	private void registerGreenhouseJsonModule() {
+		List<HttpMessageConverter<?>> converters = getRestTemplate().getMessageConverters();
 		for (HttpMessageConverter<?> converter : converters) {
 			if(converter instanceof MappingJacksonHttpMessageConverter) {
 				MappingJacksonHttpMessageConverter jsonConverter = (MappingJacksonHttpMessageConverter) converter;
@@ -104,9 +86,10 @@ public class GreenhouseTemplate implements GreenhouseApi {
 		}
 	}
 	
-	// subclassing hooks
-
-	protected RestTemplate getRestTemplate() {
-		return restTemplate;
+	private void initSubApis() {
+		this.userOperations = new UserTemplate(getRestTemplate(), isAuthorizedForUser());
+		this.eventOperations = new EventTemplate(getRestTemplate(), isAuthorizedForUser());
+		this.sessionOperations = new SessionTemplate(getRestTemplate(), isAuthorizedForUser());
+		this.tweetOperations = new TweetTemplate(getRestTemplate(), isAuthorizedForUser());
 	}
 }
