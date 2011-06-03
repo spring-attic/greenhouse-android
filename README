@@ -1,0 +1,104 @@
+**********************************
+* Greenhouse for Android
+**********************************
+
+Introduction
+------------
+This project requires set up of the Android SDK, command line tools, Maven, the Maven Android Plugin, and Android Maven artifacts such as Spring dependencies. This document walks step by step through that setup.
+
+
+Development Environment
+-----------------------
+The Android SDK is required for developing Android applications. Google provides command line tools, and an Eclipse plugin for building Android applications, however you are not restricted to only those options.
+The Maven Android Plugin makes use of the Android SDK command line tools to compile and deploy the app to the emulator, so there is no need for a separate IDE setup or configuration.
+
+
+Install the Android SDK
+-----------------------
+Download the correct version of the Android SDK for your operating system from the Android web site:
+http://developer.android.com/sdk/index.html
+
+Unzip the archive and place it in a location of your choosing. For example on a Mac, you may want to place it in the root of your user directory.  See the download web site for additional installation details.
+
+Add Android to your Path
+Example: a .bash_profile on a Mac:
+$ export ANDROID_HOME=~/android-sdk-mac_x86
+$ export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+
+Install Android SDK Platform
+----------------------------
+The Android SDK download does not include any specific Android platform SDKs. In order to run the sample code you need to download and install an Android SDK Platform. The Greenhouse for Android client requires a minimum of Android 2.1, API Level 7. To install the SDK Platform, use the Android SDK and AVD Manager that was installed from the previous step.
+
+Open the Android SDK and AVD Manager window:
+$ android
+Note: if this command does not open the Android SDK and AVD Manager, then your path is not configured correctly.
+Select Available packages from the left hand column
+Select the checkbox for Android Repository in the main window
+Select the desired SDK Platform. You should install Android 2.1, API Level 7, or higher.
+Click the Install Selected button to complete the download and installation.
+Note: you may want to simply install all the available updates, but be aware it will take longer, as each SDK level is a sizable download.
+
+
+Configure an Android Virtual Device
+-----------------------------------
+http://developer.android.com/guide/developing/devices/index.html
+Open the Android SDK and AVD Manager window:
+$ android
+Select Virtual devices in the left hand column and click the New button
+Enter 7 in the Name field
+Select Android 2.1-update1, API Level 7 in the Target selector
+Click Create AVD to finish
+Note: The sample application is configured to look for an AVD with the name "7". Otherwise, you can name the AVD whatever you like. Using "7" for the name simply is a visual indicator of which API level it uses.
+
+
+Build and Run the Greenhouse Server app
+---------------------------------------
+You need to clone the Greenhouse server repository so that you can run a local instance.
+$ git clone git://github.com/SpringSource/greenhouse.git
+
+To build, simply execute 'mvn install' and deploy the resulting .war to any Servlet 2.5 >, such as Tomcat.
+By default, the app will run in 'embedded' mode which does not require any external setup.
+
+You may also launch Tomcat from the command line by invoking the Tomcat 7 Maven plugin:
+	mvn t7:run
+
+Access the deployed webapp at http://localhost:8080/greenhouse-1.0.0.BUILD-SNAPSHOT
+
+To build and run from a Maven/Java Dynamic Web-project-capable IDE, such as Eclipse/SpringSource Tool Suite, simply import the project into your IDE and deploy the project to your IDE's embedded servlet container.
+
+See the README on the Greenhouse project for more information.
+https://github.com/SpringSource/greenhouse
+
+
+Build and Run the Greenhouse for Android app
+--------------------------------------------
+$ cd greenhouse-android
+$ mvn clean install
+$ mvn android:emulator-start
+IMPORTANT: Ensure the emulator is fully initialized and ready or the deploy will fail.
+$ mvn android:deploy
+
+
+A Note about URLs
+-----------------
+Depending on where you deploy the server app, you may need to modify the Android client configuration to point to the correct URL. If you are running from an Android AVD (emulator) and connecting to a local Greenhouse instance, the client will access the localhost via the 10.0.2.2 proxy address. Localhost on an Android device refers to itself, and not the host computer where the emulator is running.  If you deploy the Android client to an actual device, then you will need to modify the URL so the device can communicate to the server.  To modify the URL, edit the 'filters/dev.properties' file in the greenhouse-android directory, and change the base.url property to reflect the location of the Greenhouse server.
+
+base.url=http://10.0.2.2:8080/greenhouse/
+
+Once the url is modified, simply repeat the steps to build and run the client app with the new settings.
+
+
+Emulator Performance
+--------------------
+The Android emulator often feels slow. You can try editing your AVD configuration with the following settings to improve performance:
+- To improve start up times, check Snapshot: Enabled
+- Set the 'Device ram size' property to 1024.
+
+
+Troubleshooting Failed Deployment
+---------------------------------
+If 'mvn android:deploy' fails, try stopping and restarting the adb server:
+$ adb kill-server
+$ adb start-server
+$ mvn android:deploy
