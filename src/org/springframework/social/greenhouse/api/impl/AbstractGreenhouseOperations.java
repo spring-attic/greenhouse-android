@@ -27,9 +27,12 @@ import org.springframework.util.MultiValueMap;
 class AbstractGreenhouseOperations {
 	
 	private final boolean isAuthorizedForUser;
+	
+	private final String apiUrlBase;
 
-	public AbstractGreenhouseOperations(boolean isAuthorizedForUser) {
+	public AbstractGreenhouseOperations(boolean isAuthorizedForUser, String apiUrlBase) {
 		this.isAuthorizedForUser = isAuthorizedForUser;
+		this.apiUrlBase = apiUrlBase;
 	}
 	
 	protected void requireUserAuthorization() {
@@ -49,17 +52,12 @@ class AbstractGreenhouseOperations {
 	}
 	
 	protected URI buildUri(String path, MultiValueMap<String, String> parameters) {
-		URIBuilder uriBuilder = URIBuilder.fromUri(API_URL_BASE + path);
-		
-		for (String paramName : parameters.keySet()) {
-			uriBuilder.queryParam(paramName, String.valueOf(parameters.get(paramName)));
-		}
-		
-		URI uri = uriBuilder.build();
-		return uri;
+		return URIBuilder.fromUri(getApiUrlBase() + path).queryParams(parameters).build();
 	}
 	
-	private static final String API_URL_BASE = "http://10.0.2.2:8080/greenhouse/";
+	protected String getApiUrlBase() {
+		return apiUrlBase;
+	}
 	
 	private static final LinkedMultiValueMap<String, String> EMPTY_PARAMETERS = new LinkedMultiValueMap<String, String>();
 }

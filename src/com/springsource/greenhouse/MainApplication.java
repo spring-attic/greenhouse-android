@@ -25,7 +25,7 @@ import org.springframework.social.connect.sqlite.support.SQLiteConnectionReposit
 import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 import org.springframework.social.greenhouse.api.Event;
 import org.springframework.social.greenhouse.api.EventSession;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.Tweet;
 import org.springframework.social.greenhouse.connect.GreenhouseConnectionFactory;
 
@@ -36,10 +36,8 @@ import android.app.Application;
  */
 public class MainApplication extends Application  {
 	
-	private static final String GREENHOUSE_CONSUMER_TOKEN = "e9fbccdae98d5696";
-	
-	private static final String GREENHOUSE_CONSUMER_TOKEN_SECRET = "9fa283e1eca2d4e8";
-	
+//	private static final String TAG = MainApplication.class.getSimpleName();
+		
 	private GreenhouseConnectionFactory connectionFactory;
 	
 	private ConnectionRepository connectionRepository;
@@ -59,17 +57,35 @@ public class MainApplication extends Application  {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
-		connectionFactory = new GreenhouseConnectionFactory(GREENHOUSE_CONSUMER_TOKEN, GREENHOUSE_CONSUMER_TOKEN_SECRET);
+		connectionFactory = new GreenhouseConnectionFactory(getConsumerTokenKey(), getConsumerTokenSecret(), getApiUrlBase());
 		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
 		registry.addConnectionFactory(connectionFactory);
-		connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text("password", "5c0744940b5c369b")); 
+		connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text(getEncryptionPassword(), getEncryptionSalt())); 
 	}
 	
 	
 	//***************************************
     // Private methods
     //***************************************
+	private String getConsumerTokenKey() {
+		return getString(R.string.consumer_token_key);
+	}
+	
+	private String getConsumerTokenSecret() {
+		return getString(R.string.consumer_token_secret);
+	}
+	
+	private String getEncryptionPassword() {
+		return getString(R.string.connection_repository_encryption_password);
+	}
+	
+	private String getEncryptionSalt() {
+		return getString(R.string.connection_repository_encryption_salt);
+	}
+	
+	private String getApiUrlBase() {
+		return getString(R.string.base_url);
+	}
 	
 	
 	//***************************************
@@ -83,12 +99,12 @@ public class MainApplication extends Application  {
 		return connectionFactory;
 	}
 	
-	public Connection<GreenhouseApi> getPrimaryConnection() {
-		return getConnectionRepository().findPrimaryConnectionToApi(GreenhouseApi.class);
+	public Connection<Greenhouse> getPrimaryConnection() {
+		return getConnectionRepository().findPrimaryConnectionToApi(Greenhouse.class);
 	}
 	
-	public GreenhouseApi getGreenhouseApi() {
-		Connection<GreenhouseApi> connection = getPrimaryConnection();
+	public Greenhouse getGreenhouseApi() {
+		Connection<Greenhouse> connection = getPrimaryConnection();
 		if (connection != null) {
 			return connection.getApi();
 		}

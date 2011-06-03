@@ -20,15 +20,15 @@ import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.UserProfileBuilder;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.GreenhouseProfile;
 
 /**
  * @author Roy Clarkson
  */
-public class GreenhouseApiAdapter implements ApiAdapter<GreenhouseApi> {
+public class GreenhouseApiAdapter implements ApiAdapter<Greenhouse> {
 
-	public boolean test(GreenhouseApi api) {
+	public boolean test(Greenhouse api) {
 		try {
 			api.userOperations().getUserProfile();
 			return true;
@@ -37,7 +37,7 @@ public class GreenhouseApiAdapter implements ApiAdapter<GreenhouseApi> {
 		}
 	}
 
-	public void setConnectionValues(GreenhouseApi api, ConnectionValues values) {
+	public void setConnectionValues(Greenhouse api, ConnectionValues values) {
 		GreenhouseProfile profile = api.userOperations().getUserProfile();
 		values.setProviderUserId(Long.toString(profile.getAccountId()));
 		values.setDisplayName(profile.getDisplayName());
@@ -45,12 +45,12 @@ public class GreenhouseApiAdapter implements ApiAdapter<GreenhouseApi> {
 		values.setImageUrl(profile.getPictureUrl());
 	}
 
-	public UserProfile fetchUserProfile(GreenhouseApi api) {
+	public UserProfile fetchUserProfile(Greenhouse api) {
 		GreenhouseProfile profile = api.userOperations().getUserProfile();
 		return new UserProfileBuilder().setName(profile.getDisplayName()).build();
 	}
 
-	public void updateStatus(GreenhouseApi api, String message) {
+	public void updateStatus(Greenhouse api, String message) {
 		// TODO: add update status functionality
 	}
 }

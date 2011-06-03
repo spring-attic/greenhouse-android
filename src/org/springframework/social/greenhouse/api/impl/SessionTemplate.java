@@ -35,8 +35,8 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 	
 	private final RestTemplate restTemplate;
 
-	public SessionTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public SessionTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser, String apiUrlBase) {
+		super(isAuthorizedForUser, apiUrlBase);
 		this.restTemplate = restTemplate;
 	}
 	

@@ -16,7 +16,7 @@
 package com.springsource.greenhouse;
 
 import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -84,6 +84,6 @@ public class MainActivity extends AbstractGreenhouseActivity {
     // Private methods
     //***************************************
 	private boolean isConnected() {
-		return connectionRepository.findPrimaryConnectionToApi(GreenhouseApi.class) != null;
+		return connectionRepository.findPrimaryConnectionToApi(Greenhouse.class) != null;
 	}
 }

@@ -1,3 +1,0 @@
-<resources>
-    <string name="greenhouse_oauth_callback_url">x-com-springsource-greenhouse://oauth-response</string>
-</resources>

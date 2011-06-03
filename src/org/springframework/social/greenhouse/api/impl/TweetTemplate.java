@@ -32,8 +32,8 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	
 	private final RestTemplate restTemplate;
 
-	public TweetTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public TweetTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser, String apiBaseUrl) {
+		super(isAuthorizedForUser, apiBaseUrl);
 		this.restTemplate = restTemplate;
 	}
 

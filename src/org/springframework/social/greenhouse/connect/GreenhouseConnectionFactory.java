@@ -16,14 +16,14 @@
 package org.springframework.social.greenhouse.connect;
 
 import org.springframework.social.connect.support.OAuth1ConnectionFactory;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 
 /**
  * @author Roy Clarkson
  */
-public class GreenhouseConnectionFactory extends OAuth1ConnectionFactory<GreenhouseApi> {
+public class GreenhouseConnectionFactory extends OAuth1ConnectionFactory<Greenhouse> {
 
-	public GreenhouseConnectionFactory(String consumerKey, String consumerSecret) {
-		super("greenhouse", new GreenhouseServiceProvider(consumerKey, consumerSecret), new GreenhouseApiAdapter());
+	public GreenhouseConnectionFactory(String consumerKey, String consumerSecret, String apiUrlBase) {
+		super("greenhouse", new GreenhouseServiceProvider(consumerKey, consumerSecret, apiUrlBase), new GreenhouseApiAdapter());
 	}	
 }

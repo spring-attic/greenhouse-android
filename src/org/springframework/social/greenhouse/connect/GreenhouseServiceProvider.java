@@ -15,7 +15,7 @@
  */
 package org.springframework.social.greenhouse.connect;
 
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.impl.GreenhouseTemplate;
 import org.springframework.social.oauth1.AbstractOAuth1ServiceProvider;
 import org.springframework.social.oauth1.OAuth1Template;
@@ -25,16 +25,23 @@ import org.springframework.social.oauth1.OAuth1Template;
  * 
  * @author Roy Clarkson
  */
-public class GreenhouseServiceProvider extends AbstractOAuth1ServiceProvider<GreenhouseApi> {
-
-	public GreenhouseServiceProvider(String consumerKey, String consumerSecret) {
+public class GreenhouseServiceProvider extends AbstractOAuth1ServiceProvider<Greenhouse> {
+	
+	private final String apiUrlBase;
+	
+	public GreenhouseServiceProvider(String consumerKey, String consumerSecret, String apiUrlBase) {
 		super(consumerKey, consumerSecret, new OAuth1Template(consumerKey, consumerSecret,
-			"http://10.0.2.2:8080/greenhouse/oauth/request_token",
-			"http://10.0.2.2:8080/greenhouse/oauth/confirm_access",
-			"http://10.0.2.2:8080/greenhouse/oauth/access_token"));
+			apiUrlBase + "oauth/request_token",
+			apiUrlBase + "oauth/confirm_access",
+			apiUrlBase + "oauth/access_token"));
+		this.apiUrlBase = apiUrlBase;
 	}
 
-	public GreenhouseApi getApi(String accessToken, String secret) {
-		return new GreenhouseTemplate(getConsumerKey(), getConsumerSecret(), accessToken, secret);
+	public Greenhouse getApi(String accessToken, String secret) {
+		return new GreenhouseTemplate(getConsumerKey(), getConsumerSecret(), accessToken, secret, getApiUrlBase());
+	}
+	
+	private String getApiUrlBase() {
+		return apiUrlBase;
 	}
 }

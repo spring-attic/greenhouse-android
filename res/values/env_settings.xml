@@ -1,0 +1,8 @@
+<resources>
+	<string name="consumer_token_key">${consumer.token.key}</string>
+	<string name="consumer_token_secret">${consumer.token.secret}</string>
+	<string name="connection_repository_encryption_password">${connection.repository.encryption.password}</string>
+	<string name="connection_repository_encryption_salt">${connection.repository.encryption.salt}</string>
+    <string name="base_url">${base.url}</string>
+    <string name="oauth_callback_url">x-com-springsource-greenhouse://oauth-response</string>
+</resources>

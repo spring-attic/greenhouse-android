@@ -24,7 +24,7 @@ import org.springframework.social.greenhouse.api.impl.GreenhouseTemplate;
  * 
  * @author Roy Clarkson
  */
-public interface GreenhouseApi {
+public interface Greenhouse {
 	
 	/**
 	 * Returns true if the GreenhouseApi is configured to act on behalf of a user (eg., if it was created with OAuth credentials).

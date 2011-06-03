@@ -30,6 +30,8 @@ public class GreenhouseProfile {
 	
 	private final String pictureUrl;
 	
+	private String apiUrlBase;
+	
 	public GreenhouseProfile(long accountId, String displayName, String pictureUrl) {
 		this.accountId = accountId;
 		this.displayName = displayName;
@@ -61,9 +63,7 @@ public class GreenhouseProfile {
 	}
 	
 	/**
-	 * <p>
 	 * The URL of the user's profile image.
-	 * </p>
 	 * 
 	 * @return The URL of the user's profile image.
 	 */
@@ -72,13 +72,21 @@ public class GreenhouseProfile {
 	}
 
 	/**
-	 * <p>
-	 * The URL of the user's profile.
-	 * </p>
+	 * The URL of the user's profile. 
 	 * 
 	 * @return The URL of the user's profile.
 	 */
 	public String getProfileUrl() {
-		return "http://10.0.2.2:8080/greenhouse/members/" + accountId;
+		return apiUrlBase + "members/" + accountId;
 	}
+	
+	/**
+	 * Sets the base URL for accessing the Greenhouse API
+	 * 
+	 * @param apiUrlBase
+	 */
+	public void setApiUrlBase(String apiUrlBase) {
+		this.apiUrlBase = apiUrlBase;
+	}
+	
 }

@@ -19,7 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.DuplicateConnectionException;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.connect.GreenhouseConnectionFactory;
 import org.springframework.social.oauth1.AuthorizedRequestToken;
 import org.springframework.social.oauth1.OAuth1Parameters;
@@ -111,7 +111,7 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
     // Private methods
     //***************************************
 	private String getOAuthCallbackUrl() {
-		return getString(R.string.greenhouse_oauth_callback_url);
+		return getString(R.string.oauth_callback_url);
 	}
 	
 	private void displayGreenhouseAuthorization(OAuthToken requestToken) {
@@ -238,7 +238,7 @@ public class WebOAuthActivity extends AbstractGreenhouseActivity {
 			deleteRequestToken();
 			
 			// Persist the connection and Access Token to the repository 
-			Connection<GreenhouseApi> connection = connectionFactory.createConnection(accessToken);
+			Connection<Greenhouse> connection = connectionFactory.createConnection(accessToken);
 			
 			try {
 				connectionRepository.addConnection(connection);

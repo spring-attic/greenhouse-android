@@ -31,8 +31,8 @@ public class EventTemplate extends AbstractGreenhouseOperations implements Event
 	
 	private final RestTemplate restTemplate;
 
-	public EventTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public EventTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser, String apiUrlBase) {
+		super(isAuthorizedForUser, apiUrlBase);
 		this.restTemplate = restTemplate;
 	}
 	

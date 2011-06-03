@@ -21,7 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.social.greenhouse.api.EventOperations;
-import org.springframework.social.greenhouse.api.GreenhouseApi;
+import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.SessionOperations;
 import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.social.greenhouse.api.UserOperations;
@@ -32,7 +32,9 @@ import org.springframework.social.oauth1.AbstractOAuth1ApiTemplate;
  * 
  * @author Roy Clarkson
  */
-public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements GreenhouseApi {
+public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements Greenhouse {
+	
+	private final String apiUrlBase;
 		
 	private UserOperations userOperations;
 	
@@ -49,8 +51,9 @@ public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements Gre
 	 * @param accessToken an access token acquired through OAuth authentication with Greenhouse
 	 * @param accessTokenSecret an access token secret acquired through OAuth authentication with Greenhouse
 	 */
-	public GreenhouseTemplate(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret) {
+	public GreenhouseTemplate(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret, String apiUrlBase) {
 		super(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+		this.apiUrlBase = apiUrlBase;
 		registerGreenhouseJsonModule();
 		getRestTemplate().setErrorHandler(new GreenhouseErrorHandler());
 		initSubApis();
@@ -86,10 +89,14 @@ public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements Gre
 		}
 	}
 	
+	private String getApiUrlBase() {
+		return apiUrlBase;
+	}
+	
 	private void initSubApis() {
-		this.userOperations = new UserTemplate(getRestTemplate(), isAuthorizedForUser());
-		this.eventOperations = new EventTemplate(getRestTemplate(), isAuthorizedForUser());
-		this.sessionOperations = new SessionTemplate(getRestTemplate(), isAuthorizedForUser());
-		this.tweetOperations = new TweetTemplate(getRestTemplate(), isAuthorizedForUser());
+		this.userOperations = new UserTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
+		this.eventOperations = new EventTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
+		this.sessionOperations = new SessionTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
+		this.tweetOperations = new TweetTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
 	}
 }

@@ -28,8 +28,8 @@ class UserTemplate extends AbstractGreenhouseOperations implements UserOperation
 	
 	private final RestTemplate restTemplate;
 
-	public UserTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser) {
-		super(isAuthorizedForUser);
+	public UserTemplate(RestTemplate restTemplate, boolean isAuthorizedForUser, String apiUrlBase) {
+		super(isAuthorizedForUser, apiUrlBase);
 		this.restTemplate = restTemplate;
 	}
 
@@ -45,7 +45,9 @@ class UserTemplate extends AbstractGreenhouseOperations implements UserOperation
 
 	public GreenhouseProfile getUserProfile() {
 		requireUserAuthorization();
-		return restTemplate.getForObject(buildUri("members/@self"), GreenhouseProfile.class);
+		GreenhouseProfile profile = restTemplate.getForObject(buildUri("members/@self"), GreenhouseProfile.class);
+		profile.setApiUrlBase(getApiUrlBase());
+		return profile;
 	}
 
 	public GreenhouseProfile getUserProfile(long userId) {
