@@ -25,14 +25,14 @@ import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.SessionOperations;
 import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.social.greenhouse.api.UserOperations;
-import org.springframework.social.oauth1.AbstractOAuth1ApiTemplate;
+import org.springframework.social.oauth1.AbstractOAuth1ApiBinding;
 
 /**
  * This is the central class for interacting with Greenhouse.
  * 
  * @author Roy Clarkson
  */
-public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements Greenhouse {
+public class GreenhouseTemplate extends AbstractOAuth1ApiBinding implements Greenhouse {
 	
 	private final String apiUrlBase;
 		
@@ -94,9 +94,10 @@ public class GreenhouseTemplate extends AbstractOAuth1ApiTemplate implements Gre
 	}
 	
 	private void initSubApis() {
-		this.userOperations = new UserTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
-		this.eventOperations = new EventTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
-		this.sessionOperations = new SessionTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
-		this.tweetOperations = new TweetTemplate(getRestTemplate(), isAuthorizedForUser(), getApiUrlBase());
+		this.userOperations = new UserTemplate(getRestTemplate(), isAuthorized(), getApiUrlBase());
+		this.eventOperations = new EventTemplate(getRestTemplate(), isAuthorized(), getApiUrlBase());
+		this.sessionOperations = new SessionTemplate(getRestTemplate(), isAuthorized(), getApiUrlBase());
+		this.tweetOperations = new TweetTemplate(getRestTemplate(), isAuthorized(), getApiUrlBase());
 	}
+	
 }

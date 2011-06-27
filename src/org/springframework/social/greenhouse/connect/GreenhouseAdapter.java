@@ -15,7 +15,7 @@
  */
 package org.springframework.social.greenhouse.connect;
 
-import org.springframework.social.BadCredentialsException;
+import org.springframework.social.ApiException;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
@@ -26,13 +26,13 @@ import org.springframework.social.greenhouse.api.GreenhouseProfile;
 /**
  * @author Roy Clarkson
  */
-public class GreenhouseApiAdapter implements ApiAdapter<Greenhouse> {
+public class GreenhouseAdapter implements ApiAdapter<Greenhouse> {
 
-	public boolean test(Greenhouse api) {
+	public boolean test(Greenhouse greenhouse) {
 		try {
-			api.userOperations().getUserProfile();
+			greenhouse.userOperations().getUserProfile();
 			return true;
-		} catch (BadCredentialsException e) {
+		} catch (ApiException e) {
 			return false;
 		}
 	}

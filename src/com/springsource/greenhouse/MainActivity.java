@@ -84,6 +84,6 @@ public class MainActivity extends AbstractGreenhouseActivity {
     // Private methods
     //***************************************
 	private boolean isConnected() {
-		return connectionRepository.findPrimaryConnectionToApi(Greenhouse.class) != null;
+		return connectionRepository.findPrimaryConnection(Greenhouse.class) != null;
 	}
 }

@@ -101,7 +101,7 @@ public abstract class AbstractGreenhouseListActivity extends ListActivity implem
 	}
 	
 	protected void signOut() {
-    	getApplicationContext().getConnectionRepository().removeConnectionsToProvider(getApplicationContext().getConnectionFactory().getProviderId());
+    	getApplicationContext().getConnectionRepository().removeConnections(getApplicationContext().getConnectionFactory().getProviderId());
     	startActivity(new Intent(this, MainActivity.class));
     	finish();
     }

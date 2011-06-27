@@ -100,7 +100,7 @@ public class MainApplication extends Application  {
 	}
 	
 	public Connection<Greenhouse> getPrimaryConnection() {
-		return getConnectionRepository().findPrimaryConnectionToApi(Greenhouse.class);
+		return getConnectionRepository().findPrimaryConnection(Greenhouse.class);
 	}
 	
 	public Greenhouse getGreenhouseApi() {

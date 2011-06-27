@@ -15,6 +15,7 @@
  */
 package org.springframework.social.greenhouse.api;
 
+import org.springframework.social.ApiBinding;
 import org.springframework.social.greenhouse.api.impl.GreenhouseTemplate;
 
 /**
@@ -24,13 +25,8 @@ import org.springframework.social.greenhouse.api.impl.GreenhouseTemplate;
  * 
  * @author Roy Clarkson
  */
-public interface Greenhouse {
-	
-	/**
-	 * Returns true if the GreenhouseApi is configured to act on behalf of a user (eg., if it was created with OAuth credentials).
-	 */
-	boolean isAuthorizedForUser();
-	
+public interface Greenhouse extends ApiBinding {
+		
 	/**
 	 * Returns the portion of the Greenhouse API containing the event operations.
 	 */
