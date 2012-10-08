@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,14 +25,13 @@ import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.SessionOperations;
 import org.springframework.social.greenhouse.api.TweetOperations;
 import org.springframework.social.greenhouse.api.UserOperations;
-import org.springframework.social.oauth1.AbstractOAuth1ApiBinding;
+import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 
 /**
  * This is the central class for interacting with Greenhouse.
- * 
  * @author Roy Clarkson
  */
-public class GreenhouseTemplate extends AbstractOAuth1ApiBinding implements Greenhouse {
+public class GreenhouseTemplate extends AbstractOAuth2ApiBinding implements Greenhouse {
 	
 	private final String apiUrlBase;
 		
@@ -46,13 +45,10 @@ public class GreenhouseTemplate extends AbstractOAuth1ApiBinding implements Gree
 	
 	/**
 	 * Create a new instance of GreenhouseTemplate.
-	 * @param apiKey the application's API key
-	 * @param apiSecret the application's API secret
-	 * @param accessToken an access token acquired through OAuth authentication with Greenhouse
-	 * @param accessTokenSecret an access token secret acquired through OAuth authentication with Greenhouse
+	 * @param accessToken an access token acquired through OAuth 2 authentication with Greenhouse
 	 */
-	public GreenhouseTemplate(String consumerKey, String consumerSecret, String accessToken, String accessTokenSecret, String apiUrlBase) {
-		super(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+	public GreenhouseTemplate(String accessToken, String apiUrlBase) {
+		super(accessToken);
 		this.apiUrlBase = apiUrlBase;
 		registerGreenhouseJsonModule();
 		getRestTemplate().setErrorHandler(new GreenhouseErrorHandler());

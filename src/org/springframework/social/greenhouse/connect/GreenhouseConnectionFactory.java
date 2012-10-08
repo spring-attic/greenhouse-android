@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,33 @@
  */
 package org.springframework.social.greenhouse.connect;
 
-import org.springframework.social.connect.support.OAuth1ConnectionFactory;
+import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.greenhouse.api.Greenhouse;
 
 /**
+ * Greenhouse ConnectionFactory implementation.
  * @author Roy Clarkson
  */
-public class GreenhouseConnectionFactory extends OAuth1ConnectionFactory<Greenhouse> {
+public class GreenhouseConnectionFactory extends OAuth2ConnectionFactory<Greenhouse> {
 
-	public GreenhouseConnectionFactory(String consumerKey, String consumerSecret, String apiUrlBase) {
-		super("greenhouse", new GreenhouseServiceProvider(consumerKey, consumerSecret, apiUrlBase), new GreenhouseAdapter());
-	}	
+	/**
+	 * Creates a GreenhouseConnectionFactory for the given client ID and secret.
+	 * Using this constructor, no application namespace is set
+	 * @param clientId The application's Client ID as assigned by Greenhouse 
+	 * @param clientSecret The application's Client Secret as assigned by Greenhouse
+	 */
+	public GreenhouseConnectionFactory(String clientId, String clientSecret) {
+		super("greenhouse", new GreenhouseServiceProvider(clientId, clientSecret), new GreenhouseAdapter());
+	}
+
+	/**
+	 * Creates a GreenhouseConnectionFactory for the given application ID, secret, and namespace.
+	 * @param clientId The application's Client ID as assigned by Greenhouse 
+	 * @param clientSecret The application's Client Secret as assigned by Greenhouse
+	 * @param apiUrlBase The application's API base URL
+	 */
+	public GreenhouseConnectionFactory(String clientId, String clientSecret, String apiUrlBase) {
+		super("greenhouse", new GreenhouseServiceProvider(clientId, clientSecret, apiUrlBase), new GreenhouseAdapter());
+	}
+	
 }

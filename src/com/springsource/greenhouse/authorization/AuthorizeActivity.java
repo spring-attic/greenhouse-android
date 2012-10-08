@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.springsource.greenhouse;
+package com.springsource.greenhouse.authorization;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,21 +26,29 @@ import com.springsource.greenhouse.R;
 /**
  * @author Roy Clarkson
  */
-public class SignInActivity extends Activity {
+public class AuthorizeActivity extends Activity {
 
 	//***************************************
-    // Activity methods
-    //***************************************
+	// Activity methods
+	//***************************************
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.signin);
+		setContentView(R.layout.authorize);
 
-		findViewById(R.id.signin_button).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.sign_in_button).setOnClickListener(new OnClickListener() {
 			public void onClick(final View view) {
-				startActivity(new Intent(SignInActivity.this, WebOAuthActivity.class));
-				finish();
+				startActivity(new Intent(AuthorizeActivity.this, SignInActivity.class));
 			}
 		});
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			finish();
+		}
+	}
+
 }

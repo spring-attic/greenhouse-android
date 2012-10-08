@@ -8,14 +8,15 @@
 	<packaging>apk</packaging>
 	<name>greenhouse-android</name>
 	<url>http://www.springsource.org</url>
+	<inceptionYear>2010</inceptionYear>
 	<organization>
 		<name>SpringSource</name>
 		<url>http://www.springsource.org</url>
 	</organization>
 
 	<properties>
-		<env>dev</env>
-		<android-platform>15</android-platform>
+		<env>prod</env>
+		<android-platform>16</android-platform>
 		<maven-resources-plugin-version>2.5</maven-resources-plugin-version>
 		<android-maven-plugin-version>3.3.2</android-maven-plugin-version>
 		<maven-compiler-plugin-version>2.5.1</maven-compiler-plugin-version>
@@ -29,9 +30,9 @@
 
 	<repositories>
 		<repository>
-			<id>spring-milestone</id>
-			<name>SpringSource Milestone Repository</name>
-			<url>http://repo.springsource.org/libs-milestone</url>
+			<id>spring-snapshot</id>
+			<name>SpringSource Snapshot Repository</name>
+			<url>http://repo.springsource.org/libs-snapshot</url>
 		</repository>
 	</repositories>
 

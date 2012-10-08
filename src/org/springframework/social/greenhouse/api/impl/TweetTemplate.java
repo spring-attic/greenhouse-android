@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	}
 	
 	public void postTweetForEvent(long eventId, String status) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/tweets").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("status", status);
@@ -70,7 +70,7 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	}
 	
 	public void postTweetForEventSession(long eventId, long sessionId, String status) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/tweets").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("status", status);
@@ -78,7 +78,7 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	}
 	
 	public void retweetForEvent(long eventId, long tweetId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/retweet").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("tweetId", String.valueOf(tweetId));
@@ -86,7 +86,7 @@ public class TweetTemplate extends AbstractGreenhouseOperations implements Tweet
 	}
 	
 	public void retweetForEventSession(long eventId, long sessionId, long tweetId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/retweet").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("tweetId", String.valueOf(tweetId));

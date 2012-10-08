@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package org.springframework.social.greenhouse.api.impl;
 
 import java.net.URI;
 
+import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,19 +26,19 @@ import org.springframework.util.MultiValueMap;
  * @author Roy Clarkson
  */
 class AbstractGreenhouseOperations {
-	
-	private final boolean isAuthorizedForUser;
+		
+	private final boolean isAuthorized;
 	
 	private final String apiUrlBase;
 
-	public AbstractGreenhouseOperations(boolean isAuthorizedForUser, String apiUrlBase) {
-		this.isAuthorizedForUser = isAuthorizedForUser;
+	public AbstractGreenhouseOperations(boolean isAuthorized, String apiUrlBase) {
+		this.isAuthorized = isAuthorized;
 		this.apiUrlBase = apiUrlBase;
 	}
 	
-	protected void requireUserAuthorization() {
-		if (!isAuthorizedForUser) {
-			throw new IllegalStateException("User authorization required: GreenhouseTemplate must be created with OAuth credentials to perform this operation.");
+	protected void requireAuthorization() {
+		if (!isAuthorized) {
+			throw new MissingAuthorizationException();
 		}
 	}
 	

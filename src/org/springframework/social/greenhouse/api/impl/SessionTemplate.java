@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 	}
 
 	public List<EventSession> getFavoriteSessions(long eventId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/favorites").toString();
 		return restTemplate.getForObject(buildUri(url), EventSessionList.class);
 	}
@@ -58,13 +58,13 @@ public class SessionTemplate extends AbstractGreenhouseOperations implements Ses
 	}
 
 	public boolean updateFavoriteSession(long eventId, long sessionId) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/favorite").toString();
 		return restTemplate.exchange(buildUri(url), HttpMethod.PUT, null, Boolean.class).getBody();
 	}
 	
 	public float rateSession(long eventId, long sessionId, int rating, String comment) {
-		requireUserAuthorization();
+		requireAuthorization();
 		String url = new StringBuilder().append("events/").append(eventId).append("/sessions/").append(sessionId).append("/rating").toString();
 		MultiValueMap<String, String> postData = new LinkedMultiValueMap<String, String>();
 		postData.add("value", String.valueOf(rating));

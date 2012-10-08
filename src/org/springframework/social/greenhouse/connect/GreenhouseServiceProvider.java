@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,31 +17,43 @@ package org.springframework.social.greenhouse.connect;
 
 import org.springframework.social.greenhouse.api.Greenhouse;
 import org.springframework.social.greenhouse.api.impl.GreenhouseTemplate;
-import org.springframework.social.oauth1.AbstractOAuth1ServiceProvider;
-import org.springframework.social.oauth1.OAuth1Template;
+import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 
 /**
  * Greenhouse ServiceProvider implementation.
- * 
  * @author Roy Clarkson
  */
-public class GreenhouseServiceProvider extends AbstractOAuth1ServiceProvider<Greenhouse> {
+public class GreenhouseServiceProvider extends AbstractOAuth2ServiceProvider<Greenhouse> {
 	
 	private final String apiUrlBase;
 	
-	public GreenhouseServiceProvider(String consumerKey, String consumerSecret, String apiUrlBase) {
-		super(consumerKey, consumerSecret, new OAuth1Template(consumerKey, consumerSecret,
-			apiUrlBase + "oauth/request_token",
-			apiUrlBase + "oauth/confirm_access",
-			apiUrlBase + "oauth/access_token"));
+	/**
+	 * Creates a GreenhouseServiceProvider for the given client ID and secret.
+	 * @param clientId The application's Client ID as assigned by Greenhouse 
+	 * @param clientSecret The application's Client Secret as assigned by Greenhouse
+	 */
+	public GreenhouseServiceProvider(String clientId, String clientSecret) {
+		super(new GreenhouseOAuth2Template(clientId, clientSecret));
+		this.apiUrlBase = null;
+	}
+	
+	/**
+	 * Creates a GreenhouseServiceProvider for the given client ID and secret.
+	 * @param clientId The application's Client ID as assigned by Greenhouse 
+	 * @param clientSecret The application's Client Secret as assigned by Greenhouse
+	 * @param apiUrlBase The application's API base URL
+	 */
+	public GreenhouseServiceProvider(String clientId, String clientSecret, String apiUrlBase) {
+		super(new GreenhouseOAuth2Template(clientId, clientSecret));
 		this.apiUrlBase = apiUrlBase;
 	}
 
-	public Greenhouse getApi(String accessToken, String secret) {
-		return new GreenhouseTemplate(getConsumerKey(), getConsumerSecret(), accessToken, secret, getApiUrlBase());
+	public Greenhouse getApi(String accessToken) {
+		return new GreenhouseTemplate(accessToken, getApiUrlBase());
 	}
 	
 	private String getApiUrlBase() {
 		return apiUrlBase;
 	}
+	
 }

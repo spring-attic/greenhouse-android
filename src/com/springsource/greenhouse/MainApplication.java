@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 the original author or authors.
+ * Copyright 2011-2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,75 +34,74 @@ import android.app.Application;
 /**
  * @author Roy Clarkson
  */
-public class MainApplication extends Application  {
-	
-//	private static final String TAG = MainApplication.class.getSimpleName();
-		
+public class MainApplication extends Application {
+
+	@SuppressWarnings("unused")
+	private static final String TAG = MainApplication.class.getSimpleName();
+
 	private GreenhouseConnectionFactory connectionFactory;
-	
+
 	private ConnectionRepository connectionRepository;
-	
+
 	private Event selectedEvent;
-	
+
 	private EventSession selectedSession;
-	
+
 	private Date selectedDay;
-	
+
 	private Tweet selectedTweet;
-	
-	
+
 	//***************************************
-    // Application methods
-    //***************************************
+	// Application methods
+	//***************************************
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		connectionFactory = new GreenhouseConnectionFactory(getConsumerTokenKey(), getConsumerTokenSecret(), getApiUrlBase());
+		connectionFactory = new GreenhouseConnectionFactory(getClientId(), getClientSecret(), getApiUrlBase());
 		ConnectionFactoryRegistry registry = new ConnectionFactoryRegistry();
 		registry.addConnectionFactory(connectionFactory);
-		connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry, AndroidEncryptors.text(getEncryptionPassword(), getEncryptionSalt())); 
+		connectionRepository = new SQLiteConnectionRepository(new SQLiteConnectionRepositoryHelper(this), registry,
+				AndroidEncryptors.text(getEncryptionPassword(), getEncryptionSalt()));
 	}
-	
-	
+
 	//***************************************
-    // Private methods
-    //***************************************
-	private String getConsumerTokenKey() {
-		return getString(R.string.consumer_token_key);
-	}
-	
-	private String getConsumerTokenSecret() {
-		return getString(R.string.consumer_token_secret);
-	}
-	
+	// Private methods
+	//***************************************
 	private String getEncryptionPassword() {
 		return getString(R.string.connection_repository_encryption_password);
 	}
-	
+
 	private String getEncryptionSalt() {
 		return getString(R.string.connection_repository_encryption_salt);
 	}
 	
-	private String getApiUrlBase() {
+	public String getClientId() {
+		return getString(R.string.client_id);
+	}
+
+	public String getClientSecret() {
+		return getString(R.string.client_secret);
+	}
+
+	public String getApiUrlBase() {
 		return getString(R.string.base_url);
 	}
-	
-	
+
 	//***************************************
-    // Public methods
-    //***************************************
+	// Public methods
+	//***************************************
 	public ConnectionRepository getConnectionRepository() {
 		return connectionRepository;
 	}
-	
+
 	public GreenhouseConnectionFactory getConnectionFactory() {
 		return connectionFactory;
 	}
-	
+
 	public Connection<Greenhouse> getPrimaryConnection() {
 		return getConnectionRepository().findPrimaryConnection(Greenhouse.class);
 	}
-	
+
 	public Greenhouse getGreenhouseApi() {
 		Connection<Greenhouse> connection = getPrimaryConnection();
 		if (connection != null) {
@@ -115,19 +114,19 @@ public class MainApplication extends Application  {
 	public void setSelectedEvent(Event event) {
 		this.selectedEvent = event;
 	}
-	
+
 	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
-	
+
 	public void setSelectedSession(EventSession session) {
 		this.selectedSession = session;
 	}
-	
+
 	public EventSession getSelectedSession() {
 		return selectedSession;
 	}
-	
+
 	public void setSelectedDay(Date selectedDay) {
 		this.selectedDay = selectedDay;
 	}
@@ -143,5 +142,5 @@ public class MainApplication extends Application  {
 	public Tweet getSelectedTweet() {
 		return selectedTweet;
 	}
-	
+
 }

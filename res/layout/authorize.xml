@@ -12,8 +12,9 @@
 		android:background="#6DB33F"
 		android:layout_alignParentTop="true">
 		
-		<ImageView android:id="@+id/logo"
+		<ImageView android:id="@+id/header_logo"
 			android:src="@drawable/gh_header_logo"
+			android:contentDescription="@string/content_description_greenhouse_header"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_horizontal" />
@@ -25,11 +26,14 @@
 		android:layout_height="wrap_content"
 		android:layout_centerVertical="true">
 		
-		<Button android:id="@+id/signin_button"
-			android:layout_width="160dp"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_horizontal"
-			android:text="@string/login" />
+		<Button
+		    android:id="@+id/sign_in_button"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal"
+		    android:layout_marginLeft="30dp"
+		    android:layout_marginRight="30dp"
+		    android:text="@string/sign_in" />
 
 	</FrameLayout>
 	
@@ -38,8 +42,9 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true" >
 	
-		<ImageView android:id="@+id/logo"
+		<ImageView android:id="@+id/spring_logo"
 				android:src="@drawable/spring09_logo"
+				android:contentDescription="@string/content_description_springsource_logo"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_horizontal" />
