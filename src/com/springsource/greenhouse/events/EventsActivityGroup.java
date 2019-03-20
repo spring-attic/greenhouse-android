@@ -26,7 +26,7 @@ import android.view.Window;
 
 /*
  * Good example from Henrik Larsen Toft on how to set up a Nested TabActivity  
- * http://blog.henriklarsentoft.com/2010/07/android-tabactivity-nested-activities/
+ * https://blog.henriklarsentoft.com/2010/07/android-tabactivity-nested-activities/
  */
 
 public class EventsActivityGroup extends ActivityGroup {

@@ -16,7 +16,7 @@ The Maven Android Plugin makes use of the Android SDK command line tools to comp
 Install the Android SDK
 -----------------------
 Download the correct version of the Android SDK for your operating system from the Android web site:
-http://developer.android.com/sdk/index.html
+https://developer.android.com/sdk/index.html
 
 Unzip the archive and place it in a location of your choosing. For example on a Mac, you may want to place it in the root of your user directory.  See the download web site for additional installation details.
 
@@ -42,7 +42,7 @@ Note: you may want to simply install all the available updates, but be aware it 
 
 Configure an Android Virtual Device
 -----------------------------------
-http://developer.android.com/guide/developing/devices/index.html
+https://developer.android.com/guide/developing/devices/index.html
 Open the Android SDK and AVD Manager window:
 $ android
 Select Virtual devices in the left hand column and click the New button
@@ -84,7 +84,7 @@ A Note about URLs
 -----------------
 Depending on where you deploy the server app, you may need to modify the Android client configuration to point to the correct URL. If you are running from an Android AVD (emulator) and connecting to a local Greenhouse instance, the client will access the localhost via the 10.0.2.2 proxy address. Localhost on an Android device refers to itself, and not the host computer where the emulator is running.  If you deploy the Android client to an actual device, then you will need to modify the URL so the device can communicate to the server.  To modify the URL, edit the 'filters/dev.properties' file in the greenhouse-android directory, and change the base.url property to reflect the location of the Greenhouse server.
 
-base.url=http://10.0.2.2:8080/greenhouse/
+base.url=https://10.0.2.2:8080/greenhouse/
 
 Once the url is modified, simply repeat the steps to build and run the client app with the new settings.
 
